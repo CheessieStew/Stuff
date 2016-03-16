@@ -1,0 +1,11 @@
+﻿  main.c
+d:\documents\visual studio 2015\projects\win32project1\win32project1\main.c(50): warning C4047: 'function': 'LPARAM' differs in levels of indirection from 'unsigned short [9]'
+d:\documents\visual studio 2015\projects\win32project1\win32project1\main.c(50): warning C4024: 'SendMessageA': different types for formal and actual parameter 4
+d:\documents\visual studio 2015\projects\win32project1\win32project1\main.c(51): warning C4047: 'function': 'LPARAM' differs in levels of indirection from 'unsigned short [11]'
+d:\documents\visual studio 2015\projects\win32project1\win32project1\main.c(51): warning C4024: 'SendMessageA': different types for formal and actual parameter 4
+d:\documents\visual studio 2015\projects\win32project1\win32project1\main.c(52): warning C4047: 'function': 'LPARAM' differs in levels of indirection from 'unsigned short [13]'
+d:\documents\visual studio 2015\projects\win32project1\win32project1\main.c(52): warning C4024: 'SendMessageA': different types for formal and actual parameter 4
+d:\documents\visual studio 2015\projects\win32project1\win32project1\main.c(71): warning C4047: 'function': 'LPARAM' differs in levels of indirection from 'TCHAR [101]'
+d:\documents\visual studio 2015\projects\win32project1\win32project1\main.c(71): warning C4024: 'SendMessageA': different types for formal and actual parameter 4
+d:\documents\visual studio 2015\projects\win32project1\win32project1\main.c(63): warning C4101: 's4': unreferenced local variable
+  Win32Project1.vcxproj -> D:\Documents\Visual Studio 2015\Projects\Win32Project1\Debug\Win32Project1.exe

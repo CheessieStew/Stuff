@@ -1,0 +1,21 @@
+﻿  Main.c
+d:\documents\visual studio 2015\projects\project1\project1\main.c(108): warning C4047: 'function': 'LPARAM' differs in levels of indirection from 'TCHAR [101]'
+d:\documents\visual studio 2015\projects\project1\project1\main.c(108): warning C4024: 'SendMessageA': different types for formal and actual parameter 4
+d:\documents\visual studio 2015\projects\project1\project1\main.c(112): warning C4566: character represented by universal-character-name '\u0142' cannot be represented in the current code page (1252)
+d:\documents\visual studio 2015\projects\project1\project1\main.c(112): warning C4566: character represented by universal-character-name '\u0105' cannot be represented in the current code page (1252)
+d:\documents\visual studio 2015\projects\project1\project1\main.c(114): warning C4566: character represented by universal-character-name '\u0142' cannot be represented in the current code page (1252)
+d:\documents\visual studio 2015\projects\project1\project1\main.c(114): warning C4566: character represented by universal-character-name '\u0105' cannot be represented in the current code page (1252)
+d:\documents\visual studio 2015\projects\project1\project1\main.c(100): warning C4101: 's4': unreferenced local variable
+d:\documents\visual studio 2015\projects\project1\project1\main.c(163): warning C4047: 'function': 'LPARAM' differs in levels of indirection from 'char [9]'
+d:\documents\visual studio 2015\projects\project1\project1\main.c(163): warning C4024: 'SendMessageA': different types for formal and actual parameter 4
+d:\documents\visual studio 2015\projects\project1\project1\main.c(164): warning C4047: 'function': 'LPARAM' differs in levels of indirection from 'char [11]'
+d:\documents\visual studio 2015\projects\project1\project1\main.c(164): warning C4024: 'SendMessageA': different types for formal and actual parameter 4
+d:\documents\visual studio 2015\projects\project1\project1\main.c(165): warning C4566: character represented by universal-character-name '\u015B' cannot be represented in the current code page (1252)
+d:\documents\visual studio 2015\projects\project1\project1\main.c(165): warning C4047: 'function': 'LPARAM' differs in levels of indirection from 'char [11]'
+d:\documents\visual studio 2015\projects\project1\project1\main.c(165): warning C4024: 'SendMessageA': different types for formal and actual parameter 4
+d:\documents\visual studio 2015\projects\project1\project1\main.c(177): warning C4566: character represented by universal-character-name '\u0142' cannot be represented in the current code page (1252)
+d:\documents\visual studio 2015\projects\project1\project1\main.c(177): warning C4566: character represented by universal-character-name '\u0105' cannot be represented in the current code page (1252)
+d:\documents\visual studio 2015\projects\project1\project1\main.c(92): warning C4715: 'WindowProcedure': not all control paths return a value
+d:\documents\visual studio 2015\projects\project1\project1\main.c(116): warning C4172: returning address of local variable or temporary: s0
+  Project1.vcxproj -> d:\documents\visual studio 2015\Projects\Project1\Debug\Project1.exe
+  Project1.vcxproj -> d:\documents\visual studio 2015\Projects\Project1\Debug\Project1.pdb (Partial PDB)
