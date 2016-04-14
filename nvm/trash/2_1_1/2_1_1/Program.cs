@@ -6,10 +6,17 @@ using System.Threading.Tasks;
 
 namespace _2_1_1
 {
+    /// <summary>
+    /// Program class.
+    /// </summary>
     class Program
     {
 
-
+        /// <summary>
+        /// A static method that checks, if x is divisible by each of it's digits and by the sum of all those digits.
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns>bool</returns>
         private static bool Fine(int x)
         {
             int p = x;
@@ -26,6 +33,10 @@ namespace _2_1_1
             return true;
         }
 
+        /// <summary>
+        /// Main class, prints all the numbers from 1 to 100000 that satisfy the condition.
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             IEnumerable<int> goods = Enumerable.Range(1, 100000).Where(Fine);

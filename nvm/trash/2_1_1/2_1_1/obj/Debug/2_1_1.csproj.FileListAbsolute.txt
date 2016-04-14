@@ -4,3 +4,10 @@ C:\Users\serin\Documents\heh\2_1_1\2_1_1\bin\Debug\2_1_1.exe
 C:\Users\serin\Documents\heh\2_1_1\2_1_1\bin\Debug\2_1_1.pdb
 C:\Users\serin\Documents\heh\2_1_1\2_1_1\obj\Debug\2_1_1.exe
 C:\Users\serin\Documents\heh\2_1_1\2_1_1\obj\Debug\2_1_1.pdb
+D:\Documents\GitHub\Stuff\nvm\trash\2_1_1\2_1_1\bin\Debug\2_1_1.exe.config
+D:\Documents\GitHub\Stuff\nvm\trash\2_1_1\2_1_1\obj\Debug\2_1_1.exe
+D:\Documents\GitHub\Stuff\nvm\trash\2_1_1\2_1_1\obj\Debug\2_1_1.pdb
+D:\Documents\GitHub\Stuff\nvm\trash\2_1_1\2_1_1\bin\Debug\2_1_1.exe
+D:\Documents\GitHub\Stuff\nvm\trash\2_1_1\2_1_1\bin\Debug\2_1_1.pdb
+D:\Documents\GitHub\Stuff\nvm\trash\2_1_1\2_1_1\obj\Debug\2_1_1.csprojResolveAssemblyReference.cache
+D:\Documents\GitHub\Stuff\nvm\trash\2_1_1\2_1_1\bin\Debug\2_1_1.XML

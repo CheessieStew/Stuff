@@ -4,3 +4,9 @@ C:\Users\serin\Documents\heh\2_1_3\2_1_3\bin\Debug\2_1_3.pdb
 C:\Users\serin\Documents\heh\2_1_3\2_1_3\obj\Debug\2_1_3.csprojResolveAssemblyReference.cache
 C:\Users\serin\Documents\heh\2_1_3\2_1_3\obj\Debug\2_1_3.exe
 C:\Users\serin\Documents\heh\2_1_3\2_1_3\obj\Debug\2_1_3.pdb
+D:\Documents\GitHub\Stuff\nvm\trash\2_1_3\2_1_3\bin\Debug\2_1_3.exe.config
+D:\Documents\GitHub\Stuff\nvm\trash\2_1_3\2_1_3\obj\Debug\2_1_3.exe
+D:\Documents\GitHub\Stuff\nvm\trash\2_1_3\2_1_3\obj\Debug\2_1_3.pdb
+D:\Documents\GitHub\Stuff\nvm\trash\2_1_3\2_1_3\bin\Debug\2_1_3.exe
+D:\Documents\GitHub\Stuff\nvm\trash\2_1_3\2_1_3\bin\Debug\2_1_3.pdb
+D:\Documents\GitHub\Stuff\nvm\trash\2_1_3\2_1_3\obj\Debug\2_1_3.csprojResolveAssemblyReference.cache

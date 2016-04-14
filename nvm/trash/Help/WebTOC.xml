@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HelpTOC>
+
+  <HelpTOCNode Id="960e0388-341f-422e-bcf5-c59294f36a82" Title="_2_1_1" Url="html/a599efdf-6646-4efe-ce84-353b377efddd.htm">
+    <HelpTOCNode Id="84f31380-0e11-45f6-8f9c-890f0f0a7cba" Title="Program Class" Url="html/2dc5bc0c-e3d1-8df6-3879-66b7e78e37a3.htm">
+      <HelpTOCNode Title="Program Constructor " Url="html/e1842402-0b46-fab4-6005-4483d0f56cb9.htm" />
+      <HelpTOCNode Id="004fad35-1a96-42ec-bce9-60930d6a0c04" Title="Program Methods" Url="html/465bccbe-0b5a-330e-0a94-5ec01cedcd7e.htm">
+        <HelpTOCNode Title="Fine Method " Url="html/1f9a9482-78a7-e1cd-7b8c-573d13dcfd13.htm" />
+        <HelpTOCNode Title="Main Method " Url="html/291d2679-5e47-6677-5480-108b4d718363.htm" />
+      </HelpTOCNode>
+    </HelpTOCNode>
+  </HelpTOCNode>
+</HelpTOC>
