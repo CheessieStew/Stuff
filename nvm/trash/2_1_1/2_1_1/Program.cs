@@ -29,8 +29,7 @@ namespace _2_1_1
                 sum += digit;
                 p /= 10;
             }
-            if (x % sum != 0) return false;
-            return true;
+            return (x % sum == 0);
         }
 
         /// <summary>

@@ -4,3 +4,6 @@ C:\Users\serin\Documents\heh\2_1_2\2_1_2\bin\Debug\2_1_2.exe
 C:\Users\serin\Documents\heh\2_1_2\2_1_2\bin\Debug\2_1_2.pdb
 C:\Users\serin\Documents\heh\2_1_2\2_1_2\obj\Debug\2_1_2.exe
 C:\Users\serin\Documents\heh\2_1_2\2_1_2\obj\Debug\2_1_2.pdb
+C:\Users\serin\Documents\GitHub\Stuff\nvm\trash\2_1_2\2_1_2\bin\Debug\2_1_2.exe.config
+C:\Users\serin\Documents\GitHub\Stuff\nvm\trash\2_1_2\2_1_2\obj\Debug\2_1_2.exe
+C:\Users\serin\Documents\GitHub\Stuff\nvm\trash\2_1_2\2_1_2\obj\Debug\2_1_2.pdb

@@ -83,7 +83,7 @@ namespace _2_1_3
 
             Console.WriteLine("Testy!");
             int liczbaTestow = 10;
-            int liczbaProb = 10000;
+            int liczbaProb = 1000000;
             TimeSpan[] resultsNoRef;
             if (t == typeof(Something)) resultsNoRef = testPublicNoReflection((Something)o, liczbaTestow, liczbaProb);
             else
@@ -120,6 +120,7 @@ namespace _2_1_3
         private static TimeSpan[] testPublicReflection(String methodName, Object o, int liczbaTestow, int liczbaProb)            
         {
             TimeSpan[] res = new TimeSpan[liczbaTestow];
+            MethodInfo m = o.GetType().GetMethod(methodName);
             DateTime start;
             DateTime end;
             for (int test = 0; test < liczbaTestow; test++)
@@ -127,7 +128,7 @@ namespace _2_1_3
                 start = DateTime.Now;
                 for (int proba = 0; proba < liczbaProb; proba++)
                 {
-                    o.GetType().GetMethod(methodName).Invoke(o, null);
+                    m.Invoke(o, null);
                 }
                 end = DateTime.Now;
                 res[test] = start - end;
