@@ -68,7 +68,38 @@ namespace _2_4_2_5
             nazwiska.Close();
             File.Delete("nazwiska.temp");
 
-            Console.WriteLine("Nazwa projektu kłamie, 2.4.4 i 2.4.5 tu nie ma");
+            Console.WriteLine("Nazwa projektu kłamie, 2.4.4 tu nie ma");
+
+            to = new StreamWriter("osobaPesel.temp");
+            testu = new String[]
+                {"Andrzej Kowalski 100000", "Andrzej Malinowski 9978123", "Andrzej Krasicki 3343343", "Andrzej Abacki 1212143"};
+            foreach (String s in testu)
+                to.WriteLine(s);
+            to.Close();
+            to = new StreamWriter("peselNumerKonta.temp");
+            testu = new String[]
+            {"100000 3", "4444444 2", "3343343 4", "1212143 1"};
+            //jeden pesel niewystępujący w pierwszym pliku
+            //jeden pesel z pierwszego nie występuje tu
+            foreach (String s in testu)
+                to.WriteLine(s);
+            to.Close();
+
+            StreamReader osoby = new StreamReader("osobaPesel.temp");
+            StreamReader konta = new StreamReader("peselNumerKonta.temp");
+            var q = from imNazPes in osoby.GetLines()
+                    select imNazPes.Split(' ') into imNazPesSplt
+                    join pesNrSplt in konta.GetLines().Select(s => s.Split(' ')) on imNazPesSplt[2] equals pesNrSplt[0]
+                    select new { Imie = imNazPesSplt[0], Nazwisko = imNazPesSplt[1], Pesel = imNazPesSplt[2], Konto = pesNrSplt[1] };
+            foreach (var thing in q)
+                Console.WriteLine(thing);
+
+            osoby.Close();
+            konta.Close();
+            File.Delete("osobaPesel.temp");
+            File.Delete("peselNumerKonta.temp");
+
+            Console.WriteLine();
             Console.WriteLine("Zrobiłbym 2.4.6, ale spać mi się chce");
         }
     }
