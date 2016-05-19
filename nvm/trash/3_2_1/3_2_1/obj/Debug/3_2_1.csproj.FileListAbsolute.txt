@@ -1,0 +1,5 @@
+D:\Documents\GitHub\Stuff\nvm\trash\3_2_1\3_2_1\bin\Debug\3_2_1.exe.config
+D:\Documents\GitHub\Stuff\nvm\trash\3_2_1\3_2_1\bin\Debug\3_2_1.exe
+D:\Documents\GitHub\Stuff\nvm\trash\3_2_1\3_2_1\bin\Debug\3_2_1.pdb
+D:\Documents\GitHub\Stuff\nvm\trash\3_2_1\3_2_1\obj\Debug\3_2_1.exe
+D:\Documents\GitHub\Stuff\nvm\trash\3_2_1\3_2_1\obj\Debug\3_2_1.pdb
