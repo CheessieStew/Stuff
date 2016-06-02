@@ -1,0 +1,28 @@
+﻿using System;
+using System.Threading;
+using System.Messaging;
+
+namespace _3_1_7
+{
+    class Receiver
+    {
+        static void Main(string[] args)
+        {
+                MessageQueue queue = new MessageQueue(@"FormatName:DIRECT=OS:.\PRIVATE$\myqueue2");
+            while (true)
+            {
+                Message[] msgs = queue.GetAllMessages();
+                foreach (Message msg in msgs)
+                {
+                    Console.WriteLine("Wiadomość:");
+					                    msg.Formatter = new XmlMessageFormatter(new Type[1] { typeof(string) });
+
+                    Console.WriteLine(msg.Body.ToString());
+                    Console.WriteLine("Pracuję nad nią...");
+                    Thread.Sleep(1500);
+                }
+            }
+
+        }
+    }
+}

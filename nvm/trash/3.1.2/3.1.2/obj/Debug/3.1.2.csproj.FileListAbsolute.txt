@@ -1,0 +1,6 @@
+D:\Documents\GitHub\Stuff\nvm\trash\3.1.2\3.1.2\bin\Debug\3.1.2.exe.config
+D:\Documents\GitHub\Stuff\nvm\trash\3.1.2\3.1.2\bin\Debug\3.1.2.exe
+D:\Documents\GitHub\Stuff\nvm\trash\3.1.2\3.1.2\bin\Debug\3.1.2.pdb
+D:\Documents\GitHub\Stuff\nvm\trash\3.1.2\3.1.2\obj\Debug\3.1.2.csprojResolveAssemblyReference.cache
+D:\Documents\GitHub\Stuff\nvm\trash\3.1.2\3.1.2\obj\Debug\3.1.2.exe
+D:\Documents\GitHub\Stuff\nvm\trash\3.1.2\3.1.2\obj\Debug\3.1.2.pdb
