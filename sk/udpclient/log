@@ -1,0 +1,172 @@
+
+=============
+starting loop
+sending: GET 0 1000
+sending: GET 1000 1000
+sending: GET 2000 1000
+sending: GET 3000 1000
+
+-------WINDOW------
+segment 0, do timeouta: 2000
+segment 1, do timeouta: 2000
+segment 2, do timeouta: 2000
+segment 3, do timeouta: 2000
+-------WINDOW------
+
+	next timeout in: 2000
+	got: DATA 1000 1000, segment is in index 1
+	accepting
+		 received:1/4
+		:now:
+ 		segment 1, do timeouta: 0 RECEIVED
+end of packet-receiving
+
+-------WINDOW------
+segment 0, do timeouta: 809
+segment 1, do timeouta: 0 RECEIVED
+segment 2, do timeouta: 809
+segment 3, do timeouta: 809
+-------WINDOW------
+
+	next timeout in: 809
+	got: DATA 0 1000, segment is in index 0
+	accepting
+		 received:2/4
+		:now:
+ 		segment 0, do timeouta: 0 RECEIVED
+moving window
+written 1000 characters to file from spot 0, segment 0
+moving window
+written 1000 characters to file from spot 1, segment 1
+end of packet-receiving
+
+-------WINDOW------
+segment 4, do timeouta: 0
+segment 5, do timeouta: 0
+segment 2, do timeouta: 690
+segment 3, do timeouta: 690
+-------WINDOW------
+
+	next timeout in: 690
+
+=============
+starting loop
+sending: GET 2000 1000
+sending: GET 3000 1000
+
+-------WINDOW------
+segment 4, do timeouta: 0
+segment 5, do timeouta: 0
+segment 2, do timeouta: 2000
+segment 3, do timeouta: 2000
+-------WINDOW------
+
+	next timeout in: 2000
+	got: DATA 3000 1000, segment is in index 3
+	accepting
+		 received:3/4
+		:now:
+ 		segment 3, do timeouta: 0 RECEIVED
+end of packet-receiving
+
+-------WINDOW------
+segment 4, do timeouta: 0
+segment 5, do timeouta: 0
+segment 2, do timeouta: 1975
+segment 3, do timeouta: 0 RECEIVED
+-------WINDOW------
+
+	next timeout in: 1975
+	got: DATA 1000 1000, segment is in index 1
+end of packet-receiving
+
+-------WINDOW------
+segment 4, do timeouta: 0
+segment 5, do timeouta: 0
+segment 2, do timeouta: 1813
+segment 3, do timeouta: 0 RECEIVED
+-------WINDOW------
+
+	next timeout in: 1813
+	got: DATA 1000 1000, segment is in index 1
+end of packet-receiving
+
+-------WINDOW------
+segment 4, do timeouta: 0
+segment 5, do timeouta: 0
+segment 2, do timeouta: 1327
+segment 3, do timeouta: 0 RECEIVED
+-------WINDOW------
+
+	next timeout in: 1327
+	got: DATA 0 1000, segment is in index 0
+end of packet-receiving
+
+-------WINDOW------
+segment 4, do timeouta: 0
+segment 5, do timeouta: 0
+segment 2, do timeouta: 1041
+segment 3, do timeouta: 0 RECEIVED
+-------WINDOW------
+
+	next timeout in: 1041
+
+=============
+starting loop
+sending: GET 2000 1000
+
+-------WINDOW------
+segment 4, do timeouta: 0
+segment 5, do timeouta: 0
+segment 2, do timeouta: 2000
+segment 3, do timeouta: 0 RECEIVED
+-------WINDOW------
+
+	next timeout in: 2000
+	got: DATA 3000 1000, segment is in index 3
+end of packet-receiving
+
+-------WINDOW------
+segment 4, do timeouta: 0
+segment 5, do timeouta: 0
+segment 2, do timeouta: 1598
+segment 3, do timeouta: 0 RECEIVED
+-------WINDOW------
+
+	next timeout in: 1598
+
+=============
+starting loop
+sending: GET 2000 1000
+
+-------WINDOW------
+segment 4, do timeouta: 0
+segment 5, do timeouta: 0
+segment 2, do timeouta: 2000
+segment 3, do timeouta: 0 RECEIVED
+-------WINDOW------
+
+	next timeout in: 2000
+
+=============
+starting loop
+sending: GET 2000 1000
+
+-------WINDOW------
+segment 4, do timeouta: 0
+segment 5, do timeouta: 0
+segment 2, do timeouta: 2000
+segment 3, do timeouta: 0 RECEIVED
+-------WINDOW------
+
+	next timeout in: 2000
+	got: DATA 2000 1000, segment is in index 2
+	accepting
+		 received:4/4
+		:now:
+ 		segment 2, do timeouta: 0 RECEIVED
+moving window
+written 1000 characters to file from spot 2, segment 2
+moving window
+written 1000 characters to file from spot 3, segment 3
+end of packet-receiving
