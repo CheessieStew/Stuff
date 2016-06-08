@@ -1,0 +1,15 @@
+D:\Documents\GitHub\Stuff\nvm\trash\3_3_2\3_3_2\bin\Debug\3_3_2.exe.config
+D:\Documents\GitHub\Stuff\nvm\trash\3_3_2\3_3_2\bin\Debug\3_3_2.exe
+D:\Documents\GitHub\Stuff\nvm\trash\3_3_2\3_3_2\bin\Debug\3_3_2.pdb
+D:\Documents\GitHub\Stuff\nvm\trash\3_3_2\3_3_2\obj\Debug\3_3_2.csprojResolveAssemblyReference.cache
+D:\Documents\GitHub\Stuff\nvm\trash\3_3_2\3_3_2\obj\Debug\MainWindow.g.cs
+D:\Documents\GitHub\Stuff\nvm\trash\3_3_2\3_3_2\obj\Debug\App.g.cs
+D:\Documents\GitHub\Stuff\nvm\trash\3_3_2\3_3_2\obj\Debug\3_3_2_MarkupCompile.cache
+D:\Documents\GitHub\Stuff\nvm\trash\3_3_2\3_3_2\obj\Debug\3_3_2_MarkupCompile.lref
+D:\Documents\GitHub\Stuff\nvm\trash\3_3_2\3_3_2\obj\Debug\MainWindow.baml
+D:\Documents\GitHub\Stuff\nvm\trash\3_3_2\3_3_2\obj\Debug\3_3_2.g.resources
+D:\Documents\GitHub\Stuff\nvm\trash\3_3_2\3_3_2\obj\Debug\_3_3_2.Properties.Resources.resources
+D:\Documents\GitHub\Stuff\nvm\trash\3_3_2\3_3_2\obj\Debug\3_3_2.csproj.GenerateResource.Cache
+D:\Documents\GitHub\Stuff\nvm\trash\3_3_2\3_3_2\obj\Debug\3_3_2.exe
+D:\Documents\GitHub\Stuff\nvm\trash\3_3_2\3_3_2\obj\Debug\3_3_2.pdb
+D:\Documents\GitHub\Stuff\nvm\trash\3_3_2\3_3_2\bin\Debug\kitty.gif
