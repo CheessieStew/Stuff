@@ -1,0 +1,35 @@
+import Random
+
+
+newtype Square = [[Double]]
+
+
+getsquare ::  Double -> IO Square
+getsquare err = return [[0]]
+getsquare err = do
+  s1 <- getsquare err
+  s2 <- getsquare err
+  s3 <- getsquare err
+  s4 <- getsquare err
+  ns <- mergeSquares err s1 s2 s3 s4 [] []
+  return ns
+
+revapp [] ys = ys
+revapp (x:xs) ys = revapp xs (x:ys)
+
+
+mergeRows :: [Double] -> [Double] -> [Double]
+mergeRows err r1 r2 = revapp r1 ((newVal (head r1) (head r2)): r2)
+  where newVal a b = undefined
+
+gluePartials :: [[Double]] -> [[Double]] -> IO Square
+gluePartials p1 p2 = revapp p1 ((newVal (head p1) (head p2)): p2)
+
+
+mergeSquares :: Double -> Square -> Square -> Square -> Square -> IO Square
+mergeSquares [r1:rs1] [r2:rs2] [r3:rs3] [r4:rs4] acc1 acc2 =
+  mergeSquares n rs1 rs2 rs3 rs4 newAcc1 newacc2
+  where
+    newAcc1 = ((mergeRows r1 r2):acc)
+    newacc2 = ((mergeRows r3 r4))
+mergeSquares [] [] [] [] acc1 acc2 = gluePartials acc1 acc2

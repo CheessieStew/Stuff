@@ -1,0 +1,8 @@
+D:\Documents\GitHub\Stuff\nvm\trash\ConsoleApplication2\ConsoleApplication2\bin\Debug\ConsoleApplication2.exe.config
+D:\Documents\GitHub\Stuff\nvm\trash\ConsoleApplication2\ConsoleApplication2\bin\Debug\ConsoleApplication2.XML
+D:\Documents\GitHub\Stuff\nvm\trash\ConsoleApplication2\ConsoleApplication2\bin\Debug\ConsoleApplication2.exe
+D:\Documents\GitHub\Stuff\nvm\trash\ConsoleApplication2\ConsoleApplication2\bin\Debug\ConsoleApplication2.pdb
+D:\Documents\GitHub\Stuff\nvm\trash\ConsoleApplication2\ConsoleApplication2\bin\Debug\FSharp.Core.dll
+D:\Documents\GitHub\Stuff\nvm\trash\ConsoleApplication2\ConsoleApplication2\bin\Debug\FSharp.Core.xml
+D:\Documents\GitHub\Stuff\nvm\trash\ConsoleApplication2\ConsoleApplication2\obj\Debug\ConsoleApplication2.exe
+D:\Documents\GitHub\Stuff\nvm\trash\ConsoleApplication2\ConsoleApplication2\obj\Debug\ConsoleApplication2.pdb

@@ -1,0 +1,14 @@
+﻿body {
+    font-size: 25px;
+}
+table, tr, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 10px 10px 10px 10px;
+}
+
+td {
+    min-width: 40px;
+    text-align: center;
+}
+
