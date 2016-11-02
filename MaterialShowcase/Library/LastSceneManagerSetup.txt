@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Machine/Examples/PipeTest.unity
+- path: Assets/sc.unity
   isLoaded: 1
   isActive: 1

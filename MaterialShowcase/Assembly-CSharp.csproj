@@ -45,6 +45,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Directioneer.cs" />
+     <Compile Include="Assets\Hands\Examples\PlaceholderScripts\PlaceholderButton.cs" />
+     <Compile Include="Assets\Hands\Examples\PlaceholderScripts\PlaceholderController.cs" />
+     <Compile Include="Assets\Hands\HandBehaviour.cs" />
      <Compile Include="Assets\LampRotator.cs" />
      <Compile Include="Assets\Machine\Examples\Stolen\Controls.cs" />
      <Compile Include="Assets\Machine\Examples\Stolen\DraggablePhysicsObject.cs" />

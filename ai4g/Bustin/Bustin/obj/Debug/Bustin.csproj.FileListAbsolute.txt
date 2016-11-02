@@ -1,0 +1,6 @@
+D:\Documents\GitHub\Stuff\ai4g\Bustin\Bustin\bin\Debug\Bustin.exe.config
+D:\Documents\GitHub\Stuff\ai4g\Bustin\Bustin\bin\Debug\Bustin.exe
+D:\Documents\GitHub\Stuff\ai4g\Bustin\Bustin\bin\Debug\Bustin.pdb
+D:\Documents\GitHub\Stuff\ai4g\Bustin\Bustin\obj\Debug\Bustin.csprojResolveAssemblyReference.cache
+D:\Documents\GitHub\Stuff\ai4g\Bustin\Bustin\obj\Debug\Bustin.exe
+D:\Documents\GitHub\Stuff\ai4g\Bustin\Bustin\obj\Debug\Bustin.pdb
