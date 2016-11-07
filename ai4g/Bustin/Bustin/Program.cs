@@ -5,16 +5,17 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 
+//would be split into many files if CodinGame would allow it
+
+#region Management
 //mostly information management and IO
 public partial class Game
 {
     static void Main(string[] args)
     {
-
         int bustersPerPlayer = int.Parse(Console.ReadLine()); // the amount of busters you control
         int ghostCount = int.Parse(Console.ReadLine()); // the amount of ghosts on the map
         int myTeamId = int.Parse(Console.ReadLine()); // if this is 0, your base is on the top left of the map, if it is one, on the bottom right
-
 
         Game game = new Game(bustersPerPlayer, ghostCount, myTeamId);
 
@@ -33,15 +34,6 @@ public partial class Game
 
     public static readonly int xSize = 16001;
     public static readonly int ySize = 9001;
-    public static readonly int gridCellSize = 1800;
-    public static readonly int gridXSize = xSize / gridCellSize + 1;
-    public static readonly int gridYSize = ySize / gridCellSize + 1;
-    public static readonly int startingInterestRange = 5000;
-    public static readonly int maxInterestIncrease = 12000;
-    public int interestRange = startingInterestRange;
-    public int aggresiveness = 4000;
-    public int thievery = 4000;
-    public int cowardiness = 2000;
     public static readonly int bigNumber = 3000;
 
     //game info
@@ -62,12 +54,17 @@ public partial class Game
         myTeam = new Entity[bustersPerPlayer];
         orders = new string[bustersPerPlayer];
 
+        helpers = new int[bustersPerPlayer];
+        helping = new int[bustersPerPlayer];
+
         myBaseX = myTeamId == 0 ? 0 : xSize - 1;
         myBaseY = myTeamId == 0 ? 0 : ySize - 1;
 
         enemyTeam = new Entity[bustersPerPlayer];
         for (int i = 0; i < bustersPerPlayer; i++)
         {
+            helpers[i] = 0;
+            helping[i] = -1;
             enemyTeam[i].infoAge = bigNumber;
             enemyTeam[i].stunCooldown = 0;
             myTeam[i].stunCooldown = 0;
@@ -162,8 +159,6 @@ public partial class Game
                 ghosts[entityId].state = state;
                 ghosts[entityId].infoAge = 0;
             }
-
-            Console.Error.WriteLine($"id {entityId}, coords ({x},{y}), type {entityType}, state {state}, val {value}");
         }
     }
 
@@ -174,20 +169,37 @@ public partial class Game
             Console.WriteLine(orders[i]);
         }
     }
-
 }
+#endregion
 
+#region DecisionMaking
 
-//decision making
 public partial class Game
 {
+    public static readonly int startingInterestRange = 7000;
+    public static readonly int maxInterestIncrease = 12000;
+    public static readonly int gridCellSize = 1000;
+    public static readonly int gridXSize = xSize / gridCellSize + 1;
+    public static readonly int gridYSize = ySize / gridCellSize + 1;
+    public static readonly int minValueForRadar = 10000;
+    public static readonly int escortChange = 8000;
+    public int interestRange = startingInterestRange;
+    public int maxAggroThiefChange = 8000;
+    public int aggresiveness = 3000;
+    public int thievery = 4500;
+    public int cowardiness = 2000;
+    public int shortestEscortDistance = 10000;
+
     int myScore = 0;
     int currentBuster;
     int closestGhost;
     int closestEnemy;
+    int allyInNeed;
     BTree.Node eachOnHisOwnTree;
     String[] orders;
     int[,] patrolInfo;
+    int[] helpers;
+    int[] helping;
 
     bool CarriesGhost()
     {
@@ -205,8 +217,11 @@ public partial class Game
         if (myTeam[currentBuster].DistanceTo(myBaseX, myBaseY) <= 1600)
         {
             interestRange += maxInterestIncrease / ghostCount;
-            aggresiveness -= 8000 / ghostCount;
-            thievery += 8000 / ghostCount;
+            aggresiveness -= maxAggroThiefChange / ghostCount;
+            if (aggresiveness <= 500)
+                aggresiveness = 500;
+            shortestEscortDistance -= escortChange / ghostCount;
+            thievery += maxAggroThiefChange / ghostCount;
             myScore++;
             orders[currentBuster] = "RELEASE Fly, little one!";
             return true;
@@ -259,7 +274,7 @@ public partial class Game
                 ghosts[closestGhost].infoAge = bigNumber;
                 return false;
             }
-            orders[currentBuster] = $"BUST {closestGhost} Busting... {ghosts[closestGhost].state}";
+            orders[currentBuster] = $"BUST {closestGhost} Busting... {ghosts[closestGhost].DistanceTo(myTeam[currentBuster])}";
             ghosts[closestGhost].state--;
             ghosts[closestGhost].value++;
             if (ghosts[closestGhost].state <= 0)
@@ -314,8 +329,6 @@ public partial class Game
                     thief = true;
                     range = thievery;
 
-                
-
             }
             if (enemyTeam[i].state != 1 && thief == true)
                 continue;
@@ -329,17 +342,36 @@ public partial class Game
                 closestEnemy = i;
             }
         }
-        return (dist <= aggresiveness / (myTeam[currentBuster].carrying ? 2 : 1));
+        bool shouldIgnore = true;
+        if (enemyTeam[closestEnemy].carrying)
+            shouldIgnore = false;
+        else
+        {
+            foreach (Entity ghost in ghosts)
+                if (ghost.state < 10 && ghost.DistanceTo(enemyTeam[closestEnemy]) <= 1800)
+                    shouldIgnore = false;
+        }
+        if (shouldIgnore)
+            return false;
+        int distance = myTeam[currentBuster].DistanceTo(xSize-myBaseX,ySize-myBaseY) - enemyTeam[closestEnemy].DistanceTo(xSize - myBaseX, ySize - myBaseY);
+        if (distance > 1200)
+            return false;
+        return (dist <= range / (myTeam[currentBuster].carrying ? 2 : 1));
+
     }
 
     bool StunClosestEnemy()
     {
+
         int dist = enemyTeam[closestEnemy].DistanceTo(myTeam[currentBuster]);
         if (enemyTeam[closestEnemy].infoAge > 0 || enemyTeam[closestEnemy].stunned)
             return false;
-        if (dist <= 1760)
+        if (dist < 1760)
         {
-            orders[currentBuster] = $"STUN {closestEnemy + bustersPerPlayer * (1 - myTeamId)} Nighty night.";
+            if (enemyTeam[closestEnemy].carrying)
+                orders[currentBuster] = $"STUN {closestEnemy + bustersPerPlayer * (1- myTeamId)} Gimme that!";
+            else
+                orders[currentBuster] = $"STUN {closestEnemy + bustersPerPlayer * (1 - myTeamId)} Nighty night.";
             enemyTeam[closestEnemy].state = 2;
             myTeam[currentBuster].stunCooldown = 20;
             return true;
@@ -352,7 +384,6 @@ public partial class Game
         orders[currentBuster] = $"MOVE {enemyTeam[closestEnemy].xPos} {enemyTeam[closestEnemy].yPos} I WILL BE YOUR DOOM";
         return true;
     }
-
 
     int PatrolRating(int x, int y, int dirX, int dirY, int depth)
     {
@@ -403,7 +434,6 @@ public partial class Game
                     rating += sum * (depth - layer + 1.0d) / depth / fields;
             }
         }
-        //Console.Error.WriteLine($"Returning {rating}");
         return (int)rating;
     }
 
@@ -415,19 +445,16 @@ public partial class Game
         int bestScore = 0;
         int targetX = 0;
         int targetY = 0;
-        Console.Error.WriteLine($"Buster {currentBuster} here in {xchunk},{ychunk}");
         for (int i = -1; i <= 1; i++)
         {
             for (int j = -1; j <= 1; j++)
             {
 
-                int score = PatrolRating(xchunk, ychunk, j, i, 4);
+                int score = PatrolRating(xchunk, ychunk, j, i, 6);
                 if (i == 0 && j == 0)
                 {
-                    Console.Error.Write($"[{score}]");
                     continue;
                 }
-                else Console.Error.Write($" {score} ");
 
                 if (score > bestScore)
                 {
@@ -436,10 +463,8 @@ public partial class Game
                     targetY = i;
                 }
             }
-            Console.Error.WriteLine();
         }
 
-        Console.Error.WriteLine($"{bestScore} wins at {targetX},{targetY}");
         patrolInfo[xchunk + targetX, ychunk + targetY] = 0;
         orders[currentBuster] = $"MOVE {(xchunk + targetX) * gridCellSize + gridCellSize / 2} {(ychunk + targetY) * gridCellSize + gridCellSize / 2} *whistles*";
         return true;
@@ -455,7 +480,6 @@ public partial class Game
         return false;
     }
 
-
     bool Camp()
     {
         if (myScore > ghostCount * 4 / 10)
@@ -466,15 +490,36 @@ public partial class Game
             double upperAngle = Math.PI / 2;
             double myAngle = lowerAngle + (upperAngle - lowerAngle) / bustersPerPlayer * currentBuster;
 
-            double xmod = Math.Cos(myAngle)*(myTeamId==0 ? -1800 : 1800);
-            double ymod = Math.Sin(myAngle)*(myTeamId==0 ? -1800 : 1800);
+            double xmod = Math.Cos(myAngle) * (myTeamId == 0 ? -2500 : 2500);
+            double ymod = Math.Sin(myAngle) * (myTeamId == 0 ? -2500 : 2500);
 
-            xtarget += (int)ymod;
+            xtarget += (int)xmod;
             ytarget += (int)ymod;
-            orders[currentBuster] = $"MOVE {xtarget} {ytarget} hihihi";
+            String fin = myTeam[currentBuster].stunCooldown == 0 ? "!" : "";
+            orders[currentBuster] = $"MOVE {xtarget} {ytarget} hihihi{fin} ";
             return true;
         }
         return false;
+    }
+
+    bool RadarWorthIt()
+    {
+        int score = 0;
+        int xchunk = (myTeam[currentBuster].xPos) / gridCellSize;
+        int ychunk = (myTeam[currentBuster].yPos) / gridCellSize;
+        for (int i = -1; i <= 1; i++)
+        {
+            for (int j = -1; j <= 1; j++)
+            {
+                score += PatrolRating(xchunk, ychunk, j, i, 3);
+                if (i == 0 && j == 0)
+                {
+                    continue;
+                }
+            }
+        }
+        Console.Error.WriteLine($"Radarscore = {score}");
+        return (myScore >= ghostCount * 3 / 10 && score >= minValueForRadar);
     }
 
     bool Radar()
@@ -486,13 +531,69 @@ public partial class Game
         return true;
     }
 
-    bool RunAway()
+    int OppressionRate(Entity who)
     {
-        if (enemyTeam[closestEnemy].DistanceTo(myTeam[currentBuster]) > cowardiness)
-            return false;
-        int safeX = 2 * myTeam[currentBuster].xPos - enemyTeam[closestEnemy].xPos;
-        int safeY = 2 * myTeam[currentBuster].yPos - enemyTeam[closestEnemy].yPos;
-        orders[currentBuster] = $"MOVE {safeX} {safeY} You won't get me!";
+        int rate = 0;
+        foreach(Entity enemy in enemyTeam)
+        {
+            if (enemy.infoAge < 4 && enemy.DistanceTo(who) <= cowardiness)
+            {
+                Console.Error.WriteLine($"threat on distance {enemy.DistanceTo(who)}");
+                rate++;
+            }
+        }
+        return rate;
+    }
+    
+    bool AllyNeedsHelp()
+    {
+        int bestOppression = 0;
+        int bestDistance = 0;
+        for (int i = 0; i< bustersPerPlayer; i++)
+        {
+            if (helping[currentBuster] == i)
+            {
+                helping[currentBuster] = -1;
+                helpers[i]--;
+            }
+            if (myTeam[i].carrying)
+            {
+                int oppression = OppressionRate(myTeam[i]);
+                if (oppression < bestOppression)
+                    continue;
+                int distance = myTeam[i].DistanceTo(myBaseX, myBaseY);
+                if (oppression == bestOppression && bestDistance > distance)
+                    continue;
+                bestDistance = distance;
+                bestOppression = oppression;
+                allyInNeed = i;
+            }
+        }
+
+        Console.Error.WriteLine($"escorting distance ({shortestEscortDistance})");
+        if ((bestDistance > shortestEscortDistance && helpers[allyInNeed] == 0))
+            Console.Error.WriteLine($"escorting cause distance ({shortestEscortDistance})");
+        if (bestOppression > helpers[allyInNeed])
+            Console.Error.WriteLine($"escorting cause oppr ({bestOppression} > {helpers[allyInNeed]})");
+        if ((bestDistance > shortestEscortDistance && helpers[allyInNeed] == 0)|| bestOppression > helpers[allyInNeed])
+        {
+            helping[currentBuster] = allyInNeed;
+            helpers[allyInNeed]++;
+            return true;
+        }
+        return false;
+    }
+
+    bool MoveToAlly()
+    {
+
+        orders[currentBuster] = $"MOVE {myTeam[allyInNeed].xPos} {myTeam[allyInNeed].yPos} Got your back!";
+        return true;
+    }
+
+    bool Cry()
+    {
+        orders[currentBuster] = $"MOVE {myTeam[currentBuster].xPos} {myTeam[currentBuster].yPos} ;-;";
         return true;
     }
 
@@ -512,12 +613,6 @@ public partial class Game
                         MoveToClosestEnemy
                     })
                 }),
-               // BTree.Sequencer(new BTree.Node[]
-               // {
-               //     BTree.Not(CarriesGhost),
-               //     EnemyCanStun,
-               //     RunAway
-               // })
             })
         });
 
@@ -543,23 +638,38 @@ public partial class Game
 
         BTree.Node MaybeRadar = BTree.Sequencer(new BTree.Node[]
         {
-            (() => myScore >= ghostCount * 3 / 10),
+            RadarWorthIt,
             Radar
+        });
+
+        BTree.Node Helping = BTree.Sequencer(new BTree.Node[]
+        {
+            AllyNeedsHelp,
+            MoveToAlly
+        });
+
+        BTree.Node Crying = BTree.Sequencer(new BTree.Node[]
+        {
+            (()=>myTeam[currentBuster].stunned),
+            Cry
         });
 
         return BTree.Selector(new BTree.Node[]
         {
+            Crying,
             EnemyInteraction,
             GhostCarrying,
             GhostBusting,
+            Helping,
             MaybeRadar,
             Camp,
             Patrol
         });
     }
 }
+#endregion
 
-
+#region Utilities
 public static class BTree
 {
     public delegate Boolean Node();
@@ -639,3 +749,4 @@ public struct Entity
         return (int)Math.Round((Math.Sqrt(Math.Pow(x - xPos, 2) + Math.Pow(y - yPos, 2))));
     }
 }
+#endregion
