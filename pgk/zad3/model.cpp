@@ -703,28 +703,27 @@ void Board::Update(double time)
 				shape[3].y = bricksCenter.y - (bricksVertically / 2.0 - yBrick - j) * brickSize.y + brickSize.y;
 				//for each alive brick next to the one we're considering,
 				//expand the collider to contain it so no weird corner effects happen
-				printf("expanding?\n");
-				if (CheckBrick(xBrick - i, yBrick - j - 1))
+				if (!corner && CheckBrick(xBrick + i, yBrick + j - 1))
 				{
-					printf("expanding %d %d bot\n", xBrick - i, yBrick - j);
+					printf("expanding %d %d bot\n", xBrick + i, yBrick + j);
 					shape[0].y -= brickSize.y;
 					shape[1].y -= brickSize.y;
 				}
-				if (CheckBrick(xBrick - i, yBrick - j + 1))
+				if (!corner &&CheckBrick(xBrick + i, yBrick + j + 1))
 				{
-					printf("expanding %d %d top\n", xBrick - i, yBrick - j);
+					printf("expanding %d %d top\n", xBrick + i, yBrick + j);
 					shape[2].y += brickSize.y;
 					shape[3].y += brickSize.y;
 				}
-				if (CheckBrick(xBrick - i - 1, yBrick - j))
+				if (!corner &&CheckBrick(xBrick + i - 1, yBrick + j))
 				{
-					printf("expanding %d %d left\n", xBrick - i, yBrick - j);
+					printf("expanding %d %d left\n", xBrick + i, yBrick + j);
 					shape[0].x -= brickSize.x;
 					shape[3].x -= brickSize.x;
 				}
-				if (CheckBrick(xBrick - i + 1, yBrick - j))
+				if (!corner &&CheckBrick(xBrick + i + 1, yBrick + j))
 				{
-					printf("expanding %d %d right\n", xBrick - i, yBrick - j);
+					printf("expanding %d %d right\n", xBrick + i, yBrick + j);
 					shape[1].x += brickSize.x;
 					shape[2].x += brickSize.x;
 				}
