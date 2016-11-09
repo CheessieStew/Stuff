@@ -1,0 +1,18 @@
+#version 330 core
+
+// Input vertex data, different for all executions of this shader.
+in vec2 cornerPosition;
+uniform vec2 translation;
+uniform vec2 scale;
+out vec2 uv;
+
+void main(){
+
+    gl_Position.xy = cornerPosition + translation * 2  - scale.xy + vec2(1,1);
+	gl_Position.x /= scale.x;
+	gl_Position.y /= scale.y;
+	gl_Position.z = 0;
+    gl_Position.w = 1.0;
+	uv = 0.5*cornerPosition + 0.5;
+}
+

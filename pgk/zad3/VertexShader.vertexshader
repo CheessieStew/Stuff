@@ -1,0 +1,26 @@
+#version 330 core
+
+// Input vertex data, different for all executions of this shader.
+in vec2 pos;
+uniform vec2 translation;
+uniform vec2 scale;
+uniform float rotation;
+out vec2 uv;
+
+void main(){
+	uv = 0.5*pos + 0.5;
+	if (abs(uv.x) > 1)
+		uv.x /= scale.x;
+	if (abs(uv.y) > 1)
+		uv.y /= scale.y;
+
+	vec2 rotated = vec2(cos(rotation)*pos.x + sin(rotation)*pos.y, cos(rotation)*pos.y - sin(rotation)*pos.x);
+    gl_Position.xy = rotated*2 - scale.xy + translation*2;
+	gl_Position.x /= scale.x;
+	gl_Position.y /= scale.y;
+	gl_Position.z = 0;
+    gl_Position.w = 1.0;
+
+
+}
+
