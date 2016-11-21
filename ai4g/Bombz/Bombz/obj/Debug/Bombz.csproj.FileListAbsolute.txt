@@ -1,0 +1,6 @@
+D:\Documents\GitHub\Stuff\ai4g\Bombz\Bombz\bin\Debug\Bombz.exe.config
+D:\Documents\GitHub\Stuff\ai4g\Bombz\Bombz\bin\Debug\Bombz.exe
+D:\Documents\GitHub\Stuff\ai4g\Bombz\Bombz\bin\Debug\Bombz.pdb
+D:\Documents\GitHub\Stuff\ai4g\Bombz\Bombz\obj\Debug\Bombz.csprojResolveAssemblyReference.cache
+D:\Documents\GitHub\Stuff\ai4g\Bombz\Bombz\obj\Debug\Bombz.exe
+D:\Documents\GitHub\Stuff\ai4g\Bombz\Bombz\obj\Debug\Bombz.pdb

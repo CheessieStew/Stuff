@@ -1,0 +1,5 @@
+D:\Documents\GitHub\Stuff\Utils\FileMelder\FileMelder\bin\Release\FileMelder.exe.config
+D:\Documents\GitHub\Stuff\Utils\FileMelder\FileMelder\bin\Release\FileMelder.exe
+D:\Documents\GitHub\Stuff\Utils\FileMelder\FileMelder\bin\Release\FileMelder.pdb
+D:\Documents\GitHub\Stuff\Utils\FileMelder\FileMelder\obj\Release\FileMelder.exe
+D:\Documents\GitHub\Stuff\Utils\FileMelder\FileMelder\obj\Release\FileMelder.pdb

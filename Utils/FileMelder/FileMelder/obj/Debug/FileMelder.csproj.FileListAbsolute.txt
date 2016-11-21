@@ -1,0 +1,6 @@
+D:\Documents\GitHub\Stuff\Utils\FileMelder\FileMelder\bin\Debug\FileMelder.exe.config
+D:\Documents\GitHub\Stuff\Utils\FileMelder\FileMelder\bin\Debug\FileMelder.exe
+D:\Documents\GitHub\Stuff\Utils\FileMelder\FileMelder\bin\Debug\FileMelder.pdb
+D:\Documents\GitHub\Stuff\Utils\FileMelder\FileMelder\obj\Debug\FileMelder.csprojResolveAssemblyReference.cache
+D:\Documents\GitHub\Stuff\Utils\FileMelder\FileMelder\obj\Debug\FileMelder.exe
+D:\Documents\GitHub\Stuff\Utils\FileMelder\FileMelder\obj\Debug\FileMelder.pdb
