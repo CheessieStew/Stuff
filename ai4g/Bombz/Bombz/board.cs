@@ -493,25 +493,25 @@ class Board
                 throw e;
             }
             players[player].position = move.destination;
-            if (Grid[players[player].position].type == 2)
+            if (!Grid[players[player].position].empty && Grid[players[player].position].type == 2)
             {
                 switch(Grid[players[player].position].param1)
                 {
                     case 1:
                         players[player].param2++;
                         upgrades[player]++;
-
                         break;
                     case 2:
                         players[player].param1++;
                         upgrades[player]++;
-
                         break;
                 }
-                Grid[players[player].position] = new Entity();
             }
             player++;
         }
+        foreach (Entity p in players)
+            if (Grid[p.position].type == 2)
+                Grid[p.position] = new Entity();
     }
 
     public IEnumerable<IEnumerable<Move>> LegalMoves()
@@ -621,6 +621,7 @@ class Board
            // moves[i].bomb = false;
             guessedMoves[i].bomb = false;
         }
+        Grid.CopyTo(copiedGrid);
         foreach(Point bomb in bombs)
             if (Grid[bomb].param1 == 1 && Grid[bomb].param2 > 0)
             {
@@ -631,7 +632,7 @@ class Board
             {
                 Boom(bomb);
             }
-        //Move(moves);
+        copiedGrid.CopyTo(Grid);
         bombs.Clear();
         extraBombs.Clear();
         this.timer++;

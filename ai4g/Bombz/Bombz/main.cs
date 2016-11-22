@@ -16,34 +16,6 @@ using System.Collections.Generic;
 class Player
 {
 
-    static void TestSim(int turns, Board board)
-    {
-        String[] ms =
-{ };
-
-        Console.WriteLine();
-        for (int i = 0; i < turns; i++)
-        {
-            Console.WriteLine($"turn {i}\n{board}");
-           Move[] moves = new Move[board.playersAmm];
-           for (int j = 0; j < board.playersAmm; j++)
-           {
-               string[] inputss = ms[i*board.playersAmm + j].Split(' ');
-               char b = char.Parse(inputss[0]);
-               int x = int.Parse(inputss[1]);
-               int y = int.Parse(inputss[2]);
-               moves[j].bomb = b == 'B';
-               moves[j].destination.x = x;
-               moves[j].destination.y = y;
-               Console.WriteLine($"PLAYER {j}: {moves[j]}");
-           }
-
-            
-            Console.WriteLine();
-            board.Move(moves);
-        }
-    }
-
     static void Main(string[] args)
     {
         Entity e1 = new Entity(1, 1, 1, 1, new Point(1, 1));
@@ -80,7 +52,6 @@ class Player
             e.yPos = uint.Parse(inputs[3]);
             e.param1 = uint.Parse(inputs[4]);
             e.param2 = uint.Parse(inputs[5]);
-            Console.Error.WriteLine($"Got entity: {e}");
             board.UpdateEntity(e);
         }
 
@@ -116,14 +87,11 @@ class Player
                 e.owner = uint.Parse(inputs[1]);
                 e.xPos = uint.Parse(inputs[2]);
                 e.yPos = uint.Parse(inputs[3]);
-                uint p1, p2;
-                e.param1 = p1 = uint.Parse(inputs[4]);
-                e.param2 = p2 = uint.Parse(inputs[5]);
-                Console.Error.WriteLine($"Got entity: {e} [[p1 = {p1}, p2 = {p2}]]" );
+                e.param1 = uint.Parse(inputs[4]);
+                e.param2 = uint.Parse(inputs[5]);
                 board.UpdateEntity(e);
             }
             board.copiedGrid.CopyTo(board.Grid);
-            Console.Error.WriteLine(board);
             // Write an action using Console.WriteLine()
             // To debug: Console.Error.WriteLine("Debug messages...");
             mct.Reuse(board.guessedMoves);
