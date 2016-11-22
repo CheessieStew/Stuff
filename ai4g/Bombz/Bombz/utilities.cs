@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 struct Entity : IEquatable<Entity>
 {
     private uint _val;
+
     public Point position
     {
         get
@@ -26,9 +27,49 @@ struct Entity : IEquatable<Entity>
 
     public bool Equals(Entity e)
     {
-        return (_val << 12) == (e._val << 12);
+        return e.empty && this.empty ||_val == e._val;
     }
 
+    public static bool operator ==(Entity e1, Entity e2)
+    {
+        return (e1.Equals(e2));
+    }
+
+    public static bool operator !=(Entity e1, Entity e2)
+    {
+        return (!e1.Equals(e2));
+    }
+
+    public bool isExtra //0-1, bit 31
+    {   //1 means it's an extra
+        get
+        {
+            return 1 == (_val >> 31);
+        }
+        set
+        {
+            if (value)
+                _val |= (uint)1 << 31;
+            else
+                _val &= ~((uint)1 << 31);
+
+        }
+    }
+
+    public uint extra // 0-2047 bits 30 to 20
+    {
+        get
+        {
+            return (_val << 1) >> 21;
+        }
+        set
+        {
+            if (value > 2047)
+                throw new Exception("extra is 0-2047");
+            _val &= ~((uint)2047 << 20);
+            _val |= value << 20;
+        }
+    }
 
     public bool empty //0-1, bit 19
     {
@@ -163,6 +204,10 @@ struct Entity : IEquatable<Entity>
         String t = "";
         if (empty)
             t = "(empty)";
+        if (isExtra)
+            t += "(extra)";
+        if (extra != 2047)
+            t += $"(ptr {extra})";
         switch(type)
         {
             case 0:
@@ -173,6 +218,9 @@ struct Entity : IEquatable<Entity>
                 break;
             case 2:
                 t+= "item";
+                break;
+            case 3:
+                t += "box";
                 break;
         }
         return $"{t} of team {owner} at {position}, p1 {param1}, p2 {param2}";
@@ -321,11 +369,14 @@ class Grid
                 {
                     builder.Append(this[j, i].param1);
                 }
-                else if (this[j,i].type == 1)
+                else if (this[j, i].type == 1)
                 {
-                    builder.Append("b");
+                    if (this[j, i].param2 == 0)
+                        builder.Append("?");
+                    else
+                        builder.Append("b");
                 }
-                else if (this[j,i].type == 2)
+                else if (this[j, i].type == 2)
                 {
                     if (this[j, i].param1 == 1)
                         builder.Append("*");
@@ -334,7 +385,9 @@ class Grid
                     else
                         builder.Append("?");
                 }
-
+                else if (this[j, i].type == 0)
+                    builder.Append("?");
+               
             }
             builder.AppendLine();
         }
@@ -377,6 +430,12 @@ class Grid
                 t.empty = false;
                 t.type = 3;
                 t.param1 = (uint)(row[i] - 48);
+                t.xPos = (uint)i;
+                t.yPos = (uint)which;
+                t.owner = 0;
+                t.extra = 2047;
+                t.isExtra = false;
+                t.param2 = 0;
             }
             ents[which, i] = t;
         }

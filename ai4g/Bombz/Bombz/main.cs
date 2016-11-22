@@ -62,7 +62,7 @@ class Player
         {
             string row = Console.ReadLine();
             foreach (char c in row)
-                if (c == '0')
+                if (c != '.')
                     board.remainingBoxes++;
             board.Grid.UpdateRow(i, row);
         }
@@ -73,17 +73,20 @@ class Player
             inputs = Console.ReadLine().Split(' ');
             Entity e = new Entity();
             e.empty = false;
-            e.type = uint.Parse(inputs[0]);
+            e.extra = 2047;
+            e.isExtra = false; e.type = uint.Parse(inputs[0]);
             e.owner = uint.Parse(inputs[1]);
             e.xPos = uint.Parse(inputs[2]);
             e.yPos = uint.Parse(inputs[3]);
             e.param1 = uint.Parse(inputs[4]);
             e.param2 = uint.Parse(inputs[5]);
+            Console.Error.WriteLine($"Got entity: {e}");
             board.UpdateEntity(e);
         }
 
         //TestSim(200, board);
-
+        for (int i = 0; i < board.playersAmm; i++)
+            board.upgrades[i] = 0;
         Console.Error.WriteLine(board);
 
         MCT mct = new MCT(board, myId);
@@ -94,12 +97,12 @@ class Player
         // game loop
         while (true)
         {
-            deadline = DateTime.Now.AddMilliseconds(90);
+            deadline = DateTime.Now.AddMilliseconds(85);
             board.Clear();
             for (int i = 0; i < height; i++)
             {
                 string row = Console.ReadLine();
-                board.Grid.UpdateRow(i, row);
+                board.copiedGrid.UpdateRow(i, row);
             }
             entities = int.Parse(Console.ReadLine());
             for (int i = 0; i < entities; i++)
@@ -107,22 +110,27 @@ class Player
                 inputs = Console.ReadLine().Split(' ');
                 Entity e = new Entity();
                 e.empty = false;
-
+                e.extra = 2047;
+                e.isExtra = false;
                 e.type = uint.Parse(inputs[0]);
                 e.owner = uint.Parse(inputs[1]);
                 e.xPos = uint.Parse(inputs[2]);
                 e.yPos = uint.Parse(inputs[3]);
-                e.param1 = uint.Parse(inputs[4]);
-                e.param2 = uint.Parse(inputs[5]);
+                uint p1, p2;
+                e.param1 = p1 = uint.Parse(inputs[4]);
+                e.param2 = p2 = uint.Parse(inputs[5]);
+                Console.Error.WriteLine($"Got entity: {e} [[p1 = {p1}, p2 = {p2}]]" );
                 board.UpdateEntity(e);
             }
+            board.copiedGrid.CopyTo(board.Grid);
             Console.Error.WriteLine(board);
-
             // Write an action using Console.WriteLine()
             // To debug: Console.Error.WriteLine("Debug messages...");
             mct.Reuse(board.guessedMoves);
-            Console.Error.WriteLine("Running.....");
             Console.WriteLine(mct.Run(deadline));
+
+            Console.Error.WriteLine($"{(deadline-DateTime.Now).Milliseconds}ms left");
+
         }
     }
 

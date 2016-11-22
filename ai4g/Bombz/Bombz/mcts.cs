@@ -12,7 +12,6 @@ class MCT
     public static readonly float explorationRate = 1;
     Board board; //represents the state of root node
     int MyPlayerId;
-    List<Move> mmss;
 
 
     public MCT(Board board, int myid)
@@ -20,18 +19,10 @@ class MCT
         this.board = board;
         MyPlayerId = myid;
         root = new MCTNode(board, null);
-        mmss = new List<Move>();
     }
 
     public void Reuse(Move[] moves)
     {
-        if (!root.board.Legal(moves))
-        {
-            Console.Error.WriteLine("Wat");
-            Console.Error.WriteLine(root.board);
-        }
-        foreach (Move m in moves)
-            mmss.Add(m);
         int c = 0;
         for (int i = 0; i < root.Children.Length; i++)
         {
@@ -49,9 +40,6 @@ class MCT
             }
             if (thisIsIt)
             {
-                foreach (Move move in root.Moves[i])
-                    Console.Error.WriteLine($"reusing {move}");
-                Console.Error.WriteLine($"Time of root is not {child.board.timer}");
                 root = child;
                 if (root == null)
                 {
@@ -59,12 +47,30 @@ class MCT
                     root = new MCTNode(board, null);
                 }
                 else
+                {
+                    if (root.Board != board)
+                    {
+                        Console.Error.WriteLine("Difference!");
+                        Console.Error.WriteLine($"left (root) {root.Board}");
+                        Console.Error.WriteLine($"root.parent {root.Parent.Board}");
+                        Console.Error.WriteLine($"right (main) {board}");
+
+                        throw new Exception("cannot into sim");
+                    }
                     root.Parent = null;
+
+                }
                 return;
             }
             c++;
         }
         Console.Error.WriteLine("Nothing to reuse, wth?");
+        Console.Error.WriteLine($"Real {board}");
+        Console.Error.WriteLine($"root: {root.Board}");
+        Console.Error.WriteLine("Apparently the move we guessed is not legal on it");
+        foreach (Move m in moves)
+            Console.Error.Write($"{m}, ");
+        throw new Exception("nothing to reuse");
     }
 
     public void Rebind()
@@ -74,6 +80,7 @@ class MCT
 
     public Move Run(DateTime deadline)
     {
+        Console.Error.WriteLine($"starting search, roottime {root.Board.timer}");
         if (DateTime.Now >= deadline)
         {
             Console.Error.WriteLine("srsly? Time gone before I started");
@@ -91,12 +98,12 @@ class MCT
         if (root.expansion == 0)
             return root.Moves[0].ElementAt(MyPlayerId);
         Console.Error.WriteLine($"Let's see who's the winner, root pulled {root.TimesPulled} times, has {root.expansion} children!");
-        int winner = root.BestChild(MyPlayerId);
-        Console.Error.WriteLine($"The winner node had {root.Children[winner].TimesPulled} pulls, scores: ");
-        foreach(int score in root.Children[winner].scores)
-            Console.Error.Write($"{((float)score) / root.Children[winner].TimesPulled}, ");
-        Console.Error.WriteLine();
 
+        int winner = root.BestChild(MyPlayerId);
+        Console.Error.WriteLine($"The winner node had {root.Children[winner].TimesPulled} pulls, rating: {root.RateChild(winner,MyPlayerId)}");
+        foreach (Move m in root.Moves[winner])
+            Console.Error.Write($"{m}, ");
+        Console.Error.WriteLine($"this move makes {root.MoveSenses[winner]} sense");
         return root.Moves[winner].ElementAt(MyPlayerId);
     }
 
@@ -115,37 +122,25 @@ class MCT
 
     MCTNode TreePolicy(MCTNode v, Board curBoard)
     {
-        if (v == null)
-            Console.Error.WriteLine("I have lost my abillity to even");
+        List<Move> movvs = new List<Move>();
+
         MCTNode cur = v;
-        int d = 0;
         int time = curBoard.timer;
         while (!curBoard.Terminal) //"v is not terminal"
         {
-            if (time+d != cur.board.timer)
-                throw new Exception("life is strange");
-            if (cur == null)
-            {
-                Console.Error.WriteLine($"srsly wth at depth {d} 1");
-                throw new Exception($"srsly wth at depth {d} 1");
-            }
             if (!cur.FullyExpanded)
             {
                 try
                 {
-                    return cur.Expand(curBoard);
+                    MCTNode res =  cur.Expand(curBoard);
+                    return res;
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
-                    int i = 0;
-                   foreach(Move m in mmss)
-                   {
-                       Console.Error.Write($"\"{m}\", ");
-                       i++;
-                       if (i % 4 == 0) Console.Error.WriteLine();
-                   }
-                    Console.Error.WriteLine($"I THINK (depth {d}):");
+                    Console.Error.WriteLine("-----I think----");
                     Console.Error.WriteLine(curBoard);
+                    Console.Error.WriteLine("-----Node thinks----");
+                    Console.Error.WriteLine(cur.Board);
                     throw e;
                 }
             }
@@ -157,28 +152,20 @@ class MCT
                 {
                     curBoard.Move(cur.Moves[winner]);
                 }
-                catch(Exception ex)
+                catch(Exception e)
                 {
-                    int i = 0;
-                    foreach (Move m in mmss)
-                    {
-                        Console.Error.Write($"\"{m}\", ");
-                        i++;
-                        if (i % 4 == 0) Console.Error.WriteLine();
-                    }
-                    Console.Error.WriteLine($"I THINK (depth {d}):");
+                    Console.Error.WriteLine("Moves:");
+                    foreach (Move move in movvs)
+                        Console.Error.WriteLine("movvs");
+                    Console.Error.WriteLine("-----I think----");
                     Console.Error.WriteLine(curBoard);
-                    Console.Error.WriteLine($"NODE THINKs (depth {d}):");
-                    Console.Error.WriteLine(cur.board);
-                    throw ex;
+                    Console.Error.WriteLine("-----Node thinks----");
+                    Console.Error.WriteLine(cur.Board);
+                    throw e;
                 }
-                d++;
-
+                foreach (Move move in cur.Moves[winner])
+                    movvs.Add(move);
                 cur = cur.Children[winner];
-                if (cur == null)
-                {
-                    throw new Exception($"srsly wth at depth {d} 2");
-                }
             }
         }
         return cur;
@@ -188,9 +175,17 @@ class MCT
     int[] DefaultPolicy(Board curBoard)
     {
         int remBoxes = curBoard.remainingBoxes;
-        while (curBoard.remainingBoxes > remBoxes * 0.9 && !curBoard.Terminal)
+        int time = curBoard.timer;
+        while (curBoard.remainingBoxes > remBoxes * 0.9 && !curBoard.Terminal && curBoard.timer - time < 32)
         {
             curBoard.RandomMove();
+        }
+        //Console.WriteLine($"----after sim for {curBoard.timer - time}----");
+        //Console.WriteLine($"remBoxes * 0.9 = {remBoxes * 0.9}, remaining: {curBoard.remainingBoxes}");
+        for(int i = 0; i < board.playersAmm; i++)
+        {
+            //Console.Error.WriteLine($"player {i} has score {curBoard.scores[i]}, upgrades {board.upgrades[i]}");
+            curBoard.scores[i] += board.upgrades[i]*20;
         }
         return curBoard.scores;
     }
@@ -205,6 +200,7 @@ class MCTNode
     public MCTNode Parent;
     public bool FullyExpanded { get { return expansion == ChildrenCount; } }
     public int TimesPulled;
+    public int[] MoveSenses;
 
     //mean score of a single player in this Node's state
     public float MeanScoreOfPlayer(int which)
@@ -218,20 +214,30 @@ class MCTNode
     public MCTNode Expand(Board board)
     {
         MCT.whomoves = 3;
-        try
-        {
-            board.Move(Moves[expansion]); //state(newChild) = f(state(this), move);
-        }
-        catch (Exception ex)
-        {
-            Console.Error.WriteLine($"Node thinks: {this.board}");
-            Console.Error.WriteLine($"To make it funnier: board.Legal(Moves[expansion]) = {this.board.Legal(Moves[expansion])}"); 
+        board.Move(Moves[expansion]); //state(newChild) = f(state(this), move);
+        
 
-            throw ex;
-        }
         Children[expansion] = new MCTNode(board, this); 
         expansion++;
         return Children[expansion - 1];
+    }
+
+    public float RateChild(int i, int playerID)
+    {
+        float myScore = Children[i].MeanScoreOfPlayer(playerID);
+        float theirScore = 0;
+        float maxEnemy = 0;
+        for (int j = 0; j < scores.Length; j++)
+        {
+            if (j != playerID)
+            {
+                theirScore += Children[i].MeanScoreOfPlayer(j);
+                if (Children[i].MeanScoreOfPlayer(j) > maxEnemy)
+                    maxEnemy = Children[i].MeanScoreOfPlayer(j);
+            }
+        }
+        theirScore /= scores.Length - 1;
+        return (myScore - maxEnemy) * theirScore / (Math.Abs(myScore - theirScore) + 10);
     }
 
     public int BestChild(int playerID)
@@ -242,22 +248,12 @@ class MCTNode
         {
             if (Children[i] != null)
             {
-                float myScore = Children[i].MeanScoreOfPlayer(playerID);
-                float theirScore = 0;
-                float maxEnemy = 0;
-                for (int j = 0; j < scores.Length; j++)
-                {
-                    if (j != playerID)
-                    {
-                        theirScore += Children[i].MeanScoreOfPlayer(j);
-                        if (Children[i].MeanScoreOfPlayer(j) > maxEnemy)
-                            maxEnemy = Children[i].MeanScoreOfPlayer(j);
-                    }
-                }
-                theirScore /= scores.Length - 1;
 
-                float score = (myScore - maxEnemy) * theirScore / (Math.Abs(myScore - theirScore) + 1);
+                float score = 2000 + RateChild(i, playerID);
+                if (score < 0)
+                    throw new Exception("less!!!!");
                 score += MCT.explorationRate * (float)Math.Sqrt(2 * Math.Log(TimesPulled) / Children[i].TimesPulled);
+                    score *= MoveSenses[i];
                 if (score > bestScore)
                 {
                     bestScore = score;
@@ -265,18 +261,28 @@ class MCTNode
                 }
             }
         }
-        if (theOne < 0)
-            throw new Exception($"wat, but {ChildrenCount}! exp = {expansion} children[{0}] = {Children[0]!=null}");
         return theOne;
     }
 
-    public Board board;
-
+    public Board Board;
     public MCTNode(Board board, MCTNode par)
     {
-        this.board = board.Copy();
+        Board = board.Copy();
         Moves = board.LegalMoves().OrderBy(x => MCT.random.Next()).ToArray();
-
+        MoveSenses = new int[Moves.Count()];
+        for (int i = 0; i < Moves.Count(); i++)
+        {
+            MoveSenses[i] = 4096;
+            int player = 0;
+            foreach(Move m in Moves[i])
+            {
+                if (m.bomb)
+                    MoveSenses[i] = Math.Min(MoveSenses[i], board.BoxesInRange(board.players[player].position, (int)board.players[player].param2));
+                player++;
+            }
+            if (MoveSenses[i] == 4096)
+                MoveSenses[i] = 1;
+        }
         ChildrenCount = Moves.Length;
 
         Children = new MCTNode[ChildrenCount];
