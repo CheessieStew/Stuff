@@ -18,8 +18,6 @@ class Player
 
     static void Main(string[] args)
     {
-        Entity e1 = new Entity(1, 1, 1, 1, new Point(1, 1));
-        Entity e2 = new Entity(1, 1, 1, 1, new Point(1, 1));
         DateTime deadline = DateTime.Now.AddMilliseconds(980);
         string[] inputs;
         inputs = Console.ReadLine().Split(' ');
@@ -27,7 +25,7 @@ class Player
         uint height = uint.Parse(inputs[1]);
         int myId = int.Parse(inputs[2]);
 
-        Board board = new Board(width, height, 2);
+        Board board = new Board(width, height);
 
         //first turn
         for (int i = 0; i < height; i++)
@@ -36,39 +34,51 @@ class Player
             foreach (char c in row)
                 if (c != '.')
                     board.remainingBoxes++;
-            board.Grid.UpdateRow(i, row);
+            board.copiedGrid.UpdateRow(i, row);
         }
 
         int entities = int.Parse(Console.ReadLine());
+
+        List<Entity> players = new List<Entity>();
         for (int i = 0; i < entities; i++)
         {
             inputs = Console.ReadLine().Split(' ');
             Entity e = new Entity();
             e.empty = false;
-            e.extra = 2047;
+            e.extra = 1023;
             e.isExtra = false; e.type = uint.Parse(inputs[0]);
             e.owner = uint.Parse(inputs[1]);
             e.xPos = uint.Parse(inputs[2]);
             e.yPos = uint.Parse(inputs[3]);
             e.param1 = uint.Parse(inputs[4]);
             e.param2 = uint.Parse(inputs[5]);
-            board.UpdateEntity(e);
+            Console.Error.WriteLine($"Got entity {e}");
+            if (e.type == 0)
+                players.Add(e);
+            else
+                board.UpdateEntity(e);
         }
+        board.SetPlayersAmm(players.Count);
+        foreach (Entity player in players)
+            board.UpdateEntity(player);
+        board.copiedGrid.CopyTo(board.Grid);
 
-        //TestSim(200, board);
-        for (int i = 0; i < board.playersAmm; i++)
-            board.upgrades[i] = 0;
-        Console.Error.WriteLine(board);
+
+       // for (int i = 0; i < 40; i++)
+       // {
+       //     Console.Error.WriteLine(board);
+       //     board.RandomMove();
+       // }
 
         MCT mct = new MCT(board, myId);
 
-
+        Console.Error.WriteLine(board);
         Console.WriteLine(mct.Run(deadline));
 
         // game loop
         while (true)
         {
-            deadline = DateTime.Now.AddMilliseconds(85);
+            deadline = DateTime.Now.AddMilliseconds(95);
             board.Clear();
             for (int i = 0; i < height; i++)
             {
@@ -81,7 +91,7 @@ class Player
                 inputs = Console.ReadLine().Split(' ');
                 Entity e = new Entity();
                 e.empty = false;
-                e.extra = 2047;
+                e.extra = 1023;
                 e.isExtra = false;
                 e.type = uint.Parse(inputs[0]);
                 e.owner = uint.Parse(inputs[1]);
@@ -95,9 +105,10 @@ class Player
             // Write an action using Console.WriteLine()
             // To debug: Console.Error.WriteLine("Debug messages...");
             mct.Reuse(board.guessedMoves);
+            Console.Error.WriteLine($"Time: {board.timer}");
             Console.WriteLine(mct.Run(deadline));
+            Console.Error.WriteLine($"{(deadline.AddMilliseconds(5) - DateTime.Now).Milliseconds}ms until deadline");
 
-            Console.Error.WriteLine($"{(deadline-DateTime.Now).Milliseconds}ms left");
 
         }
     }

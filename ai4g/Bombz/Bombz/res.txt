@@ -25,34 +25,47 @@ class Board
     public int remainingBoxes;
     public bool Terminal
     {
-        get { return remainingBoxes == 0; }
+        get
+        {
+            int killed = 0;
+            foreach (Entity player in players)
+                if (player.empty)
+                    killed++;
+            return killed >= playersAmm - 1;
+        }
     }
 
     public Grid copiedGrid;
 
-    public Board(uint width, uint height, int playersAmm)
+    public Board(uint width, uint height)
     {
         Grid = new Grid(width, height);
         copiedGrid = new Grid(width, height);
-        this.playersAmm = playersAmm;
 
         bombs = new List<Point>();
         extraBombs = new List<Entity>();
-        players = new Entity[playersAmm];
-        upgrades = new int[playersAmm];
-        scores = new int[playersAmm];
 
-        for (int i = 0; i < playersAmm; i++)
-            scores[i] = 0;
 
-        guessedMoves = new Move[playersAmm];
+
+
         remainingBoxes = 0;
         timer = 0;
     }
 
+    public void SetPlayersAmm(int p)
+    {
+        playersAmm = p;
+        players = new Entity[playersAmm];
+        upgrades = new int[playersAmm];
+        scores = new int[playersAmm];
+        guessedMoves = new Move[playersAmm];
+    }
+
+
     public Board Copy()
     {
-        Board res = new Board(Grid.width, Grid.height, playersAmm);
+        Board res = new Board(Grid.width, Grid.height);
+        res.SetPlayersAmm(playersAmm);
         Grid.CopyTo(res.Grid);
         res.bombs = bombs.ConvertAll(b => b);
         res.extraBombs = extraBombs.ConvertAll(b => b);
@@ -65,17 +78,44 @@ class Board
         return res;
     }
 
+    public bool PointInRange(Point p, Entity bomb)
+    {
+        bool obstr = false;
+        int bx = bomb.position.x;
+        int by = bomb.position.y;
+        if (p.x == bx && Math.Abs(p.y - by) < bomb.param2)
+        {
+            for (int i = Math.Min(p.y, by) + 1; i < Math.Max(p.y, by); i++)
+                if (Grid.blocking(bx, i))
+                {
+                    obstr = true;
+                    break;
+                }
+            if (!obstr)
+                return true;
+        }
+        else if (p.y == by && Math.Abs(p.x - bx) < bomb.param2)
+        {
+            for (int i = Math.Min(p.x, bx) + 1; i < Math.Max(p.x, bx); i++)
+                if (Grid.blocking(i, by))
+                {
+                    obstr = true;
+                    break;
+                }
+            if (!obstr)
+                return true;
+        }
+        return false;
+    }
 
     #region sim
     public void Boom(Entity e)
     {
         if (e.param2 == 0) //it's a bomb's ghost
         {
-            Console.Error.WriteLine("GHOST TRIGGERED");
             return;
         }
-        if (e.type != 1)
-            throw new Exception($"can't boom {e}");
+
         if (e.isExtra && Grid[e.position].param2 > 0)
         {
             // because of <insert reasons>
@@ -98,8 +138,14 @@ class Board
         //no need to set the extra's range to 0
         //it can only get triggered if the main bomb on this cell gets triggered
 
-        if (copiedGrid[x, y].empty != true)
-            throw new Exception("GOTCHA");
+        foreach(Entity player in players)
+        {
+            if (PointInRange(player.position, e))
+            {
+                scores[player.owner] = 0;
+                players[player.owner].empty = true;
+            }
+        }
         players[e.owner].param1++;
 
         if (e.extra < extraBombs.Count) //this bomb has another one underneath
@@ -117,15 +163,15 @@ class Board
                 res.empty = true;
                 if (en.type == 3) //box? score
                 {
+                    if (en.param1 == 15) // wall
+                        break;
                     scores[e.owner]++;
                     remainingBoxes--;
                     if (en.param1 > 0)
                     {
-                        if (res.position != new Point(x + j, y))
-                            throw new Exception($"wow! {res.position} instead of {x + j}, {y}");
                         res.empty = false;
                         res.isExtra = false;
-                        res.extra = 2047;
+                        res.extra = 1023;
                         res.type = 2;
                         res.param2 = 0;
                     }
@@ -146,13 +192,15 @@ class Board
                 res.empty = true;
                 if (en.type == 3) //box? score
                 {
+                    if (en.param1 == 15) // wall
+                        break;
                     scores[e.owner]++;
                     remainingBoxes--;
                     if (en.param1 > 0)
                     {
                         res.empty = false;
                         res.isExtra = false;
-                        res.extra = 2047;
+                        res.extra = 1023;
                         res.type = 2;
                         res.param2 = 0;
                     }
@@ -173,13 +221,15 @@ class Board
                 res.empty = true;
                 if (en.type == 3) //box? score
                 {
+                    if (en.param1 == 15)
+                        break;
                     scores[e.owner]++;
                     remainingBoxes--;
                     if (en.param1 > 0)
                     {
                         res.empty = false;
                         res.isExtra = false;
-                        res.extra = 2047;
+                        res.extra = 1023;
                         res.type = 2;
                         res.param2 = 0;
                     }
@@ -200,13 +250,15 @@ class Board
                 res.empty = true;
                 if (en.type == 3) //box? score
                 {
+                    if (en.param1 == 15)
+                        break;
                     scores[e.owner]++;
                     remainingBoxes--;
                     if (en.param1 > 0)
                     {
                         res.empty = false;
                         res.isExtra = false;
-                        res.extra = 2047;
+                        res.extra = 1023;
                         res.type = 2;
                         res.param2 = 0;
                     }
@@ -220,119 +272,15 @@ class Board
         }
     }
 
-    /*
-    public void FalseBoom(Entity e)
-    {
-        if (e.param2 == 0) //it's a bomb's ghost
-        {
-            Console.Error.WriteLine("GHOST TRIGGERED");
-            return;
-        }
-        if (e.type != 1)
-            throw new Exception($"can't boom {e}");
-        if (e.isExtra && Grid[e.position].param2 > 0)
-        {
-            // because of <insert reasons>
-            // we want to trigger the main bomb first
-            // and let IT trigger all the extras
-            FalseBoom(Grid[e.position]);
-            return;
-        }
-
-        int j;
-        Entity bomb = e;
-        int x = (int)e.xPos;
-        int y = (int)e.yPos;
-        bomb.param2 = 0;
-        if (!e.isExtra)
-        {
-            Grid[bomb.position] = bomb; //bomb stays on the grid, but we reduce it's range to 0
-        }
-
-        if (e.extra < extraBombs.Count) //this bomb has another one underneath
-        {
-            if (extraBombs[(int)e.extra].param2 > 0)
-                FalseBoom(extraBombs[(int)e.extra]);
-        }
-
-        for (j = 1; j < e.param2; j++)
-        {
-            if (Grid.InBounds(x + j, y) && Grid.blocking(x + j, y))
-            {
-                Entity en = Grid[x + j, y];
-                if (en.type == 3) //box? score
-                {
-                    scores[e.owner]++;
-                    remainingBoxes--;
-                }
-                else if (en.type == 1 && en.param2 > 0) //bomb? boom
-                    FalseBoom(en);
-                break;
-            }
-        }
-        for (j = 1; j < e.param2; j++)
-        {
-            if (Grid.InBounds(x - j, y) && Grid.blocking(x - j, y))
-            {
-                Entity en = Grid[x - j, y];
-                if (en.type == 3) //box? score
-                {
-                    scores[e.owner]++;
-                    remainingBoxes--;
-
-                }
-                else if (en.type == 1 && en.param2 > 0) //bomb? boom
-                    FalseBoom(en);
-
-                break;
-            }
-        }
-        for (j = 1; j < e.param2; j++)
-        {
-            if (Grid.InBounds(x, y + j) && Grid.blocking(x, y + j))
-            {
-                Entity en = Grid[x, y + j];
-                if (en.type == 3) //box? score
-                {
-                    scores[e.owner]++;
-                    remainingBoxes--;
-                }
-                else if (en.type == 1 && en.param2 > 0) //bomb? boom
-                    FalseBoom(en);
-                break;
-            }
-        }
-        for (j = 1; j < e.param2; j++)
-        {
-            if (Grid.InBounds(x, y - j) && Grid.blocking(x, y - j))
-            {
-                Entity en = Grid[x, y - j];
-                if (en.type == 3) //box? score
-                {
-                    scores[e.owner]++;
-                    remainingBoxes--;
-                    
-                }
-                else if (en.type == 1 && en.param2 > 0) //bomb? boom
-                    FalseBoom(en);
-                break;
-            }
-        }
-    }
-    */
 
     public void DropBomb(int playerID)
     {
         Entity newBomb = new Entity(1, players[playerID].owner, bombTimer, players[playerID].param2, players[playerID].position);
-        if (newBomb.param2 == 0)
-            Console.Error.WriteLine($"{newBomb} should not exist");
+
         if (players[playerID].param1 > 0) players[playerID].param1--;
         if (!Grid.free(players[playerID].position))
         {
-            if (Grid[players[playerID].position].type != 1)
-                throw new Exception("Throwing bomb on top of not-bomb");
-            if (Grid[players[playerID].position].param1 != 8)
-                throw new Exception("Throwing bomb on top of not-fresh bomb");
+
             Entity theMain = Grid[players[playerID].position];
             newBomb.isExtra = true; // the new bomb is an extra
             newBomb.extra = theMain.extra; // point the new bomb to whatever the main one was pointing to
@@ -343,40 +291,14 @@ class Board
         else
         {
             bombs.Add(players[playerID].position);
-            newBomb.extra = 2047; //2047 if there's no other bomb on this cell, index on extraBombs if there is one
+            newBomb.extra = 1023; //1023 if there's no other bomb on this cell, index on extraBombs if there is one
             Grid[players[playerID].position] = newBomb;
         }
         //only the main bomb exists on the bombs list
     }
-
-    public bool Legal(IEnumerable<Move> moves)
-    {
-        int i = 0;
-        foreach (var move in moves)
-        {
-            if ((!Grid.free(move.destination) && move.destination != players[i].position) || move.bomb && (players[i].param1 == 0 || (!Grid.free(players[i].position) && Grid[players[i].position].param1 != 8)))
-            {
-                Console.Error.WriteLine($"Illegal move: {move}, from {players[i].position}, by {MCT.whomoves}");
-                Console.Error.WriteLine($"Cell occupied by {Grid[move.destination]}");
-                Console.Error.WriteLine($"InBounds: {Grid.InBounds(move.destination)}, Free: {Grid.free(move.destination)}");
-                if (move.bomb && players[i].param1 == 0)
-                    Console.Error.WriteLine("MOVE ILLEGAL CAUSE OF BOMB STUFF");
-                return false;
-            }
-            i++;
-        }
-        return true;
-    }
-
-
+    
     public void Move(IEnumerable<Move> moves)
     {
-        
-        //TODO: this is probably really really really slowing things down
-        //remove after the exception is no longer being thrown
-        if (!Legal(moves))
-            throw new Exception("wat");
-
         timer++;
 
         //all the booms are made to the copied grid
@@ -394,17 +316,7 @@ class Board
             {
                 if (b.param2 > 0)
                 {
-                    try
-                    {
                         Boom(b);
-                    }
-                    catch(Exception ex)
-                    {
-                        Console.Error.WriteLine(ex.StackTrace);
-                        Console.Error.WriteLine($"many bombs, tried booming {b}");
-                        Console.Error.WriteLine(this);
-                        throw ex;
-                    }
                 }
             }
         }
@@ -418,20 +330,9 @@ class Board
             {
                 if (Grid[b.position].param2 > 0)
                 {
-                    try
-                    {
                         Boom(Grid[b.position]); //both are gonna explode anyway
                                                 // but if we trigger only the main bomb
                                                 // we have a guarantee of no duplicates, cause it can explode only once
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.Error.WriteLine(ex.StackTrace);
-                        
-                        Console.Error.WriteLine($"many bombs, tried booming {Grid[b.position]}");
-                        Console.Error.WriteLine(this);
-                        throw ex;
-                    }
                 }
             }
             extraBombs[i] = b;
@@ -465,15 +366,7 @@ class Board
                 i--;
             }
         }
-        bombs.RemoveAll(b =>
-        {
-            if (Grid[b].param2 == 0 && !copiedGrid.free(b) && copiedGrid[b].type != 2)
-            {
-                Console.Error.WriteLine($"ok, {copiedGrid[b]} has problems, time {timer}");
-                throw new Exception($"ok, {copiedGrid[b]} has problems");
-            }
-            return Grid[b].param2 == 0;
-        });
+        bombs.RemoveAll(b => Grid[b].param2 == 0);
 
         //accept the state
 
@@ -483,17 +376,9 @@ class Board
         int player = 0;
         foreach (Move move in moves)
         {
-            try
-            {
+
                 if (move.bomb)
                     DropBomb(player);
-            }
-            catch(Exception e)
-            {
-                Console.Error.WriteLine(this);
-                Console.Error.WriteLine($"bad move: {move}");
-                throw e;
-            }
             players[player].position = move.destination;
             if (!Grid[players[player].position].empty && Grid[players[player].position].type == 2)
             {
@@ -521,11 +406,19 @@ class Board
         IEnumerable<Point>[] playerMoves = new IEnumerable<Point>[playersAmm];
         for (int i = 0; i < playersAmm; i++)
         {
-            Point pos = players[i].position;
-            playerMoves[i] = pos.Neighbours().
-                  Where(p => Grid.free(p)).Concat(Enumerable.Repeat(pos,1));
+            
+            if (players[i].empty)
+            {
+                playerMoves[i] = Enumerable.Repeat(players[i].position,1);
+            }
+            else
+            {
+                playerMoves[i] = Movements(players[i].position);
+            }
         }
-        var res = playerMoves[0].Select(p => Enumerable.Repeat(new Move(false, p),1));
+        //if (playerMoves[0] == null)
+            
+        IEnumerable<IEnumerable<Move>> res = playerMoves[0].Select(p => Enumerable.Repeat(new Move(false, p),1));
         if (players[0].param1 > 0 && Grid.free(players[0].position))
             res = res.Concat(playerMoves[0].Select(p => Enumerable.Repeat(new Move(true, p), 1)));
 
@@ -551,60 +444,96 @@ class Board
             if (right && Grid.InBounds(p.x + r, p.y) && Grid.blocking(p.x + r, p.y))
             {
                 right = false;
-                if (Grid[p.x + r, p.y].type == 3)
+                if (Grid[p.x + r, p.y].type == 3 && Grid[p.x + r, p.y].param1 < 15)
                     res++;
             }
             if (left && Grid.InBounds(p.x - r, p.y) && Grid.blocking(p.x - r, p.y))
             {
                 left = false;
-                if (Grid[p.x - r, p.y].type == 3)
+                if (Grid[p.x - r, p.y].type == 3 && Grid[p.x - r, p.y].param1 < 15)
                     res++;
             }
             if (up && Grid.InBounds(p.x, p.y - r) && Grid.blocking(p.x, p.y - r))
             {
                 up = false;
-                if (Grid[p.x, p.y - r].type == 3)
+                if (Grid[p.x, p.y - r].type == 3 && Grid[p.x, p.y - r].param1 < 15)
                     res++;
             }
             if (down && Grid.InBounds(p.x, p.y + r) && Grid.blocking(p.x, p.y + r))
             {
                 down = false;
-                if (Grid[p.x, p.y + r].type == 3)
+                if (Grid[p.x, p.y + r].type == 3 && Grid[p.x, p.y + r].param1 < 15)
                     res++;
             }
         }
         return res;
     }
 
+    public IEnumerable<Point> Movements(Point point)
+    {
+        return point.Neighbours().
+            Where(p => Grid.free(p)).Concat(Enumerable.Repeat(point, 1));
+    }
+
+
+
     public void RandomMove()
     {
+        
         Move[] moves = new Move[playersAmm];
         for (int i = 0; i < playersAmm; i++)
         {
-            IEnumerable<Point> dests = players[i].position.Neighbours().
-                  Where(p => Grid.free(p)).Concat(Enumerable.Repeat(players[i].position, 1));
-            if (dests.Count() == 0)
+            if (players[i].empty)
             {
-                Console.Error.WriteLine(this);
-                foreach(Point p in players[i].position.Neighbours())
-                {
-                    Console.Error.WriteLine($"pos {p}: {Grid[p]}");
-                }
-                throw new Exception($"wat, player {i} can't move from {players[i].position}");
+                moves[i].destination = players[i].position;
             }
-                
-            int m = MCT.random.Next(dests.Count());
-            if (m == 0)
-                m = MCT.random.Next(dests.Count());
-            moves[i].destination = dests.ElementAt(m);
-            
-            if (MCT.random.Next() % 2 == 0  
-                && players[i].param1 > 0 
-                && Grid.free(players[i].position)
-                && BoxesInRange(players[i].position, (int)players[i].param2) > 0)
-                moves[i].bomb = true;
             else
-                moves[i].bomb = false;
+            {
+                IEnumerable<Point> dests = Movements(players[i].position);
+                dests = dests.Where(p =>
+                   {
+                       if (Movements(p).Count() < 2)
+                           return false;
+                       foreach (Point b in bombs)
+                           if (Grid[b].param1 == 2 && PointInRange(p, Grid[b]))
+                               return false;
+                       foreach (Entity b in extraBombs)
+                           if (b.param1 == 2 && PointInRange(p, b))
+                               return false;
+
+                       return true;
+                   });
+                if (dests.Count() == 0)
+                {
+                    moves[i].destination = players[i].position;
+                    //Console.Error.WriteLine($"no moves for {i}");
+                }
+                else
+                {
+                    //Console.Error.WriteLine($"Moves for {i}:" );
+                    //foreach (Point p in dests)
+                    //    Console.Error.WriteLine(p);
+                    int m = MCT.random.Next(dests.Count());
+                    if (m == dests.Count() - 1)
+                        m = MCT.random.Next(dests.Count());
+                    if (m == dests.Count() - 1)
+                        m = MCT.random.Next(dests.Count());
+                    moves[i].destination = dests.ElementAt(m);
+
+                }
+                if (MCT.random.Next() % 2 == 0  
+                    && players[i].param1 > 0 
+                    && Grid.free(players[i].position)
+                    && BoxesInRange(players[i].position, (int)players[i].param2) > 0
+                    && Movements(moves[i].destination).Count() > 2)
+                {
+
+                    moves[i].bomb = true;
+
+                }
+                else
+                    moves[i].bomb = false;
+            }
         }
         MCT.whomoves = 1;
         Move(moves);
@@ -646,7 +575,6 @@ class Board
         if (e.type == 0)
         {
             guessedMoves[e.owner].destination = e.position;
-            Console.Error.WriteLine($"Player {e.owner} moves onto {Grid[e.position]}");
             if (!Grid[e.position].empty && Grid[e.position].type == 2)
                 upgrades[e.owner]++;
 
@@ -656,6 +584,7 @@ class Board
         {
             if (e.type == 1)
             {
+                Console.Error.WriteLine("bomb!!!!");
                 if (e.param1 == 8)
                 {
                     guessedMoves[e.owner].bomb = true;
@@ -675,8 +604,13 @@ class Board
 
     }
 
+    
     public static bool operator ==(Board b1, Board b2)
     {
+        if (b1.timer != b2.timer)
+        {
+            Console.Error.WriteLine($"Timers {b1.timer} != {b2.timer}");
+        }
         if (b1.bombs.Count != b2.bombs.Count)
         {
             Console.Error.WriteLine($"bc {b1.bombs.Count} != {b2.bombs.Count}");
@@ -785,8 +719,6 @@ class Player
 
     static void Main(string[] args)
     {
-        Entity e1 = new Entity(1, 1, 1, 1, new Point(1, 1));
-        Entity e2 = new Entity(1, 1, 1, 1, new Point(1, 1));
         DateTime deadline = DateTime.Now.AddMilliseconds(980);
         string[] inputs;
         inputs = Console.ReadLine().Split(' ');
@@ -794,7 +726,7 @@ class Player
         uint height = uint.Parse(inputs[1]);
         int myId = int.Parse(inputs[2]);
 
-        Board board = new Board(width, height, 2);
+        Board board = new Board(width, height);
 
         //first turn
         for (int i = 0; i < height; i++)
@@ -803,39 +735,51 @@ class Player
             foreach (char c in row)
                 if (c != '.')
                     board.remainingBoxes++;
-            board.Grid.UpdateRow(i, row);
+            board.copiedGrid.UpdateRow(i, row);
         }
 
         int entities = int.Parse(Console.ReadLine());
+
+        List<Entity> players = new List<Entity>();
         for (int i = 0; i < entities; i++)
         {
             inputs = Console.ReadLine().Split(' ');
             Entity e = new Entity();
             e.empty = false;
-            e.extra = 2047;
+            e.extra = 1023;
             e.isExtra = false; e.type = uint.Parse(inputs[0]);
             e.owner = uint.Parse(inputs[1]);
             e.xPos = uint.Parse(inputs[2]);
             e.yPos = uint.Parse(inputs[3]);
             e.param1 = uint.Parse(inputs[4]);
             e.param2 = uint.Parse(inputs[5]);
-            board.UpdateEntity(e);
+            Console.Error.WriteLine($"Got entity {e}");
+            if (e.type == 0)
+                players.Add(e);
+            else
+                board.UpdateEntity(e);
         }
+        board.SetPlayersAmm(players.Count);
+        foreach (Entity player in players)
+            board.UpdateEntity(player);
+        board.copiedGrid.CopyTo(board.Grid);
 
-        //TestSim(200, board);
-        for (int i = 0; i < board.playersAmm; i++)
-            board.upgrades[i] = 0;
-        Console.Error.WriteLine(board);
+
+       // for (int i = 0; i < 40; i++)
+       // {
+       //     Console.Error.WriteLine(board);
+       //     board.RandomMove();
+       // }
 
         MCT mct = new MCT(board, myId);
 
-
+        Console.Error.WriteLine(board);
         Console.WriteLine(mct.Run(deadline));
 
         // game loop
         while (true)
         {
-            deadline = DateTime.Now.AddMilliseconds(85);
+            deadline = DateTime.Now.AddMilliseconds(95);
             board.Clear();
             for (int i = 0; i < height; i++)
             {
@@ -848,7 +792,7 @@ class Player
                 inputs = Console.ReadLine().Split(' ');
                 Entity e = new Entity();
                 e.empty = false;
-                e.extra = 2047;
+                e.extra = 1023;
                 e.isExtra = false;
                 e.type = uint.Parse(inputs[0]);
                 e.owner = uint.Parse(inputs[1]);
@@ -862,9 +806,10 @@ class Player
             // Write an action using Console.WriteLine()
             // To debug: Console.Error.WriteLine("Debug messages...");
             mct.Reuse(board.guessedMoves);
+            Console.Error.WriteLine($"Time: {board.timer}");
             Console.WriteLine(mct.Run(deadline));
+            Console.Error.WriteLine($"{(deadline.AddMilliseconds(5) - DateTime.Now).Milliseconds}ms until deadline");
 
-            Console.Error.WriteLine($"{(deadline-DateTime.Now).Milliseconds}ms left");
 
         }
     }
@@ -872,13 +817,12 @@ class Player
 }
 
 
-
 class MCT
 {
     public static int whomoves = -1;
     MCTNode root;
     public static readonly Random random = new Random();
-    public static readonly float explorationRate = 1;
+    public static readonly float explorationRate = 20;
     Board board; //represents the state of root node
     int MyPlayerId;
 
@@ -887,7 +831,7 @@ class MCT
     {
         this.board = board;
         MyPlayerId = myid;
-        root = new MCTNode(board, null);
+        root = new MCTNode(board.Copy(), null);
     }
 
     public void Reuse(Move[] moves)
@@ -910,46 +854,28 @@ class MCT
             if (thisIsIt)
             {
                 root = child;
-                if (root == null)
+                if (root == null || root.Moves == null)
                 {
                     Console.Error.WriteLine("Had to make a new tree");
-                    root = new MCTNode(board, null);
+                    root = new MCTNode(board.Copy(), null);
                 }
                 else
                 {
-                    if (root.Board != board)
-                    {
-                        Console.Error.WriteLine("Difference!");
-                        Console.Error.WriteLine($"left (root) {root.Board}");
-                        Console.Error.WriteLine($"root.parent {root.Parent.Board}");
-                        Console.Error.WriteLine($"right (main) {board}");
 
-                        throw new Exception("cannot into sim");
-                    }
                     root.Parent = null;
-
                 }
                 return;
             }
             c++;
         }
         Console.Error.WriteLine("Nothing to reuse, wth?");
-        Console.Error.WriteLine($"Real {board}");
-        Console.Error.WriteLine($"root: {root.Board}");
-        Console.Error.WriteLine("Apparently the move we guessed is not legal on it");
-        foreach (Move m in moves)
-            Console.Error.Write($"{m}, ");
-        throw new Exception("nothing to reuse");
-    }
+        Console.Error.WriteLine($"main: {board}");
 
-    public void Rebind()
-    {
-        root = new MCTNode(board, null);
+        throw new Exception("nothing to reuse");
     }
 
     public Move Run(DateTime deadline)
     {
-        Console.Error.WriteLine($"starting search, roottime {root.Board.timer}");
         if (DateTime.Now >= deadline)
         {
             Console.Error.WriteLine("srsly? Time gone before I started");
@@ -961,108 +887,189 @@ class MCT
             MCTNode vl = TreePolicy(root, curBoard);
             // after TreePolicy curBoard represents the state
             // of the returned node
-            int[] scores = DefaultPolicy(curBoard);
+            float[] scores;
+            if (vl.Moves != null)
+            {
+                scores = DefaultPolicy(curBoard);
+            }
+            else
+            {
+
+                scores = new float[board.playersAmm];
+                for (int i = 0; i < scores.Length; i++)
+                    scores[i] = vl.Parent.MeanScoreOfPlayer(i);
+            }
             BackUp(vl, scores);
         }
         if (root.expansion == 0)
+        {
+            Console.Error.WriteLine("Couldn't even search!");
             return root.Moves[0].ElementAt(MyPlayerId);
+        }
+
         Console.Error.WriteLine($"Let's see who's the winner, root pulled {root.TimesPulled} times, has {root.expansion} children!");
 
-        int winner = root.BestChild(MyPlayerId);
-        Console.Error.WriteLine($"The winner node had {root.Children[winner].TimesPulled} pulls, rating: {root.RateChild(winner,MyPlayerId)}");
-        foreach (Move m in root.Moves[winner])
-            Console.Error.Write($"{m}, ");
-        Console.Error.WriteLine($"this move makes {root.MoveSenses[winner]} sense");
-        return root.Moves[winner].ElementAt(MyPlayerId);
+        Move m = root.PickMove(MyPlayerId);
+        if (m.bomb)
+        {
+            Console.Error.WriteLine($"it has {board.BoxesInRange(board.players[MyPlayerId].position, (int)board.players[MyPlayerId].param2)}");
+        }
+        return m;
     }
 
-    void BackUp(MCTNode v, int[] scores)
+    void BackUp(MCTNode v, float[] scores)
     {
         while (v != null)
         {
             v.TimesPulled++;
+            bool killed = false;
             for (int i = 0; i < scores.Length; i++)
             {
-                v.scores[i] += scores[i];
+
+                if (scores[i] < 0 && !killed)
+                {
+                    v.kills++;
+                    killed = true;
+                    break;
+                }
             }
+            if (!killed)
+                for (int i = 0; i < scores.Length; i++)
+                {
+                    v.scores[i] += scores[i];
+                }
+
             v = v.Parent;
         }
     }
 
     MCTNode TreePolicy(MCTNode v, Board curBoard)
     {
-        List<Move> movvs = new List<Move>();
-
         MCTNode cur = v;
-        int time = curBoard.timer;
+
         while (!curBoard.Terminal) //"v is not terminal"
         {
             if (!cur.FullyExpanded)
             {
-                try
-                {
-                    MCTNode res =  cur.Expand(curBoard);
-                    return res;
-                }
-                catch (Exception e)
-                {
-                    Console.Error.WriteLine("-----I think----");
-                    Console.Error.WriteLine(curBoard);
-                    Console.Error.WriteLine("-----Node thinks----");
-                    Console.Error.WriteLine(cur.Board);
-                    throw e;
-                }
+                return cur.Expand(curBoard);
             }
             else
             {
                 int winner = cur.BestChild(MyPlayerId);
                 whomoves = 2;
-                try
-                {
-                    curBoard.Move(cur.Moves[winner]);
-                }
-                catch(Exception e)
-                {
-                    Console.Error.WriteLine("Moves:");
-                    foreach (Move move in movvs)
-                        Console.Error.WriteLine("movvs");
-                    Console.Error.WriteLine("-----I think----");
-                    Console.Error.WriteLine(curBoard);
-                    Console.Error.WriteLine("-----Node thinks----");
-                    Console.Error.WriteLine(cur.Board);
-                    throw e;
-                }
-                foreach (Move move in cur.Moves[winner])
-                    movvs.Add(move);
+                curBoard.Move(cur.Moves[winner]);
                 cur = cur.Children[winner];
             }
         }
         return cur;
     }
 
-
-    int[] DefaultPolicy(Board curBoard)
+    int d = 0;
+    float[] DefaultPolicy(Board curBoard)
     {
+        //Console.Error.WriteLine($"SIM at board {curBoard}");
+        d = 0;
         int remBoxes = curBoard.remainingBoxes;
         int time = curBoard.timer;
-        while (curBoard.remainingBoxes > remBoxes * 0.9 && !curBoard.Terminal && curBoard.timer - time < 32)
+        float[] scores = new float[curBoard.playersAmm];
+        for (int i = 0; i < curBoard.playersAmm; i++)
+        {
+            if (curBoard.players[i].empty)
+            {
+                scores[i] = -100;
+            }
+            else
+            {
+                scores[i] += curBoard.scores[i] * 0.1f;
+                scores[i] += (curBoard.Movements(curBoard.players[i].position).Count() - 1) * 3;
+                double b = 0;
+                Point p = curBoard.players[i].position;
+                for (int r = 1; r < 4; r++)
+                {
+                    for (int a = 0; a <= r; a++)
+                    {
+                        int x = p.x + a,
+                            y = p.y + (r - a);
+                        if (curBoard.Grid.InBounds(x, y) && !curBoard.Grid[x, y].empty)
+                        {
+
+                            if (curBoard.players[i].param1 > 0 && curBoard.Grid[x, y].type == 3 && curBoard.Grid[x, y].param1 < 15)
+                                b += 0.5 / (r * r + 2);
+                            else if (curBoard.Grid[x, y].type == 2)
+                                b += 3 / (r * r + 1);
+                        }
+                        x = p.x + a;
+                        y = p.y - (r - a);
+                        if (curBoard.Grid.InBounds(x, y) && !curBoard.Grid[x, y].empty)
+                        {
+
+                            if (curBoard.players[i].param1 > 0 && curBoard.Grid[x, y].type == 3 && curBoard.Grid[x, y].param1 < 15)
+                                b += 0.5 / (r * r + 2);
+                            else if (curBoard.Grid[x, y].type == 2)
+                                b += 3 / (r * r + 1);
+                        }
+                        x = p.x - a;
+                        y = p.y + (r - a);
+                        if (curBoard.Grid.InBounds(x, y) && !curBoard.Grid[x, y].empty)
+                        {
+
+                            if (curBoard.players[i].param1 > 0 && curBoard.Grid[x, y].type == 3 && curBoard.Grid[x, y].param1 < 15)
+                                b += 0.5 / (r * r + 2);
+                            else if (curBoard.Grid[x, y].type == 2)
+                                b += 3 / (r * r + 1);
+                        }
+                        x = p.x - a;
+                        y = p.y - (r - a);
+                        if (curBoard.Grid.InBounds(x, y) && !curBoard.Grid[x, y].empty)
+                        {
+
+                            if (curBoard.players[i].param1 > 0 && curBoard.Grid[x, y].type == 3 && curBoard.Grid[x, y].param1 < 15)
+                                b += 0.5 / (r * r + 2);
+                            else if (curBoard.Grid[x, y].type == 2)
+                                b += 3 / (r * r + 1);
+                        }
+                    }
+                }
+                //Console.Error.WriteLine($"B value of {i} = {b} at time {curBoard.timer} ");
+                scores[i] += (float)b;
+                scores[i] += curBoard.upgrades[i] * 0.8f;
+            }
+        }
+
+        // -----------------------------------------
+        // SIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIM!
+        //------------------------------------------
+        while (curBoard.remainingBoxes > remBoxes * 0.8 && !curBoard.Terminal && curBoard.timer - time < 9)
         {
             curBoard.RandomMove();
+            d++;
         }
-        //Console.WriteLine($"----after sim for {curBoard.timer - time}----");
-        //Console.WriteLine($"remBoxes * 0.9 = {remBoxes * 0.9}, remaining: {curBoard.remainingBoxes}");
-        for(int i = 0; i < board.playersAmm; i++)
+
+        for (int i = 0; i < curBoard.playersAmm; i++)
         {
-            //Console.Error.WriteLine($"player {i} has score {curBoard.scores[i]}, upgrades {board.upgrades[i]}");
-            curBoard.scores[i] += board.upgrades[i]*20;
+            if (curBoard.players[i].empty && scores[i] >= 0)
+            {
+                //Console.Error.Write($"sim kills {i}");
+                scores[i] = -0.001f;
+            }
+            else
+            {
+                scores[i] += curBoard.upgrades[i] * 0.4f;
+                scores[i] += curBoard.scores[i] * 0.05f;
+            }
         }
-        return curBoard.scores;
+        //foreach (float s in scores)
+        //    Console.Error.Write($"[{s}]");
+        //Console.Error.WriteLine();
+        //Console.Error.WriteLine($"after {d} steps Returning scores {scores[0]}, {scores[1]}");
+        return scores;
     }
-    
+
 }
 
 class MCTNode
 {
+    public int kills = 0;
     public IEnumerable<Move>[] Moves;
     public int ChildrenCount;
     public MCTNode[] Children;
@@ -1070,43 +1077,118 @@ class MCTNode
     public bool FullyExpanded { get { return expansion == ChildrenCount; } }
     public int TimesPulled;
     public int[] MoveSenses;
+    public bool lethal { get { return kills == TimesPulled; } }
 
     //mean score of a single player in this Node's state
     public float MeanScoreOfPlayer(int which)
     {
-        return ((float)scores[which]) / TimesPulled;
+        if (TimesPulled != kills)
+            return ((float)scores[which]) / (TimesPulled - kills);
+        else return 0;
     }
 
-    public int[] scores;
+    public float[] scores;
     public int expansion;
+
+    public Move PickMove(int playerID)
+    {
+        int last = -1;
+        Move[] possibilities = new Move[10];
+        float[] finalRatings = new float[10];
+        int[] occurences = new int[10];
+        float[] kills = new float[10];
+        for (int i = 0; i < ChildrenCount; i++)
+        {
+            if (MoveSenses[i] > 0 && Children[i] != null)
+            {
+                Move m = Moves[i].ElementAt(playerID);
+                bool found = false;
+                for (int j = 0; j <= last; j++)
+                    if (possibilities[j] == m)
+                    {
+                        found = true;
+                        if (!Children[i].lethal)
+                            finalRatings[j] += Children[i].scores[playerID];
+                        occurences[j] += Children[i].TimesPulled - Children[i].kills;
+                        kills[j] += Children[i].kills;
+
+                        break;
+                    }
+                if (!found)
+                {
+                    //if (possibilities.Contains(m))
+                    //    Console.Error.WriteLine($"I'm disapppoint, {m} already in");
+                    last++;
+                    possibilities[last] = m;
+                    occurences[last] = Children[i].TimesPulled - Children[i].kills;
+                    if (!Children[i].lethal)
+                        finalRatings[last] = Children[i].scores[playerID];
+                    else
+                        finalRatings[last] = 0;
+                    kills[last] += Children[i].kills;
+                    //Console.Error.Write($"{m} at {i} = {RateChild(i, playerID)}  ");
+                    //for (int x = 0; x < scores.Length; x++)
+                    //    Console.Error.Write($"[{Children[i].MeanScoreOfPlayer(x)}]");
+                }
+            }
+        }
+        int maxi = -1;
+        float max = -1000;
+        for (int i = 0; i <= last; i++)
+        {
+            float rating = finalRatings[i] / occurences[i];
+            if (occurences[i] == 0)
+                rating = -66666666;
+            Console.Error.WriteLine($"{possibilities[i]} is rated {rating}, killed {kills[i]}, occured {occurences[i]}");
+            if (rating > max)
+            {
+                max = rating;
+                maxi = i;
+            }
+        }
+        if (maxi < 0)
+        {
+            Console.Error.WriteLine("We're dead anyway");
+            maxi = 0; //we're dead anyway
+        }
+
+        return possibilities[maxi];
+    }
 
     public MCTNode Expand(Board board)
     {
-        MCT.whomoves = 3;
-        board.Move(Moves[expansion]); //state(newChild) = f(state(this), move);
-        
 
-        Children[expansion] = new MCTNode(board, this); 
+        board.Move(Moves[expansion]); //state(newChild) = f(state(this), move);
+
+        Children[expansion] = new MCTNode(board, this, MoveSenses[expansion] == 0);
         expansion++;
+
         return Children[expansion - 1];
     }
+
 
     public float RateChild(int i, int playerID)
     {
         float myScore = Children[i].MeanScoreOfPlayer(playerID);
-        float theirScore = 0;
-        float maxEnemy = 0;
+        //float theirScore = 0;
+        float maxEnemy = float.MinValue;
+        //float totalScore = 0;
         for (int j = 0; j < scores.Length; j++)
         {
+
+            //totalScore += Children[i].MeanScoreOfPlayer(j);
             if (j != playerID)
             {
-                theirScore += Children[i].MeanScoreOfPlayer(j);
+                //theirScore += Children[i].MeanScoreOfPlayer(j);
                 if (Children[i].MeanScoreOfPlayer(j) > maxEnemy)
                     maxEnemy = Children[i].MeanScoreOfPlayer(j);
             }
         }
-        theirScore /= scores.Length - 1;
-        return (myScore - maxEnemy) * theirScore / (Math.Abs(myScore - theirScore) + 10);
+        // theirScore /= scores.Length - 1;
+        // if (theirScore > 0 && totalScore > 0)
+        //     return (myScore - maxEnemy) * (1 + theirScore / totalScore);
+
+        return (myScore - maxEnemy);
     }
 
     public int BestChild(int playerID)
@@ -1117,12 +1199,15 @@ class MCTNode
         {
             if (Children[i] != null)
             {
-
-                float score = 2000 + RateChild(i, playerID);
-                if (score < 0)
-                    throw new Exception("less!!!!");
-                score += MCT.explorationRate * (float)Math.Sqrt(2 * Math.Log(TimesPulled) / Children[i].TimesPulled);
-                    score *= MoveSenses[i];
+                float score;
+                if (MoveSenses[i] == 0)
+                    score = -5000;
+                else
+                {
+                    score = 100 + RateChild(i, playerID);
+                    score += MCT.explorationRate * (float)Math.Sqrt(2 * Math.Log(TimesPulled) / Children[i].TimesPulled);
+                    score *= 1 + (float)MoveSenses[i] / 4;
+                }
                 if (score > bestScore)
                 {
                     bestScore = score;
@@ -1133,24 +1218,36 @@ class MCTNode
         return theOne;
     }
 
-    public Board Board;
-    public MCTNode(Board board, MCTNode par)
+    public MCTNode(Board board, MCTNode par, bool trash = false)
     {
-        Board = board.Copy();
+        if (trash)
+        {
+            Parent = par;
+            scores = new float[board.playersAmm];
+            return;
+        }
         Moves = board.LegalMoves().OrderBy(x => MCT.random.Next()).ToArray();
         MoveSenses = new int[Moves.Count()];
         for (int i = 0; i < Moves.Count(); i++)
         {
+            bool freeze = false;
             MoveSenses[i] = 4096;
             int player = 0;
-            foreach(Move m in Moves[i])
+            foreach (Move m in Moves[i])
             {
                 if (m.bomb)
                     MoveSenses[i] = Math.Min(MoveSenses[i], board.BoxesInRange(board.players[player].position, (int)board.players[player].param2));
+                if (m.destination == board.players[player].position)
+                {
+                    freeze = true;
+                }
                 player++;
+
             }
             if (MoveSenses[i] == 4096)
                 MoveSenses[i] = 1;
+            if (!freeze)
+                MoveSenses[i] *= 8;
         }
         ChildrenCount = Moves.Length;
 
@@ -1158,7 +1255,7 @@ class MCTNode
         Parent = par;
         TimesPulled = 0;
         expansion = 0;
-        scores = new int[board.playersAmm];
+        scores = new float[board.playersAmm];
     }
 }
 
@@ -1214,63 +1311,63 @@ struct Entity : IEquatable<Entity>
         }
     }
 
-    public uint extra // 0-2047 bits 30 to 20
+    public uint extra // 0-1023 bits 30 to 21
     {
         get
         {
-            return (_val << 1) >> 21;
+            return (_val << 1) >> 22;
         }
         set
         {
-            if (value > 2047)
-                throw new Exception("extra is 0-2047");
-            _val &= ~((uint)2047 << 20);
-            _val |= value << 20;
+            if (value > 1023)
+                throw new Exception("extra is 0-1023");
+            _val &= ~((uint)1023 << 21);
+            _val |= value << 21;
         }
     }
 
-    public bool empty //0-1, bit 19
+    public bool empty //0-1, bit 20
     {
         //0 is empty
         get
         {
-            return 0 == ((_val << 12) >> 31);
+            return 0 == ((_val << 11) >> 31);
         }
         set
         {
             if (value)
-                _val &= ~(uint)(1 << 19);
+                _val &= ~(uint)(1 << 20);
             else
-                _val |= (1 << 19);
+                _val |= (1 << 20);
         }
     }
    
-    public uint yPos // 0-15, bits 18 to 15
+    public uint yPos // 0-15, bits 19 to 16
     {
         get
         {
-            return (_val << 13) >> 28;
+            return (_val << 12) >> 28;
         }
         set
         {
             if (value > 15)
                 throw new Exception("ypos is 0-15");
-            _val &= ~(uint)(15 << 15);
-            _val |= value << 15;
+            _val &= ~(uint)(15 << 16);
+            _val |= value << 16;
         }
     }
-    public uint xPos // 0-15, bits 14 to 11
+    public uint xPos // 0-15, bits 15 to 12
     {
         get
         {
-            return (_val << 17) >> 28;
+            return (_val << 16) >> 28;
         }
         set
         {
             if (value > 15)
                 throw new Exception("xpos is 0-15");
-            _val &= ~(uint)(15 << 11);
-            _val |= value << 11;
+            _val &= ~(uint)(15 << 12);
+            _val |= value << 12;
         }
     }
 
@@ -1278,35 +1375,35 @@ struct Entity : IEquatable<Entity>
     /// 0 is player, 1 is bomb, 2 is item, 3 is box
     /// </summary>
     ///
-    public uint type // 0-3, bits 10 to 9
+    public uint type // 0-3, bits 11 to 10
     {
         get
         {
-            return (_val << 21) >> 30;
+            return (_val << 20) >> 30;
         }
         set
         {
             if (value > 3)
                 throw new Exception("type is 0-3");
-            _val &= ~(uint)(3 << 9);
-            _val |= value << 9;
+            _val &= ~(uint)(3 << 10);
+            _val |= value << 10;
         }
     }
 
     /// <summary>
     /// id of the player/player who put the bomb
     /// </summary>
-    public uint owner // 0-1, 8th bit
+    public uint owner // 0-3, bits 9 to 8
     {
         get
         {
-            return (_val << 23) >> 31;
+            return (_val << 22) >> 30;
         }
         set
         {
-            if (value > 1)
+            if (value > 3)
                 throw new Exception("owner is 0-1");
-            _val &= ~(uint)(1 << 8);
+            _val &= ~(uint)(3 << 8);
             _val |= value << 8;
         }
     }
@@ -1323,7 +1420,9 @@ struct Entity : IEquatable<Entity>
         set
         {
             if (value > 15)
-                throw new Exception("param1 is 0-15");
+            {
+                throw new Exception($"param1 is 0-15, not {value} for {this}");
+            }
             _val &= ~(uint)(15 << 4);
             _val |= value << 4;
         }
@@ -1364,7 +1463,7 @@ struct Entity : IEquatable<Entity>
             t = "(empty)";
         if (isExtra)
             t += "(extra)";
-        if (extra != 2047)
+        if (extra != 1023)
             t += $"(ptr {extra})";
         switch(type)
         {
@@ -1525,7 +1624,9 @@ class Grid
                     builder.Append(".");
                 else if (this[j, i].type == 3)
                 {
-                    builder.Append(this[j, i].param1);
+                    if (this[j, i].param1 < 15)
+                        builder.Append(this[j, i].param1);
+                    else builder.Append("X");
                 }
                 else if (this[j, i].type == 1)
                 {
@@ -1587,11 +1688,14 @@ class Grid
             {
                 t.empty = false;
                 t.type = 3;
-                t.param1 = (uint)(row[i] - 48);
+                int item = (row[i] - 48);
+                if (item > 15)
+                    item = 15;
+                t.param1 = (uint)item;
                 t.xPos = (uint)i;
                 t.yPos = (uint)which;
                 t.owner = 0;
-                t.extra = 2047;
+                t.extra = 1023;
                 t.isExtra = false;
                 t.param2 = 0;
             }

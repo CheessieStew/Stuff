@@ -56,63 +56,63 @@ struct Entity : IEquatable<Entity>
         }
     }
 
-    public uint extra // 0-2047 bits 30 to 20
+    public uint extra // 0-1023 bits 30 to 21
     {
         get
         {
-            return (_val << 1) >> 21;
+            return (_val << 1) >> 22;
         }
         set
         {
-            if (value > 2047)
-                throw new Exception("extra is 0-2047");
-            _val &= ~((uint)2047 << 20);
-            _val |= value << 20;
+            if (value > 1023)
+                throw new Exception("extra is 0-1023");
+            _val &= ~((uint)1023 << 21);
+            _val |= value << 21;
         }
     }
 
-    public bool empty //0-1, bit 19
+    public bool empty //0-1, bit 20
     {
         //0 is empty
         get
         {
-            return 0 == ((_val << 12) >> 31);
+            return 0 == ((_val << 11) >> 31);
         }
         set
         {
             if (value)
-                _val &= ~(uint)(1 << 19);
+                _val &= ~(uint)(1 << 20);
             else
-                _val |= (1 << 19);
+                _val |= (1 << 20);
         }
     }
    
-    public uint yPos // 0-15, bits 18 to 15
+    public uint yPos // 0-15, bits 19 to 16
     {
         get
         {
-            return (_val << 13) >> 28;
+            return (_val << 12) >> 28;
         }
         set
         {
             if (value > 15)
                 throw new Exception("ypos is 0-15");
-            _val &= ~(uint)(15 << 15);
-            _val |= value << 15;
+            _val &= ~(uint)(15 << 16);
+            _val |= value << 16;
         }
     }
-    public uint xPos // 0-15, bits 14 to 11
+    public uint xPos // 0-15, bits 15 to 12
     {
         get
         {
-            return (_val << 17) >> 28;
+            return (_val << 16) >> 28;
         }
         set
         {
             if (value > 15)
                 throw new Exception("xpos is 0-15");
-            _val &= ~(uint)(15 << 11);
-            _val |= value << 11;
+            _val &= ~(uint)(15 << 12);
+            _val |= value << 12;
         }
     }
 
@@ -120,35 +120,35 @@ struct Entity : IEquatable<Entity>
     /// 0 is player, 1 is bomb, 2 is item, 3 is box
     /// </summary>
     ///
-    public uint type // 0-3, bits 10 to 9
+    public uint type // 0-3, bits 11 to 10
     {
         get
         {
-            return (_val << 21) >> 30;
+            return (_val << 20) >> 30;
         }
         set
         {
             if (value > 3)
                 throw new Exception("type is 0-3");
-            _val &= ~(uint)(3 << 9);
-            _val |= value << 9;
+            _val &= ~(uint)(3 << 10);
+            _val |= value << 10;
         }
     }
 
     /// <summary>
     /// id of the player/player who put the bomb
     /// </summary>
-    public uint owner // 0-1, 8th bit
+    public uint owner // 0-3, bits 9 to 8
     {
         get
         {
-            return (_val << 23) >> 31;
+            return (_val << 22) >> 30;
         }
         set
         {
-            if (value > 1)
+            if (value > 3)
                 throw new Exception("owner is 0-1");
-            _val &= ~(uint)(1 << 8);
+            _val &= ~(uint)(3 << 8);
             _val |= value << 8;
         }
     }
@@ -165,7 +165,9 @@ struct Entity : IEquatable<Entity>
         set
         {
             if (value > 15)
-                throw new Exception("param1 is 0-15");
+            {
+                throw new Exception($"param1 is 0-15, not {value} for {this}");
+            }
             _val &= ~(uint)(15 << 4);
             _val |= value << 4;
         }
@@ -206,7 +208,7 @@ struct Entity : IEquatable<Entity>
             t = "(empty)";
         if (isExtra)
             t += "(extra)";
-        if (extra != 2047)
+        if (extra != 1023)
             t += $"(ptr {extra})";
         switch(type)
         {
@@ -367,7 +369,9 @@ class Grid
                     builder.Append(".");
                 else if (this[j, i].type == 3)
                 {
-                    builder.Append(this[j, i].param1);
+                    if (this[j, i].param1 < 15)
+                        builder.Append(this[j, i].param1);
+                    else builder.Append("X");
                 }
                 else if (this[j, i].type == 1)
                 {
@@ -429,11 +433,14 @@ class Grid
             {
                 t.empty = false;
                 t.type = 3;
-                t.param1 = (uint)(row[i] - 48);
+                int item = (row[i] - 48);
+                if (item > 15)
+                    item = 15;
+                t.param1 = (uint)item;
                 t.xPos = (uint)i;
                 t.yPos = (uint)which;
                 t.owner = 0;
-                t.extra = 2047;
+                t.extra = 1023;
                 t.isExtra = false;
                 t.param2 = 0;
             }
