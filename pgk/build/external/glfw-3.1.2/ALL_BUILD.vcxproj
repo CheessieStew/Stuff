@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{A3F3A777-1005-3689-B23A-3C1F7E38A195}</ProjectGUID>
+    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+    <PropertyGroup>
+      <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/Documents/GitHub/Stuff/pgk/external/glfw-3.1.2/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/Documents/GitHub/Stuff/pgk -BD:/Documents/GitHub/Stuff/pgk/build --check-stamp-file D:\Documents\GitHub\Stuff\pgk\build\external\glfw-3.1.2\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/Documents/GitHub/Stuff/pgk/external/glfw-3.1.2/CMakeLists.txt;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\CMakeLists.txt;C:\Program Files\CMake\share\cmake-3.7\Modules\FindOpenGL.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindThreads.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckLibraryExists.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindDoxygen.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\WriteBasicConfigVersionFile.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\src\glfw3Config.cmake.in;C:\Program Files\CMake\share\cmake-3.7\Modules\BasicConfigVersion-SameMajorVersion.cmake.in;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\docs\Doxyfile.in;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\src\glfw_config.h.in;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\src\glfw3.pc.in;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\cmake_uninstall.cmake.in;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Documents\GitHub\Stuff\pgk\build\external\glfw-3.1.2\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/Documents/GitHub/Stuff/pgk/external/glfw-3.1.2/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/Documents/GitHub/Stuff/pgk -BD:/Documents/GitHub/Stuff/pgk/build --check-stamp-file D:\Documents\GitHub\Stuff\pgk\build\external\glfw-3.1.2\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/Documents/GitHub/Stuff/pgk/external/glfw-3.1.2/CMakeLists.txt;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\CMakeLists.txt;C:\Program Files\CMake\share\cmake-3.7\Modules\FindOpenGL.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindThreads.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckLibraryExists.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindDoxygen.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\WriteBasicConfigVersionFile.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\src\glfw3Config.cmake.in;C:\Program Files\CMake\share\cmake-3.7\Modules\BasicConfigVersion-SameMajorVersion.cmake.in;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\docs\Doxyfile.in;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\src\glfw_config.h.in;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\src\glfw3.pc.in;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\cmake_uninstall.cmake.in;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Documents\GitHub\Stuff\pgk\build\external\glfw-3.1.2\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/Documents/GitHub/Stuff/pgk/external/glfw-3.1.2/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/Documents/GitHub/Stuff/pgk -BD:/Documents/GitHub/Stuff/pgk/build --check-stamp-file D:\Documents\GitHub\Stuff\pgk\build\external\glfw-3.1.2\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/Documents/GitHub/Stuff/pgk/external/glfw-3.1.2/CMakeLists.txt;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\CMakeLists.txt;C:\Program Files\CMake\share\cmake-3.7\Modules\FindOpenGL.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindThreads.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckLibraryExists.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindDoxygen.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\WriteBasicConfigVersionFile.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\src\glfw3Config.cmake.in;C:\Program Files\CMake\share\cmake-3.7\Modules\BasicConfigVersion-SameMajorVersion.cmake.in;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\docs\Doxyfile.in;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\src\glfw_config.h.in;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\src\glfw3.pc.in;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\cmake_uninstall.cmake.in;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Documents\GitHub\Stuff\pgk\build\external\glfw-3.1.2\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/Documents/GitHub/Stuff/pgk/external/glfw-3.1.2/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/Documents/GitHub/Stuff/pgk -BD:/Documents/GitHub/Stuff/pgk/build --check-stamp-file D:\Documents\GitHub\Stuff\pgk\build\external\glfw-3.1.2\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/Documents/GitHub/Stuff/pgk/external/glfw-3.1.2/CMakeLists.txt;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\CMakeLists.txt;C:\Program Files\CMake\share\cmake-3.7\Modules\FindOpenGL.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindThreads.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckLibraryExists.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckSymbolExists.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CheckIncludeFile.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindDoxygen.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakePackageConfigHelpers.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\WriteBasicConfigVersionFile.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\src\glfw3Config.cmake.in;C:\Program Files\CMake\share\cmake-3.7\Modules\BasicConfigVersion-SameMajorVersion.cmake.in;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\docs\Doxyfile.in;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\src\glfw_config.h.in;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\src\glfw3.pc.in;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\cmake_uninstall.cmake.in;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Documents\GitHub\Stuff\pgk\build\external\glfw-3.1.2\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/ZERO_CHECK.vcxproj">
+      <Project>5B1B6A6A-1705-31E2-B4AC-3339CB6E25EA</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/examples/boing.vcxproj">
+      <Project>96A1DFE7-2A6E-3A51-91D8-F76C55C5B205</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/tests/clipboard.vcxproj">
+      <Project>0CF24AE8-2575-3615-9C76-19C6A2BFFC57</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/tests/cursor.vcxproj">
+      <Project>018FE294-816B-33AE-9D8F-658A6C258907</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/tests/empty.vcxproj">
+      <Project>500B6288-1B98-3DD4-981B-A71EC7C19B9E</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/tests/events.vcxproj">
+      <Project>683012A6-71A6-3A4B-80FC-7ED164785904</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/tests/gamma.vcxproj">
+      <Project>3995EBD5-D4AD-3388-BE91-598AC146F921</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/examples/gears.vcxproj">
+      <Project>9195F926-12BF-35CB-B39F-CC5E3DF77267</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/src/glfw.vcxproj">
+      <Project>831163D4-BCE2-38FF-8C84-F7B763341DF3</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/tests/glfwinfo.vcxproj">
+      <Project>BCCEDE2C-1FAF-3458-8D5C-F1665ACFBCC3</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/examples/heightmap.vcxproj">
+      <Project>DDB550A6-1516-366E-BD9B-46FF80324840</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/tests/iconify.vcxproj">
+      <Project>08CAD4CC-F8A2-31E5-AD9E-AD4BAC2A2970</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/tests/joysticks.vcxproj">
+      <Project>DF6D5FBF-4582-3823-8600-0846F325171D</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/tests/monitors.vcxproj">
+      <Project>58EBC76B-3BF1-3E57-9032-52001A7968C5</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/tests/msaa.vcxproj">
+      <Project>4AC2C91E-0CB3-3C4B-B0D5-2A4F651FB5B5</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/examples/particles.vcxproj">
+      <Project>012FD99D-69C0-3ABE-834F-C88E7942575E</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/tests/reopen.vcxproj">
+      <Project>6AD3D723-6799-3BCB-A31A-9923DD1770C9</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/tests/sharing.vcxproj">
+      <Project>7ECDF2C3-5801-39B9-BF82-F9373A52A333</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/examples/simple.vcxproj">
+      <Project>17ADCF1E-1560-3F8E-A3B0-63505C33F587</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/examples/splitview.vcxproj">
+      <Project>6BE469CD-016E-3552-A911-012EB798684A</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/tests/tearing.vcxproj">
+      <Project>83AE9163-F65C-3416-B3AC-5843882A61B6</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/tests/threads.vcxproj">
+      <Project>8D4089FB-D2D6-38B2-812D-7D0A11129057</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/tests/title.vcxproj">
+      <Project>C7E75D8A-1504-35FC-A760-D47569D6B054</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/examples/wave.vcxproj">
+      <Project>E8B55EE3-69DA-33F2-8914-5EA6D52712E1</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/tests/windows.vcxproj">
+      <Project>D1764686-2FD9-34CB-9F60-EF7C5AD109F6</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,23 @@
+﻿  Building Custom Rule D:/Documents/GitHub/Stuff/pgk/CMakeLists.txt
+  CMake does not need to re-run because D:\Documents\GitHub\Stuff\pgk\build\CMakeFiles\generate.stamp is up-to-date.
+  zad4.cpp
+  shader.cpp
+  objloader.cpp
+  texture.cpp
+  model.cpp
+  utilities.cpp
+  graphics.cpp
+D:\Documents\GitHub\Stuff\pgk\zad4\utilities.cpp(8): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad4\utilities.cpp(13): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad4\utilities.cpp(18): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad4\utilities.cpp(23): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad4\graphics.cpp(8): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'unsigned __int64'
+  D:\Documents\GitHub\Stuff\pgk\zad4\graphics.cpp(8): note: consider using '%zd' in the format string
+D:\Documents\GitHub\Stuff\pgk\zad4\graphics.cpp(20): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad4\zad4.cpp(97): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad4\zad4.cpp(133): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad4\zad4.cpp(142): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad4\zad4.cpp(143): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad4\zad4.cpp(145): warning C4305: '=': truncation from 'double' to 'float'
+D:\Documents\GitHub\Stuff\pgk\zad4\zad4.cpp(147): warning C4305: '=': truncation from 'double' to 'float'
+  zad4.vcxproj -> D:\Documents\GitHub\Stuff\pgk\build\Release\zad4.exe

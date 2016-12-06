@@ -1,6 +1,6 @@
 
 cmake_minimum_required (VERSION 2.6)
-project (PGK_zad_3)
+project (PGK_zad_4)
 
 find_package(OpenGL REQUIRED)
 
@@ -51,26 +51,33 @@ add_definitions(
 	-D_CRT_SECURE_NO_WARNINGS
 )
 
-# zad3
-add_executable(zad3
-	zad3/zad3.cpp
+# zad4
+add_executable(zad4
+	zad4/zad4.cpp
 	common/shader.cpp
 	common/shader.hpp
-	zad3/model.cpp
-	zad3/model.hpp
-	zad3/utilities.cpp
-	zad3/utilities.hpp
-
-	zad3/FragmentShader.fragmentshader
-	zad3/VertexShader.vertexshader
+	common/objloader.cpp
+	common/objloader.hpp
+	common/texture.cpp
+	common/texture.hpp
+	zad4/model.cpp
+	zad4/model.hpp
+	zad4/utilities.cpp
+	zad4/utilities.hpp
+	zad4/graphics.cpp
+	zad4/graphics.hpp
+	zad4/BubbleFragmentShader.fragmentshader
+	zad4/DefaultFragmentShader.fragmentshader
+	zad4/FishFragmentShader.fragmentshader
+	zad4/VertexShader.vertexshader
 )
-target_link_libraries(zad3
+target_link_libraries(zad4
 	${ALL_LIBS}
 )
 # Xcode and Visual working directories
-set_target_properties(zad3 PROPERTIES XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/zad3/")
-create_target_launcher(zad3 WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/zad3/")
-create_default_target_launcher(zad3 WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/zad3/")
+set_target_properties(zad4 PROPERTIES XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/zad4/")
+create_target_launcher(zad4 WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/zad4/")
+create_default_target_launcher(zad4 WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/zad4/")
 
 
 
@@ -89,8 +96,8 @@ SOURCE_GROUP(shaders REGULAR_EXPRESSION ".*/.*shader$" )
 if (NOT ${CMAKE_GENERATOR} MATCHES "Xcode" )
 
 add_custom_command(
-   TARGET zad3 POST_BUILD
-   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/zad3${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_SOURCE_DIR}/zad3/"
+   TARGET zad4 POST_BUILD
+   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/zad4${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_SOURCE_DIR}/zad4/"
 )
 
 
