@@ -10,6 +10,18 @@
 #include <common/shader.hpp>
 #include "model.hpp"
 
+
+class Light
+{
+public:
+	glm::vec3 position;
+	glm::vec3 color;
+	float intensity;
+	Light(GameObject &emitter, glm::vec3 offset, float power);
+	Light();
+};
+
+
 class Model3d
 {
 	std::vector<glm::vec3> vertices;
@@ -31,5 +43,5 @@ public:
 	GameObject& Object;
 	GLuint Shader;
 	GameObject3d(GameObject& obj, GLuint s, GLuint tex, Model3d& m3d);
-	void Draw(const glm::mat4 * view, const glm::mat4 * projection, glm::vec3 camPos);
+	void Draw(const glm::mat4 * view, const glm::mat4 * projection, glm::vec3 camPos, Light* lights, int lightsAmm);
 };

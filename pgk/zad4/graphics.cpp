@@ -1,5 +1,20 @@
 #include "graphics.hpp"
 
+
+Light::Light(GameObject &emitter, glm::vec3 offset, float power)
+{
+	color = glm::normalize(emitter.material.emissive);
+	intensity = power;
+	glm::vec4 rotatedOffset = emitter.rotation * glm::vec4(offset.x, offset.y, offset.z, 1);
+	position = emitter.position + glm::vec3(rotatedOffset.x, rotatedOffset.y, rotatedOffset.z);
+}
+
+Light::Light()
+{
+	color = glm::vec3(1, 1, 1);
+	intensity = 100;
+}
+
 Model3d::Model3d(const char* path)
 {	
 	bool res = loadOBJ(path, vertices, uvs, normals);
@@ -25,8 +40,6 @@ int Model3d::Size()
 
 
 
-
-
 GameObject3d::GameObject3d(GameObject & obj, GLuint s, GLuint tex, Model3d & m3d) :
 	Texture(tex),
 	Shader(s),
@@ -35,7 +48,7 @@ GameObject3d::GameObject3d(GameObject & obj, GLuint s, GLuint tex, Model3d & m3d
 {
 }
 
-void GameObject3d::Draw(const glm::mat4 * view, const glm::mat4 * projection, glm::vec3 camPos)
+void GameObject3d::Draw(const glm::mat4 * view, const glm::mat4 * projection, glm::vec3 camPos, Light* lights, int lightsAmm)
 {
 	glUseProgram(Shader);
 
@@ -50,6 +63,37 @@ void GameObject3d::Draw(const glm::mat4 * view, const glm::mat4 * projection, gl
 	GLuint OpacityID = glGetUniformLocation(Shader, "opacity"); //float
 	GLuint SpecularID = glGetUniformLocation(Shader, "specularity"); //vec3
 	GLuint TintID = glGetUniformLocation(Shader, "tint"); //vec3
+
+	GLuint LightPositionsID = glGetUniformLocation(Shader, "pointLightPositions"); //vec3[21]
+	GLuint LightColorsID = glGetUniformLocation(Shader, "pointLightColors"); //vec3[21]
+	GLuint LightIntensitiesID = glGetUniformLocation(Shader, "pointLightIntensities"); //float[21]
+	GLuint LightsAmmountID = glGetUniformLocation(Shader, "pointLightsAmmount"); //int
+
+	static float auxarr[21*3];
+	for (int i = 0; i < lightsAmm; i++)
+	{
+		auxarr[3 * i] = lights[i].position.x;
+		auxarr[3 * i + 1] = lights[i].position.y;
+		auxarr[3 * i + 2] = lights[i].position.z;
+	}
+	glUniform3fv(LightPositionsID, lightsAmm, auxarr);
+
+	for (int i = 0; i < lightsAmm; i++)
+	{
+		auxarr[3 * i] = lights[i].color.r;
+		auxarr[3 * i + 1] = lights[i].color.g;
+		auxarr[3 * i + 2] = lights[i].color.b;
+	}
+	glUniform3fv(LightColorsID, lightsAmm, auxarr);
+
+	for (int i = 0; i < lightsAmm; i++)
+	{
+		auxarr[i] = lights[i].intensity;
+	}
+	glUniform1fv(LightIntensitiesID, lightsAmm, auxarr);
+
+	glUniform1i(LightsAmmountID, lightsAmm);
+
 	glm::vec3 position = Object.position;
 	position.x = position.x;
 	glm::mat4 translation = glm::translate(glm::mat4(1.f),position);

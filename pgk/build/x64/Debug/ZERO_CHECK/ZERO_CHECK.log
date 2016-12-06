@@ -1,7 +1,6 @@
-﻿  Checking Build System
-  CMake does not need to re-run because D:/Documents/GitHub/Stuff/pgk/build/CMakeFiles/generate.stamp is up-to-date.
-  CMake does not need to re-run because D:/Documents/GitHub/Stuff/pgk/build/external/CMakeFiles/generate.stamp is up-to-date.
-  CMake does not need to re-run because D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/CMakeFiles/generate.stamp is up-to-date.
-  CMake does not need to re-run because D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/src/CMakeFiles/generate.stamp is up-to-date.
-  CMake does not need to re-run because D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/examples/CMakeFiles/generate.stamp is up-to-date.
-  CMake does not need to re-run because D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/tests/CMakeFiles/generate.stamp is up-to-date.
+﻿C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(995,5): error MSB3191: Unable to create directory "D:\Documents\GitHub\Stuff\pgk\build\CMakeFiles\". Could not find a part of the path 'D:\Documents\GitHub\Stuff\pgk\build\CMakeFiles\'.
+C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(995,5): error MSB3191: Unable to create directory "D:\Documents\GitHub\Stuff\pgk\build\external\CMakeFiles\". Could not find a part of the path 'D:\Documents\GitHub\Stuff\pgk\build\external\CMakeFiles\'.
+C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(995,5): error MSB3191: Unable to create directory "D:\Documents\GitHub\Stuff\pgk\build\external\glfw-3.1.2\CMakeFiles\". Could not find a part of the path 'D:\Documents\GitHub\Stuff\pgk\build\external\glfw-3.1.2\CMakeFiles\'.
+C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(995,5): error MSB3191: Unable to create directory "D:\Documents\GitHub\Stuff\pgk\build\external\glfw-3.1.2\src\CMakeFiles\". Could not find a part of the path 'D:\Documents\GitHub\Stuff\pgk\build\external\glfw-3.1.2\src\CMakeFiles\'.
+C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(995,5): error MSB3191: Unable to create directory "D:\Documents\GitHub\Stuff\pgk\build\external\glfw-3.1.2\examples\CMakeFiles\". Could not find a part of the path 'D:\Documents\GitHub\Stuff\pgk\build\external\glfw-3.1.2\examples\CMakeFiles\'.
+C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(995,5): error MSB3191: Unable to create directory "D:\Documents\GitHub\Stuff\pgk\build\external\glfw-3.1.2\tests\CMakeFiles\". Could not find a part of the path 'D:\Documents\GitHub\Stuff\pgk\build\external\glfw-3.1.2\tests\CMakeFiles\'.

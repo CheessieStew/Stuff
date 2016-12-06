@@ -4,3 +4,6 @@ D:\Documents\GitHub\Stuff\ai4g\kwidicz\kwidicz\bin\Debug\kwidicz.pdb
 D:\Documents\GitHub\Stuff\ai4g\kwidicz\kwidicz\obj\Debug\kwidicz.csprojResolveAssemblyReference.cache
 D:\Documents\GitHub\Stuff\ai4g\kwidicz\kwidicz\obj\Debug\kwidicz.exe
 D:\Documents\GitHub\Stuff\ai4g\kwidicz\kwidicz\obj\Debug\kwidicz.pdb
+E:\Git\Stuff\ai4g\kwidicz\kwidicz\bin\Debug\kwidicz.exe.config
+E:\Git\Stuff\ai4g\kwidicz\kwidicz\obj\Debug\kwidicz.exe
+E:\Git\Stuff\ai4g\kwidicz\kwidicz\obj\Debug\kwidicz.pdb

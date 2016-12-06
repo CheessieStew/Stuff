@@ -78,7 +78,7 @@ int main(int argc, char * argv[]) {
 	glfwSetCursorPos(window, 1024 / 2, 768 / 2);
 
 	// bright Background
-	glClearColor(0.1, 0.2, 0.3, 1.0f);
+	glClearColor(0.01, 0.02, 0.1, 1.0f);
 
 
 	glEnable(GL_LINE_SMOOTH);
@@ -104,7 +104,11 @@ int main(int argc, char * argv[]) {
 	GLuint DefaultTexture(loadDDS("default.DDS"));
 	GLuint BubbleTexture(loadDDS("bubble.DDS"));
 
-	Model3d FishModel(Model3d("fish.obj"));
+	Model3d FishModel(Model3d("anglerfish_body.obj"));
+	Model3d BulbModel(Model3d("anglerfish_bulb.obj"));
+	Model3d HornsModel(Model3d("anglerfish_horns.obj"));
+	Model3d EyesModel(Model3d("anglerfish_eyes.obj"));
+
 	Model3d BubbleModel(Model3d("bubble.obj"));
 	Model3d AquariumModel(Model3d("aquarium.obj"));
 
@@ -112,8 +116,15 @@ int main(int argc, char * argv[]) {
 	GLuint DefaultShader(LoadShaders("VertexShader.vert", "DefaultFragmentShader.frag"));
 	GLuint BestShaderEver(LoadShaders("VertexShader.vert", "BubbleFragmentShader.frag"));
 
+	vec3 playerLightRelative = vec3(0.062, 0.48, 1.49);
+
 	Aquarium aquarium = Aquarium(30,30,60);
-	GameObject3d player3d = GameObject3d(aquarium.player, BestShaderEver, DefaultTexture, FishModel);
+	aquarium.maxBubbleLights = 20;
+	Light pointLights[21];
+	GameObject3d player3d = GameObject3d(aquarium.playerBody, BestShaderEver, DefaultTexture, FishModel);
+	GameObject3d playerHorns3d = GameObject3d(aquarium.playerHorns, BestShaderEver, DefaultTexture, HornsModel);
+	GameObject3d playerEyes3d = GameObject3d(aquarium.playerEyes, BestShaderEver, DefaultTexture, EyesModel);
+	GameObject3d playerBulb3d = GameObject3d(aquarium.playerBulb, BestShaderEver, DefaultTexture, BulbModel);
 	GameObject3d aquarium3d = GameObject3d(aquarium.box, BestShaderEver, DefaultTexture, AquariumModel);
 	float camspeed = 2;
 	float rotX = 0;
@@ -128,8 +139,7 @@ int main(int argc, char * argv[]) {
 		double newTimer = glfwGetTime();
 		deltaTime = newTimer - timer;
 		timer = newTimer;
-		//aquarium.player.position = vec3(sin(timer)* 5, 0, cos(timer) * 5);
-		zoomout -= yscroll;
+		zoomout -= 0.3 * yscroll;
 		//if (zoomout < 2)
 		//	zoomout = 2;
 		yscroll = 0;
@@ -150,11 +160,11 @@ int main(int argc, char * argv[]) {
 		vec4 CamRelative = vec4(0, 0, -zoomout, 1);
 		CamRelative = rotate(mat4(1.0), rotY, vec3(1, 0, 0)) * CamRelative;
 		CamRelative = rotate(mat4(1.0), rotX, vec3(0, 1, 0)) * CamRelative;
-		cameraPosition = aquarium.player.position + vec3(CamRelative.x, CamRelative.y, CamRelative.z);
+		cameraPosition = aquarium.playerBody.position + vec3(CamRelative.x, CamRelative.y, CamRelative.z);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glm::mat4 view = glm::lookAt(
 			cameraPosition,
-			aquarium.player.position,
+			aquarium.playerBody.position,
 			glm::vec3(0, 1, 0)
 			);
 #pragma endregion
@@ -165,16 +175,24 @@ int main(int argc, char * argv[]) {
 			aquarium.Update(deltaTime, vec3(thrust4.x, thrust4.y, thrust4.z));
 
 #pragma region draw
-		player3d.Draw(&view, &projection, cameraPosition);
-		aquarium3d.Draw(&view, &projection, cameraPosition);
-
+		pointLights[0] = Light(playerBulb3d.Object, playerLightRelative, 20);
+		int lightsnumber = 1;
+		player3d.Draw(&view, &projection, cameraPosition, pointLights, lightsnumber);
+		playerBulb3d.Draw(&view, &projection, cameraPosition, pointLights, lightsnumber);
+		playerHorns3d.Draw(&view, &projection, cameraPosition, pointLights, lightsnumber);
+		aquarium3d.Draw(&view, &projection, cameraPosition, pointLights, lightsnumber);
+		playerEyes3d.Draw(&view, &projection, cameraPosition, pointLights, lightsnumber);
 		aquarium.bubbles.sort(CompareBubbles);
 
+		//Bubble indicator = Bubble(player3d.Object.position + playerLightRelative, 0.2);
+		//indicator.material.emissive = vec3(0.7, 0.7, 0.7);
+		//GameObject3d indicator3d = GameObject3d(indicator, BestShaderEver, DefaultTexture, BubbleModel);
+		//indicator3d.Draw(&view, &projection, cameraPosition);
 		for (list<Bubble>::iterator i = aquarium.bubbles.begin(); i != aquarium.bubbles.end(); i++)
 		{
 			//printf("size %f \n", (*i).scale.z);
 			GameObject3d bubble3d = GameObject3d((*i), BestShaderEver, BubbleTexture, BubbleModel);
-			bubble3d.Draw(&view, &projection, cameraPosition);
+			bubble3d.Draw(&view, &projection, cameraPosition, pointLights, lightsnumber);
 		}
 		glfwSwapBuffers(window);
 		glfwPollEvents();

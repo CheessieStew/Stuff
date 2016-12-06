@@ -29,7 +29,21 @@ Aquarium::Aquarium(float x, float y, float z):
 	box = GameObject(glm::vec3(x / 2, y / 2, z / 2));
 	box.scale = glm::vec3(x / 2, y / 2, z / 2);
 	box.material.opacity = .2;
-	player = GameObject(glm::vec3(x / 2, y / 2, 3));
+
+	playerBody = GameObject(glm::vec3(x / 2, y / 2, 3));
+	playerBody.material.tint = glm::vec3(0.45, 0.525, 0.47);
+
+	playerHorns = GameObject(glm::vec3(x / 2, y / 2, 3));
+	playerHorns.material.tint = glm::vec3(1, 1, 0.8);
+	playerHorns.material.specular = glm::vec3(0.7, 0.7, 0.7);
+
+	playerEyes = GameObject(glm::vec3(x / 2, y / 2, 3));
+	playerEyes.material.tint = glm::vec3(0, 0, 0);
+	playerEyes.material.specular = glm::vec3(0.9, 0.9, 0.9);
+
+	playerBulb = GameObject(glm::vec3(x / 2, y / 2, 3));
+	playerBulb.material.emissive = glm::vec3(2, 2, 2.7);
+
 	playerMaxVelocity = 5;
 	playerAcceleration = 17;
 	playerDecceleration = 8;
@@ -38,27 +52,27 @@ Aquarium::Aquarium(float x, float y, float z):
 
 void Aquarium::UpdatePlayer(double deltaTime, glm::vec3 thrust)
 {
-	if (glm::length(thrust) == 0 && glm::length(player.velocity) > 0)
+	if (glm::length(thrust) == 0 && glm::length(playerBody.velocity) > 0)
 	{
 		//printf("slowing down");
-		if (glm::length(player.velocity) < 0.1)
-			player.velocity = glm::vec3(0, 0, 0);
+		if (glm::length(playerBody.velocity) < 0.1)
+			playerBody.velocity = glm::vec3(0, 0, 0);
 		else
-			player.velocity *= (1 - deltaTime);
+			playerBody.velocity *= (1 - deltaTime);
 	}
 	else if (glm::length(thrust) > 0)
 	{
-		player.velocity += playerAcceleration * thrust * (float)deltaTime;
-		if (glm::length(player.velocity) > playerMaxVelocity)
+		playerBody.velocity += playerAcceleration * thrust * (float)deltaTime;
+		if (glm::length(playerBody.velocity) > playerMaxVelocity)
 		{
-			player.velocity *= playerMaxVelocity / glm::length(player.velocity);
+			playerBody.velocity *= playerMaxVelocity / glm::length(playerBody.velocity);
 		}
 	}
-	glm::vec3 newPlayerPosition = player.position + player.velocity * (float)deltaTime;
-	glm::vec3 horizontalVelocity = glm::vec3(player.velocity.x, 0, player.velocity.z);
+	glm::vec3 newPlayerPosition = playerBody.position + playerBody.velocity * (float)deltaTime;
+	glm::vec3 horizontalVelocity = glm::vec3(playerBody.velocity.x, 0, playerBody.velocity.z);
 	glm::vec3 mov3 = glm::normalize(horizontalVelocity);
 	glm::vec4 playerMovement = (glm::vec4(mov3.x, mov3.y, mov3.z, 1));
-	glm::vec4 playerForward = player.rotation * glm::vec4(0, 0, 1, 1);
+	glm::vec4 playerForward = playerBody.rotation * glm::vec4(0, 0, 1, 1);
 	glm::vec3 fwd3 = glm::normalize(glm::vec3(playerForward.x, 0, playerForward.z));
 
 	if (glm::length(horizontalVelocity) != 0 && glm::dot(mov3, fwd3) < 0.999999)
@@ -74,7 +88,7 @@ void Aquarium::UpdatePlayer(double deltaTime, glm::vec3 thrust)
 			possibleAngle = angle;
 		else
 			possibleAngle *= sgn;
-		player.rotation *= glm::rotate(glm::mat4(1.0), possibleAngle, axis);
+		playerBody.rotation *= glm::rotate(glm::mat4(1.0), possibleAngle, axis);
 	}
 
 	// this was supposed to make the fish "want to" have it's dorsal fin directed towards top
@@ -99,39 +113,47 @@ void Aquarium::UpdatePlayer(double deltaTime, glm::vec3 thrust)
 	//}
 	
 	if (!PlayerTouchesBox(newPlayerPosition))
-	player.position = newPlayerPosition;
+	{
+		playerBody.position = newPlayerPosition;
+	}
+	playerHorns.position = playerBody.position;
+	playerHorns.rotation = playerBody.rotation;
+	playerEyes.position = playerBody.position;
+	playerEyes.rotation = playerBody.rotation;
+	playerBulb.position = playerBody.position;
+	playerBulb.rotation = playerBody.rotation;
 }
 
 bool Aquarium::PlayerTouchesBox(glm::vec3 newPlayerPosition)
 {
 	if (abs(newPlayerPosition.x - box.scale.x * 2) < 0.8)
 	{
-		player.velocity.x = -1;
+		playerBody.velocity.x = -1;
 		return true;
 	}
 	if (abs(newPlayerPosition.x) < 0.8)
 	{
-		player.velocity.x = 1;
+		playerBody.velocity.x = 1;
 		return true;
 	}
 	if (abs(newPlayerPosition.y - box.scale.y * 2) < 0.8)
 	{
-		player.velocity.y = -1;
+		playerBody.velocity.y = -1;
 		return true;
 	}
 	if (abs(newPlayerPosition.y) < 0.8)
 	{
-		player.velocity.y = 1;
+		playerBody.velocity.y = 1;
 		return true;
 	}
 	if (abs(newPlayerPosition.z - box.scale.z * 2) < 0.8)
 	{
-		player.velocity.z = -1;
+		playerBody.velocity.z = -1;
 		return true;
 	}
 	if (abs(newPlayerPosition.z) < 0.8)
 	{
-		player.velocity.z = 1;
+		playerBody.velocity.z = 1;
 		return true;
 	}
 	return false;
@@ -142,7 +164,11 @@ void Aquarium::Update(double deltaTime, glm::vec3 thrust)
 	UpdatePlayer(deltaTime, thrust);
 	for (list<Bubble>::iterator i = bubbles.begin(); i != bubbles.end(); )
 		if (ShouldKill(*i))
+		{
+			if (i->light)
+				maxBubbleLights++;
 			i = bubbles.erase(i);
+		}
 		else
 		{
 			if (i->scale.x < i->maxSize)
@@ -189,12 +215,16 @@ void Aquarium::SpawnBubble()
 	newBubble.material.opacity = 0.2;
 	newBubble.material.tint = glm::vec3(0.25, 0.25, 0.25) + colors[color] * 1.5f;
 	newBubble.material.specular = glm::vec3(0.5, 0.5, 0.5) + colors[color] * 0.2f;
-	newBubble.material.emissive = colors[color] * 0.2f;
+	newBubble.material.emissive = colors[color] * 0.1f;
 	newBubble.maxSize = (float)rand() / RAND_MAX + 0.5;
 	newBubble.growRate = 0.09 + (float)rand() / RAND_MAX / 2;
 	newBubble.velocity = glm::vec3(0, 1.5 + 2*(float)rand() / RAND_MAX, 0);
 	//printf("Spawning bubble %f %f size %f grow %f until %f \n", x, z, newBubble.scale.z, newBubble.growRate, newBubble.maxSize);
-
+	if (maxBubbleLights > 0 && rand() % 4 == 0)
+	{
+		maxBubbleLights++;
+		newBubble.light = true;
+	}
 	bubbles.push_back(newBubble);
 }
 

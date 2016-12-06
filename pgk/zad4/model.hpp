@@ -3,6 +3,7 @@
 #include <list>
 using namespace std;
 
+
 class Material
 {
 public:
@@ -35,7 +36,10 @@ public:
 class Aquarium
 {
 public:
-	GameObject player;
+	GameObject playerBody;
+	GameObject playerHorns;
+	GameObject playerEyes;
+	GameObject playerBulb;
 	GameObject box;
 	std::list<Bubble> bubbles;
 	float xSize;
@@ -48,6 +52,7 @@ public:
 	float playerAcceleration;
 	float playerDecceleration;
 	float playerRotateSpeed;
+	int maxBubbleLights;
 private:
 	bool ShouldKill(Bubble & b);
 	void SpawnBubble();
