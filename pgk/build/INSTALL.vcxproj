@@ -66,7 +66,7 @@
     </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>D:\Documents\GitHub\Stuff\pgk\external\AntTweakBar-1.16\include;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\include\GLFW;D:\Documents\GitHub\Stuff\pgk\external\glm-0.9.7.1;D:\Documents\GitHub\Stuff\pgk\external\glew-1.13.0\include;D:\Documents\GitHub\Stuff\pgk\external\assimp-3.0.1270\include;D:\Documents\GitHub\Stuff\pgk\external\bullet-2.81-rev2613\src;D:\Documents\GitHub\Stuff\pgk\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Documents\GitHub\Stuff\pgk\external\AntTweakBar-1.16\include;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\include\GLFW;D:\Documents\GitHub\Stuff\pgk\external\glm-0.9.7.1;D:\Documents\GitHub\Stuff\pgk\external\glew-1.13.0\include;D:\Documents\GitHub\Stuff\pgk\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -88,7 +88,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>D:\Documents\GitHub\Stuff\pgk\external\AntTweakBar-1.16\include;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\include\GLFW;D:\Documents\GitHub\Stuff\pgk\external\glm-0.9.7.1;D:\Documents\GitHub\Stuff\pgk\external\glew-1.13.0\include;D:\Documents\GitHub\Stuff\pgk\external\assimp-3.0.1270\include;D:\Documents\GitHub\Stuff\pgk\external\bullet-2.81-rev2613\src;D:\Documents\GitHub\Stuff\pgk\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Documents\GitHub\Stuff\pgk\external\AntTweakBar-1.16\include;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\include\GLFW;D:\Documents\GitHub\Stuff\pgk\external\glm-0.9.7.1;D:\Documents\GitHub\Stuff\pgk\external\glew-1.13.0\include;D:\Documents\GitHub\Stuff\pgk\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -110,7 +110,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>D:\Documents\GitHub\Stuff\pgk\external\AntTweakBar-1.16\include;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\include\GLFW;D:\Documents\GitHub\Stuff\pgk\external\glm-0.9.7.1;D:\Documents\GitHub\Stuff\pgk\external\glew-1.13.0\include;D:\Documents\GitHub\Stuff\pgk\external\assimp-3.0.1270\include;D:\Documents\GitHub\Stuff\pgk\external\bullet-2.81-rev2613\src;D:\Documents\GitHub\Stuff\pgk\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Documents\GitHub\Stuff\pgk\external\AntTweakBar-1.16\include;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\include\GLFW;D:\Documents\GitHub\Stuff\pgk\external\glm-0.9.7.1;D:\Documents\GitHub\Stuff\pgk\external\glew-1.13.0\include;D:\Documents\GitHub\Stuff\pgk\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -132,7 +132,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <Midl>
-      <AdditionalIncludeDirectories>D:\Documents\GitHub\Stuff\pgk\external\AntTweakBar-1.16\include;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\include\GLFW;D:\Documents\GitHub\Stuff\pgk\external\glm-0.9.7.1;D:\Documents\GitHub\Stuff\pgk\external\glew-1.13.0\include;D:\Documents\GitHub\Stuff\pgk\external\assimp-3.0.1270\include;D:\Documents\GitHub\Stuff\pgk\external\bullet-2.81-rev2613\src;D:\Documents\GitHub\Stuff\pgk\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Documents\GitHub\Stuff\pgk\external\AntTweakBar-1.16\include;D:\Documents\GitHub\Stuff\pgk\external\glfw-3.1.2\include\GLFW;D:\Documents\GitHub\Stuff\pgk\external\glm-0.9.7.1;D:\Documents\GitHub\Stuff\pgk\external\glew-1.13.0\include;D:\Documents\GitHub\Stuff\pgk\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>

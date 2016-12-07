@@ -1,4 +1,13 @@
-﻿C:\Program Files\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets(1611,5): warning : The referenced project 'D:/Documents/GitHub/Stuff/pgk/build/ZERO_CHECK.vcxproj' does not exist.
-C:\Program Files\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets(1611,5): warning : The referenced project 'D:/Documents/GitHub/Stuff/pgk/build/external/GLEW_1130.vcxproj' does not exist.
-C:\Program Files\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets(1611,5): warning : The referenced project 'D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/src/glfw.vcxproj' does not exist.
-C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(403,5): error MSB3191: Unable to create directory "D:\Documents\GitHub\Stuff\pgk\build\Debug\". Could not find a part of the path 'D:\Documents\GitHub\Stuff\pgk\build\Debug\'.
+﻿  zad4.cpp
+D:\Documents\GitHub\Stuff\pgk\zad4\zad4.cpp(83): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+D:\Documents\GitHub\Stuff\pgk\zad4\zad4.cpp(103): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad4\zad4.cpp(153): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad4\zad4.cpp(162): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad4\zad4.cpp(163): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad4\zad4.cpp(165): warning C4305: '=': truncation from 'double' to 'float'
+D:\Documents\GitHub\Stuff\pgk\zad4\zad4.cpp(167): warning C4305: '=': truncation from 'double' to 'float'
+D:\Documents\GitHub\Stuff\pgk\zad4\zad4.cpp(192): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad4\zad4.cpp(193): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad4\zad4.cpp(233): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  zad4.vcxproj -> D:\Documents\GitHub\Stuff\pgk\build\Debug\zad4.exe
+  zad4.vcxproj -> D:/Documents/GitHub/Stuff/pgk/build/Debug/zad4.pdb (Full PDB)

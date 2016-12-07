@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="D:\Documents\GitHub\Stuff\pgk\zad4\zad4.cpp">
@@ -14,9 +14,6 @@
       <Filter>common</Filter>
     </ClCompile>
     <ClCompile Include="D:\Documents\GitHub\Stuff\pgk\zad4\model.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="D:\Documents\GitHub\Stuff\pgk\zad4\utilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="D:\Documents\GitHub\Stuff\pgk\zad4\graphics.cpp">
@@ -36,9 +33,6 @@
     <ClInclude Include="D:\Documents\GitHub\Stuff\pgk\zad4\model.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\Documents\GitHub\Stuff\pgk\zad4\utilities.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="D:\Documents\GitHub\Stuff\pgk\zad4\graphics.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -47,18 +41,8 @@
     <CustomBuild Include="D:\Documents\GitHub\Stuff\pgk\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\zad4\BubbleFragmentShader.frag">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="..\zad4\DefaultFragmentShader.frag">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="..\zad4\FishFragmentShader.frag">
-      <Filter>shaders</Filter>
-    </None>
-    <None Include="..\zad4\VertexShader.vert">
-      <Filter>shaders</Filter>
-    </None>
+    <None Include="D:\Documents\GitHub\Stuff\pgk\zad4\Assets\BestFragmentShaderEver.frag" />
+    <None Include="D:\Documents\GitHub\Stuff\pgk\zad4\Assets\BestVertexShaderEver.vert" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files">
@@ -69,9 +53,6 @@
     </Filter>
     <Filter Include="common">
       <UniqueIdentifier>{F2AB3EBE-F33E-39B7-8401-976A37D6A812}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="shaders">
-      <UniqueIdentifier>{B8E81901-CF04-3A14-9BA7-111B40AA10F3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -32,8 +32,6 @@ include_directories(
 	external/glfw-3.1.2/include/GLFW/
 	external/glm-0.9.7.1/
 	external/glew-1.13.0/include/
-	external/assimp-3.0.1270/include/
-	external/bullet-2.81-rev2613/src/
 	.
 )
 
@@ -62,14 +60,10 @@ add_executable(zad4
 	common/texture.hpp
 	zad4/model.cpp
 	zad4/model.hpp
-	zad4/utilities.cpp
-	zad4/utilities.hpp
 	zad4/graphics.cpp
 	zad4/graphics.hpp
-	zad4/BubbleFragmentShader.fragmentshader
-	zad4/DefaultFragmentShader.fragmentshader
-	zad4/FishFragmentShader.fragmentshader
-	zad4/VertexShader.vertexshader
+	zad4/assets/BestFragmentShaderEver.frag
+	zad4/assets/BestVertexShaderEver.vert
 )
 target_link_libraries(zad4
 	${ALL_LIBS}

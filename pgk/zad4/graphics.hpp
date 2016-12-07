@@ -41,7 +41,8 @@ public:
 	Model3d& M3d;
 	GLuint Texture;
 	GameObject& Object;
-	GLuint Shader;
-	GameObject3d(GameObject& obj, GLuint s, GLuint tex, Model3d& m3d);
-	void Draw(const glm::mat4 * view, const glm::mat4 * projection, glm::vec3 camPos, Light* lights, int lightsAmm);
+	GameObject3d(GameObject& obj, GLuint tex, Model3d& m3d);
+	void Draw(GLuint shader, const glm::mat4 * view, const glm::mat4 * projection, glm::vec3 camPos);
 };
+
+void EnvironmentSetup(GLuint shader, Light* lights, int lightsAmm, glm::vec3 mistColor, float mistThickness);

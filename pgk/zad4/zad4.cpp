@@ -9,6 +9,8 @@
 using namespace glm;
 #include <common/shader.hpp>
 
+#define WINDOWWIDTH 1280
+#define WINDOWHEIGHT 1024
 
 void ScrollCallback(GLFWwindow* window, double xoff, double yoff);
 double xscroll = 0; //irrelevant
@@ -17,6 +19,7 @@ double yscroll = 0;
 void KeyCallback(GLFWwindow* window, int key, int code, int action, int mods);
 vec3 thrust = vec3(0, 0, 0);
 bool pause = false;
+bool firstPersonCamera = false;
 
 bool CompareBubbles(const Bubble& first, const Bubble& second);
 glm::vec3 cameraPosition;
@@ -47,7 +50,7 @@ int main(int argc, char * argv[]) {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Open a window and create its OpenGL context
-	window = glfwCreateWindow(1024, 768, "Tutorial 02 - Red triangle", NULL, NULL);
+	window = glfwCreateWindow(WINDOWWIDTH, WINDOWHEIGHT, "Tutorial 02 - Red triangle", NULL, NULL);
 	if (window == NULL) {
 		fprintf(stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n");
 		getchar();
@@ -75,9 +78,8 @@ int main(int argc, char * argv[]) {
 
 	// Set the mouse at the center of the screen
 	glfwPollEvents();
-	glfwSetCursorPos(window, 1024 / 2, 768 / 2);
+	glfwSetCursorPos(window, WINDOWWIDTH / 2, WINDOWHEIGHT / 2);
 
-	// bright Background
 	glClearColor(0.01, 0.02, 0.1, 1.0f);
 
 
@@ -85,15 +87,15 @@ int main(int argc, char * argv[]) {
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 	glEnable(GL_CULL_FACE);
-	glEnable(GL_BLEND); glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_BLEND); 
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	//glEnable(GL_BLEND);
+
 	GLuint VertexArrayID;
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
 
-	glm::mat4 projection = glm::perspective(45.0f, 4.0f / 3.0f, 0.1f, 100.0f);
+	glm::mat4 projection = glm::perspective(45.0f, ((float)WINDOWWIDTH)/WINDOWHEIGHT, 0.1f, 100.0f);
 
 
 	double timer = glfwGetTime();
@@ -101,115 +103,183 @@ int main(int argc, char * argv[]) {
 	srand(time(NULL));
 	int seed = rand();
 
-	GLuint DefaultTexture(loadDDS("default.DDS"));
-	GLuint BubbleTexture(loadDDS("bubble.DDS"));
+	GLuint DefaultTexture(loadDDS("Assets/default.DDS"));
+	GLuint BubbleTexture(loadDDS("Assets/bubble.DDS"));
 
-	Model3d FishModel(Model3d("anglerfish_body.obj"));
-	Model3d BulbModel(Model3d("anglerfish_bulb.obj"));
-	Model3d HornsModel(Model3d("anglerfish_horns.obj"));
-	Model3d EyesModel(Model3d("anglerfish_eyes.obj"));
+	Model3d FishModel(Model3d("Assets/anglerfish_body.obj"));
+	Model3d BulbModel(Model3d("Assets/anglerfish_bulb.obj"));
+	Model3d HornsModel(Model3d("Assets/anglerfish_horns.obj"));
+	Model3d EyesModel(Model3d("Assets/anglerfish_eyes.obj"));
 
-	Model3d BubbleModel(Model3d("bubble.obj"));
-	Model3d AquariumModel(Model3d("aquarium.obj"));
+	Model3d BubbleModel(Model3d("Assets/bubble.obj"));
+	Model3d AquariumModel(Model3d("Assets/aquarium.obj"));
 
-	GLuint FishShader(LoadShaders("VertexShader.vert", "FishFragmentShader.frag"));
-	GLuint DefaultShader(LoadShaders("VertexShader.vert", "DefaultFragmentShader.frag"));
-	GLuint BestShaderEver(LoadShaders("VertexShader.vert", "BubbleFragmentShader.frag"));
+	GLuint BestShaderEver(LoadShaders("Assets/BestVertexShaderEver.vert", "Assets/BestFragmentShaderEver.frag"));
 
+	//it's the relative position of the bulb to origin in model space
 	vec3 playerLightRelative = vec3(0.062, 0.48, 1.49);
 
-	Aquarium aquarium = Aquarium(30,30,60);
-	aquarium.maxBubbleLights = 20;
-	Light pointLights[21];
-	GameObject3d player3d = GameObject3d(aquarium.playerBody, BestShaderEver, DefaultTexture, FishModel);
-	GameObject3d playerHorns3d = GameObject3d(aquarium.playerHorns, BestShaderEver, DefaultTexture, HornsModel);
-	GameObject3d playerEyes3d = GameObject3d(aquarium.playerEyes, BestShaderEver, DefaultTexture, EyesModel);
-	GameObject3d playerBulb3d = GameObject3d(aquarium.playerBulb, BestShaderEver, DefaultTexture, BulbModel);
-	GameObject3d aquarium3d = GameObject3d(aquarium.box, BestShaderEver, DefaultTexture, AquariumModel);
+	Aquarium aquarium = Aquarium(16,24,90);
+	aquarium.firstPersonCamera = false;
+	Light* pointLights = new Light[aquarium.maxBubbleLights + 1]; // 1 for the player's light
+	GameObject3d player3d = GameObject3d(aquarium.playerBody, DefaultTexture, FishModel);
+	GameObject3d playerHorns3d = GameObject3d(aquarium.playerHorns, DefaultTexture, HornsModel);
+	GameObject3d playerEyes3d = GameObject3d(aquarium.playerEyes, DefaultTexture, EyesModel);
+	GameObject3d playerBulb3d = GameObject3d(aquarium.playerBulb, DefaultTexture, BulbModel);
+	GameObject3d aquarium3d = GameObject3d(aquarium.box, DefaultTexture, AquariumModel);
 	float camspeed = 2;
 	float rotX = 0;
 	float rotY = 0;
 	float zoomout = 5;
-
-	vec3 OutsideCamPos = vec3(-40, 15, 30);
+	float firstPersonZoomOut = 1;
+	//vec3 OutsideCamPos = vec3(-40, 15, 30);
 
 	glfwSetScrollCallback(window, ScrollCallback);
 	glfwSetKeyCallback(window, KeyCallback);
+
+	//main loop
 	do {
 		double newTimer = glfwGetTime();
 		deltaTime = newTimer - timer;
 		timer = newTimer;
-		zoomout -= 0.3 * yscroll;
-		//if (zoomout < 2)
-		//	zoomout = 2;
-		yscroll = 0;
+
 
 #pragma region cameraSetup
-		double xpos, ypos;
-		glfwGetCursorPos(window, &xpos, &ypos);
-		if (xpos > 50 && xpos < 950 && ypos > 50 && ypos < 799)
+		glm::mat4 view;
+		if (!firstPersonCamera)
 		{
-			rotX += camspeed * sin(0.001 * float(1024 / 2 - xpos));
-			rotY += camspeed * sin(0.001 * float(768 / 2 - ypos));
+			if (aquarium.firstPersonCamera)
+				aquarium.firstPersonCamera = false;
+			zoomout -= 0.3 * yscroll;
+			//if (zoomout < 3)
+			//	zoomout = 3;
+			yscroll = 0;
+
+			double xpos, ypos;
+			glfwGetCursorPos(window, &xpos, &ypos);
+			glfwSetCursorPos(window, WINDOWWIDTH / 2, WINDOWHEIGHT / 2);
+
+			rotX += camspeed * sin(0.001 * float(WINDOWWIDTH / 2 - xpos));
+			rotY += camspeed * sin(0.001 * float(WINDOWHEIGHT / 2 - ypos));
 			if (rotY > 0.45 * M_PI)
 				rotY = 0.45 * M_PI;
 			if (rotY < -0.45 * M_PI)
 				rotY = -0.45 * M_PI;
-			glfwSetCursorPos(window, 1024 / 2, 768 / 2);
+
+			vec4 CamRelative = vec4(0, 0, -zoomout, 1);
+			CamRelative = rotate(mat4(1.0), rotY, vec3(1, 0, 0)) * CamRelative;
+			CamRelative = rotate(mat4(1.0), rotX, vec3(0, 1, 0)) * CamRelative;
+			cameraPosition = aquarium.playerBody.position + vec3(CamRelative.x, CamRelative.y, CamRelative.z);
+			view = glm::lookAt(
+				cameraPosition,
+				aquarium.playerBody.position,
+				vec3(0, 1, 0));
 		}
-		vec4 CamRelative = vec4(0, 0, -zoomout, 1);
-		CamRelative = rotate(mat4(1.0), rotY, vec3(1, 0, 0)) * CamRelative;
-		CamRelative = rotate(mat4(1.0), rotX, vec3(0, 1, 0)) * CamRelative;
-		cameraPosition = aquarium.playerBody.position + vec3(CamRelative.x, CamRelative.y, CamRelative.z);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glm::mat4 view = glm::lookAt(
-			cameraPosition,
-			aquarium.playerBody.position,
-			glm::vec3(0, 1, 0)
-			);
+		else // first person camera is a two-stage job
+			// we tell the model where we want to look
+		   // and the model tells us where we CAN look
+		{
+			if (!aquarium.firstPersonCamera)
+				aquarium.firstPersonCamera = true;
+			yscroll = 0; // we don't use the scroll yet,
+			// but we should pretend we do
+
+			double xpos, ypos;
+			glfwGetCursorPos(window, &xpos, &ypos);
+			glfwSetCursorPos(window, WINDOWWIDTH / 2, WINDOWHEIGHT / 2);
+			if (!pause)
+			{
+				aquarium.playerTargetXRot += camspeed * sin(0.001 * float(WINDOWWIDTH / 2 - xpos));
+				aquarium.playerTargetYRot -= camspeed * sin(0.001 * float(WINDOWHEIGHT / 2 - ypos));
+				aquarium.playerTargetYRot = clamp(aquarium.playerTargetYRot, -0.48f * (float)M_PI, 0.48f * (float)M_PI);
+			}
+			float rotX = aquarium.playerXRot;
+			float rotY = aquarium.playerYRot;
+
+			cameraPosition = aquarium.playerBody.position;
+			//cameraPosition = vec3(aquarium.xSize/2, aquarium.ySize, 0);
+			vec3 pointToLookAt = vec3(0, 0, 1);
+			pointToLookAt = vec3(aquarium.playerBody.rotation * vec4(pointToLookAt, 1));
+			//printf("point to look at %f %f %f\n", pointToLookAt.x, pointToLookAt.y, pointToLookAt.z);
+			view = glm::lookAt(
+				cameraPosition,
+				cameraPosition + pointToLookAt,
+				vec3(0, 1, 0));
+			//view = glm::lookAt(
+			//	cameraPosition,
+			//	aquarium.playerBody.position,
+			//	vec3(0, 1, 0));
+		}
 #pragma endregion
 
-		vec4 thrust4 = vec4(thrust.x, thrust.y, thrust.z, 1);
-		thrust4 = rotate(mat4(1.0), rotX, vec3(0, 1, 0)) * thrust4;
+		vec3 rotatedThrust;
+		if (firstPersonCamera)
+		{
+			rotatedThrust = vec3(aquarium.playerBody.rotation * vec4(thrust, 1));
+		}
+		else
+			rotatedThrust = vec3(rotate(mat4(1.0), rotX, vec3(0, 1, 0)) * vec4(thrust, 1));
 		if (!pause)
-			aquarium.Update(deltaTime, vec3(thrust4.x, thrust4.y, thrust4.z));
+			aquarium.Update(deltaTime, rotatedThrust);
 
 #pragma region draw
+		vec3 mistColor = vec3(0.01, 0.05, 0.07) * (8.0f/aquarium.level);
+		//mistColor = (mistColor * 3.0f + vec3(0.6, 0.05, 0.02) * (float)aquarium.wounds)/(3.0f+aquarium.wounds);
+		if (aquarium.wounds > 0)
+		{
+			mistColor = vec3(0.5 + 0.15 * aquarium.wounds, 0.4 - 0.1 * aquarium.wounds, 0.6 - 0.2 * aquarium.wounds)
+				* length(mistColor);
+		}
+		float mistThickness = 0.03 + 0.02 * (aquarium.level > 4 ? 4 : aquarium.level) + 0.04 * aquarium.wounds;
+
 		pointLights[0] = Light(playerBulb3d.Object, playerLightRelative, 20);
 		int lightsnumber = 1;
-		player3d.Draw(&view, &projection, cameraPosition, pointLights, lightsnumber);
-		playerBulb3d.Draw(&view, &projection, cameraPosition, pointLights, lightsnumber);
-		playerHorns3d.Draw(&view, &projection, cameraPosition, pointLights, lightsnumber);
-		aquarium3d.Draw(&view, &projection, cameraPosition, pointLights, lightsnumber);
-		playerEyes3d.Draw(&view, &projection, cameraPosition, pointLights, lightsnumber);
+		for (list<Bubble>::iterator i = aquarium.bubbles.begin(); i != aquarium.bubbles.end(); i++)
+		{
+			if (i->light)
+			{
+				pointLights[lightsnumber] = Light((*i), glm::vec3(0, 0, 0), 20);
+				lightsnumber++;
+			}
+		}
+
+		glUseProgram(BestShaderEver);
+		EnvironmentSetup(BestShaderEver, pointLights, lightsnumber, mistColor, mistThickness);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		aquarium3d.Draw(BestShaderEver, &view, &projection, cameraPosition);
+		//printf("box... ");
+		player3d.Draw(BestShaderEver, &view, &projection, cameraPosition);
+		//printf("player... ");
+		playerEyes3d.Draw(BestShaderEver, &view, &projection, cameraPosition);
+		//printf("eyes... ");
+		playerBulb3d.Draw(BestShaderEver, &view, &projection, cameraPosition);
+		//printf("bulb... ");
+		playerHorns3d.Draw(BestShaderEver, &view, &projection, cameraPosition);
+		//printf("horns... ");
+		//printf(" have %d lights\n", lightsnumber);
 		aquarium.bubbles.sort(CompareBubbles);
 
 		//Bubble indicator = Bubble(player3d.Object.position + playerLightRelative, 0.2);
 		//indicator.material.emissive = vec3(0.7, 0.7, 0.7);
 		//GameObject3d indicator3d = GameObject3d(indicator, BestShaderEver, DefaultTexture, BubbleModel);
-		//indicator3d.Draw(&view, &projection, cameraPosition);
+		//indicator3d.Draw(BestShaderEver, &view, &projection, cameraPosition);
 		for (list<Bubble>::iterator i = aquarium.bubbles.begin(); i != aquarium.bubbles.end(); i++)
 		{
 			//printf("size %f \n", (*i).scale.z);
-			GameObject3d bubble3d = GameObject3d((*i), BestShaderEver, BubbleTexture, BubbleModel);
-			bubble3d.Draw(&view, &projection, cameraPosition, pointLights, lightsnumber);
+			GameObject3d bubble3d = GameObject3d((*i), BubbleTexture, BubbleModel);
+			bubble3d.Draw(BestShaderEver, &view, &projection, cameraPosition);
 		}
+#pragma endregion
 		glfwSwapBuffers(window);
 		glfwPollEvents();
-	
-#pragma endregion
-
-#pragma region getInput
-
-#pragma endregion
-
-
 	}
 	while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS &&
 		glfwWindowShouldClose(window) == 0);
 
 
 	glDeleteVertexArrays(1, &VertexArrayID);
+	delete[] pointLights;
 	glfwTerminate();
 
 	return 0;
@@ -238,6 +308,9 @@ void KeyCallback(GLFWwindow* window, int key, int code, int action, int mods)
 		{
 		case GLFW_KEY_F1:
 			pause = !pause;
+			break;
+		case GLFW_KEY_TAB:
+			firstPersonCamera = !firstPersonCamera;
 			break;
 		case GLFW_KEY_SPACE:
 			up = true;

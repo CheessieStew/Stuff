@@ -1,6 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <list>
+
 using namespace std;
 
 
@@ -36,26 +37,44 @@ public:
 class Aquarium
 {
 public:
+	bool firstPersonCamera;
 	GameObject playerBody;
 	GameObject playerHorns;
 	GameObject playerEyes;
 	GameObject playerBulb;
 	GameObject box;
 	std::list<Bubble> bubbles;
+	int maxBubbleLights;
+	int wounds;
+	int points;
+	int level;
+	float playerYRot;
+	float playerXRot;
+	float playerTargetXRot;
+	float playerTargetYRot;
 	float xSize;
 	float ySize;
 	float zSize;
-	float timeBeforeNextBubble;
+
 	Aquarium(float xSize, float ySize, float zSize);
 	void Aquarium::Update(double deltaTime, glm::vec3 thrust);
+private:
+	float finish;
+	float timeBetweenBubbles;
+	float timeBeforeNextBubble;
+	float baseBubbleVelocity;
+
 	float playerMaxVelocity;
 	float playerAcceleration;
-	float playerDecceleration;
+	float playerDrag;
 	float playerRotateSpeed;
-	int maxBubbleLights;
-private:
+
+
 	bool ShouldKill(Bubble & b);
+	bool PlayerCollission(Bubble & b);
 	void SpawnBubble();
 	void UpdatePlayer(double deltaTime, glm::vec3 thrust);
 	bool PlayerTouchesBox(glm:: vec3 newPlayerPosition);
+	void TryNextLevel();
+	void Restart();
 };

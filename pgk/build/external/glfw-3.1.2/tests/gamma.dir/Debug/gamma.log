@@ -1,3 +1,6 @@
-﻿C:\Program Files\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets(1611,5): warning : The referenced project 'D:/Documents/GitHub/Stuff/pgk/build/ZERO_CHECK.vcxproj' does not exist.
-C:\Program Files\MSBuild\14.0\bin\Microsoft.Common.CurrentVersion.targets(1611,5): warning : The referenced project 'D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/src/glfw.vcxproj' does not exist.
-C:\Program Files\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(403,5): error MSB3191: Unable to create directory "D:\Documents\GitHub\Stuff\pgk\build\external\glfw-3.1.2\tests\Debug\". Could not find a part of the path 'D:\Documents\GitHub\Stuff\pgk\build\external\glfw-3.1.2\tests\Debug\'.
+﻿  Building Custom Rule D:/Documents/GitHub/Stuff/pgk/external/glfw-3.1.2/tests/CMakeLists.txt
+  CMake does not need to re-run because D:\Documents\GitHub\Stuff\pgk\build\external\glfw-3.1.2\tests\CMakeFiles\generate.stamp is up-to-date.
+  gamma.c
+  getopt.c
+  gamma.vcxproj -> D:\Documents\GitHub\Stuff\pgk\build\external\glfw-3.1.2\tests\Debug\gamma.exe
+  gamma.vcxproj -> D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/tests/Debug/gamma.pdb (Full PDB)

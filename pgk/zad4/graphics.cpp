@@ -40,75 +40,44 @@ int Model3d::Size()
 
 
 
-GameObject3d::GameObject3d(GameObject & obj, GLuint s, GLuint tex, Model3d & m3d) :
+GameObject3d::GameObject3d(GameObject & obj, GLuint tex, Model3d & m3d) :
 	Texture(tex),
-	Shader(s),
 	M3d(m3d),
 	Object(obj)
 {
 }
 
-void GameObject3d::Draw(const glm::mat4 * view, const glm::mat4 * projection, glm::vec3 camPos, Light* lights, int lightsAmm)
+void GameObject3d::Draw(GLuint shader, const glm::mat4 * view, const glm::mat4 * projection, glm::vec3 camPos)
 {
-	glUseProgram(Shader);
-
-	GLuint MatrixID = glGetUniformLocation(Shader, "MVP"); //mat4
-	GLuint OnlyModelID = glGetUniformLocation(Shader, "onlyModel"); //mat4
-	GLuint OnlyViewID = glGetUniformLocation(Shader, "onlyView"); //mat4
-	GLuint camPosID = glGetUniformLocation(Shader, "cameraPosition_worldSpace"); //vec3
-	GLuint TextureID = glGetUniformLocation(Shader, "myTextureSampler"); //sampler2d
-	GLuint MLightColorID = glGetUniformLocation(Shader, "mainLightColor"); //vec3
-	GLuint MLightPowerID = glGetUniformLocation(Shader, "mainLightPower"); //float
-	GLuint EmissiveID = glGetUniformLocation(Shader, "emissiveness"); //vec3
-	GLuint OpacityID = glGetUniformLocation(Shader, "opacity"); //float
-	GLuint SpecularID = glGetUniformLocation(Shader, "specularity"); //vec3
-	GLuint TintID = glGetUniformLocation(Shader, "tint"); //vec3
-
-	GLuint LightPositionsID = glGetUniformLocation(Shader, "pointLightPositions"); //vec3[21]
-	GLuint LightColorsID = glGetUniformLocation(Shader, "pointLightColors"); //vec3[21]
-	GLuint LightIntensitiesID = glGetUniformLocation(Shader, "pointLightIntensities"); //float[21]
-	GLuint LightsAmmountID = glGetUniformLocation(Shader, "pointLightsAmmount"); //int
-
-	static float auxarr[21*3];
-	for (int i = 0; i < lightsAmm; i++)
-	{
-		auxarr[3 * i] = lights[i].position.x;
-		auxarr[3 * i + 1] = lights[i].position.y;
-		auxarr[3 * i + 2] = lights[i].position.z;
-	}
-	glUniform3fv(LightPositionsID, lightsAmm, auxarr);
-
-	for (int i = 0; i < lightsAmm; i++)
-	{
-		auxarr[3 * i] = lights[i].color.r;
-		auxarr[3 * i + 1] = lights[i].color.g;
-		auxarr[3 * i + 2] = lights[i].color.b;
-	}
-	glUniform3fv(LightColorsID, lightsAmm, auxarr);
-
-	for (int i = 0; i < lightsAmm; i++)
-	{
-		auxarr[i] = lights[i].intensity;
-	}
-	glUniform1fv(LightIntensitiesID, lightsAmm, auxarr);
-
-	glUniform1i(LightsAmmountID, lightsAmm);
+	GLuint MatrixID = glGetUniformLocation(shader, "MVP"); //mat4
+	GLuint OnlyModelID = glGetUniformLocation(shader, "onlyModel"); //mat4
+	GLuint OnlyViewID = glGetUniformLocation(shader, "onlyView"); //mat4
+	GLuint camPosID = glGetUniformLocation(shader, "cameraPosition_worldSpace"); //vec3
+	GLuint TextureID = glGetUniformLocation(shader, "myTextureSampler"); //sampler2d
+	GLuint MLightColorID = glGetUniformLocation(shader, "mainLightColor"); //vec3
+	GLuint MLightPowerID = glGetUniformLocation(shader, "mainLightPower"); //float
+	GLuint EmissiveID = glGetUniformLocation(shader, "emissiveness"); //vec3
+	GLuint OpacityID = glGetUniformLocation(shader, "opacity"); //float
+	GLuint SpecularID = glGetUniformLocation(shader, "specularity"); //vec3
+	GLuint TintID = glGetUniformLocation(shader, "tint"); //vec3
 
 	glm::vec3 position = Object.position;
 	position.x = position.x;
 	glm::mat4 translation = glm::translate(glm::mat4(1.f),position);
 	glm::mat4 scale = glm::scale(glm::mat4(1.f), Object.scale);
 
-	glUniform3f(camPosID, camPos.x, camPos.y, camPos.z);
-	glUniform3f(EmissiveID, Object.material.emissive.x, Object.material.emissive.y, Object.material.emissive.z);
-	glUniform1f(OpacityID, Object.material.opacity);
-	glUniform3f(TintID, Object.material.tint.x, Object.material.tint.y, Object.material.tint.y);
-	glUniform3f(SpecularID, Object.material.specular.x, Object.material.specular.y, Object.material.specular.z);
 	glm::mat4 MVP = (*projection) * (*view) * translation * Object.rotation * scale;
 	glm::mat4 OnlyModel = translation * Object.rotation * scale;
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &(MVP[0][0]));
 	glUniformMatrix4fv(OnlyModelID, 1, GL_FALSE, &OnlyModel[0][0]);
 	glUniformMatrix4fv(OnlyViewID, 1, GL_FALSE, &((*view)[0][0]));
+
+
+	glUniform3f(camPosID, camPos.x, camPos.y, camPos.z);
+	glUniform3f(EmissiveID, Object.material.emissive.x, Object.material.emissive.y, Object.material.emissive.z);
+	glUniform1f(OpacityID, Object.material.opacity);
+	glUniform3f(TintID, Object.material.tint.x, Object.material.tint.y, Object.material.tint.y);
+	glUniform3f(SpecularID, Object.material.specular.x, Object.material.specular.y, Object.material.specular.z);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, Texture);
@@ -152,4 +121,45 @@ void GameObject3d::Draw(const glm::mat4 * view, const glm::mat4 * projection, gl
 	glDrawArrays(GL_TRIANGLES, 0, M3d.Size());
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
+}
+
+void EnvironmentSetup(GLuint shader, Light* lights, int lightsAmm, glm::vec3 mistColor, float mistThickness)
+{
+	GLuint LightPositionsID = glGetUniformLocation(shader, "pointLightPositions"); //vec3[21]
+	GLuint LightColorsID = glGetUniformLocation(shader, "pointLightColors"); //vec3[21]
+	GLuint LightIntensitiesID = glGetUniformLocation(shader, "pointLightIntensities"); //float[21]
+	GLuint LightsAmmountID = glGetUniformLocation(shader, "pointLightsAmmount"); //int
+	GLuint MistColorID = glGetUniformLocation(shader, "mistColor"); //vec3
+	GLuint MistThicknessID = glGetUniformLocation(shader, "mistThickness"); //float
+
+	static float auxarr[21 * 3];
+	for (int i = 0; i < lightsAmm; i++)
+	{
+		auxarr[3 * i] = lights[i].position.x;
+		auxarr[3 * i + 1] = lights[i].position.y;
+		auxarr[3 * i + 2] = lights[i].position.z;
+	}
+	glUniform3fv(LightPositionsID, lightsAmm, auxarr);
+
+	for (int i = 0; i < lightsAmm; i++)
+	{
+		auxarr[3 * i] = lights[i].color.r;
+		auxarr[3 * i + 1] = lights[i].color.g;
+		auxarr[3 * i + 2] = lights[i].color.b;
+	}
+	glUniform3fv(LightColorsID, lightsAmm, auxarr);
+
+	for (int i = 0; i < lightsAmm; i++)
+	{
+		auxarr[i] = lights[i].intensity;
+	}
+	glUniform1fv(LightIntensitiesID, lightsAmm, auxarr);
+
+	glUniform1i(LightsAmmountID, lightsAmm);
+
+	glUniform3f(MistColorID, mistColor.r, mistColor.g, mistColor.b);
+
+	glUniform1f(MistThicknessID, mistThickness);
+
+	glClearColor(mistColor.r, mistColor.g, mistColor.b, 1.0f);
 }
