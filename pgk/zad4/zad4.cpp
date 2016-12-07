@@ -122,6 +122,7 @@ int main(int argc, char * argv[]) {
 	Aquarium aquarium = Aquarium(16,24,90);
 	aquarium.firstPersonCamera = false;
 	Light* pointLights = new Light[aquarium.maxBubbleLights + 1]; // 1 for the player's light
+	int maxLights = aquarium.maxBubbleLights + 1;
 	GameObject3d player3d = GameObject3d(aquarium.playerBody, DefaultTexture, FishModel);
 	GameObject3d playerHorns3d = GameObject3d(aquarium.playerHorns, DefaultTexture, HornsModel);
 	GameObject3d playerEyes3d = GameObject3d(aquarium.playerEyes, DefaultTexture, EyesModel);
@@ -242,7 +243,6 @@ int main(int argc, char * argv[]) {
 				lightsnumber++;
 			}
 		}
-
 		glUseProgram(BestShaderEver);
 		EnvironmentSetup(BestShaderEver, pointLights, lightsnumber, mistColor, mistThickness);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -278,6 +278,15 @@ int main(int argc, char * argv[]) {
 		glfwWindowShouldClose(window) == 0);
 
 
+	AquariumModel.CleanUp();
+	FishModel.CleanUp();
+	BulbModel.CleanUp();
+	HornsModel.CleanUp();
+	EyesModel.CleanUp();
+	BubbleModel.CleanUp();
+	glDeleteProgram(BestShaderEver);
+	glDeleteTextures(1, &DefaultTexture);
+	glDeleteTextures(1, &BubbleTexture);
 	glDeleteVertexArrays(1, &VertexArrayID);
 	delete[] pointLights;
 	glfwTerminate();

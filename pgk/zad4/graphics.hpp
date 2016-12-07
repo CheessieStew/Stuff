@@ -32,6 +32,7 @@ public:
 	GLuint uvBuffer;
 	GLuint normalBuffer;
 	Model3d(const char* path);
+	void CleanUp();
 	int Size();
 };
 

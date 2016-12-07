@@ -33,6 +33,13 @@ Model3d::Model3d(const char* path)
 	glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals[0], GL_STATIC_DRAW);
 }
 
+void Model3d::CleanUp()
+{
+	glDeleteBuffers(1, &vertexBuffer);
+	glDeleteBuffers(1, &uvBuffer);
+	glDeleteBuffers(1, &normalBuffer);
+}
+
 int Model3d::Size()
 {
 	return vertices.size();

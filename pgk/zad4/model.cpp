@@ -67,11 +67,12 @@ void Aquarium::Restart()
 	playerTargetXRot = 0;
 	playerTargetYRot = 0;
 	maxBubbleLights = MAXPOINTLIGHTS - 1;
+	currentBubbleLights = 0;
 	timeBeforeNextBubble = 0;
 	wounds = 0;
 	points = 0;
 	level = 1;
-	timeBetweenBubbles = 0.4;
+	timeBetweenBubbles = 0.5;
 	baseBubbleVelocity = 1.5;
 	finish = zSize;
 	for (int i = 0; i < 1000; i++)
@@ -263,7 +264,7 @@ void Aquarium::Update(double deltaTime, glm::vec3 thrust)
 		if (kill || collission)
 		{
 			if (i->light)
-				maxBubbleLights++;
+				currentBubbleLights--;
 			i = bubbles.erase(i);
 		}
 		else
@@ -328,9 +329,10 @@ void Aquarium::SpawnBubble()
 	newBubble.velocity = glm::vec3(0, baseBubbleVelocity + 2*(float)rand() / RAND_MAX, 0);
 	//printf("Spawning bubble %f %f size %f grow %f until %f \n", x, z, newBubble.scale.z, newBubble.growRate, newBubble.maxSize);
 	newBubble.light = false;
-	if (maxBubbleLights > 0 && rand() % 4 == 0)
+	if (currentBubbleLights < maxBubbleLights && rand() % 4 == 0)
 	{
-		maxBubbleLights--;
+		printf("new bubble! I had %d lights out of %d, now +1!\n", currentBubbleLights, maxBubbleLights);
+		currentBubbleLights++;
 		newBubble.light = true;
 		newBubble.material.emissive *= 20;
 		newBubble.material.specular += glm::vec3(0.2, 0.2, 0.2);

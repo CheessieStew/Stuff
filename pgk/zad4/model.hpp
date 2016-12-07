@@ -63,7 +63,7 @@ private:
 	float timeBetweenBubbles;
 	float timeBeforeNextBubble;
 	float baseBubbleVelocity;
-
+	int currentBubbleLights;
 	float playerMaxVelocity;
 	float playerAcceleration;
 	float playerDrag;
