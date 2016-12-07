@@ -60,17 +60,18 @@ GameObject3d::GameObject3d(GameObject & obj, GLuint tex, Model3d & m3d) :
 
 void GameObject3d::Draw(GLuint shader, const glm::mat4 * view, const glm::mat4 * projection, glm::vec3 camPos)
 {
-	GLuint MatrixID = glGetUniformLocation(shader, "MVP"); //mat4
-	GLuint OnlyModelID = glGetUniformLocation(shader, "onlyModel"); //mat4
-	GLuint OnlyViewID = glGetUniformLocation(shader, "onlyView"); //mat4
-	GLuint camPosID = glGetUniformLocation(shader, "cameraPosition_worldSpace"); //vec3
-	GLuint TextureID = glGetUniformLocation(shader, "myTextureSampler"); //sampler2d
-	GLuint MLightColorID = glGetUniformLocation(shader, "mainLightColor"); //vec3
-	GLuint MLightPowerID = glGetUniformLocation(shader, "mainLightPower"); //float
-	GLuint EmissiveID = glGetUniformLocation(shader, "emissiveness"); //vec3
-	GLuint OpacityID = glGetUniformLocation(shader, "opacity"); //float
-	GLuint SpecularID = glGetUniformLocation(shader, "specularity"); //vec3
-	GLuint TintID = glGetUniformLocation(shader, "tint"); //vec3
+	static GLuint MatrixID = glGetUniformLocation(shader, "MVP"); //mat4
+	static GLuint OnlyModelID = glGetUniformLocation(shader, "onlyModel"); //mat4
+	static GLuint OnlyViewID = glGetUniformLocation(shader, "onlyView"); //mat4
+	static GLuint InvTranModelID = glGetUniformLocation(shader, "inverseTransposeModel");
+	static 	GLuint camPosID = glGetUniformLocation(shader, "cameraPosition_worldSpace"); //vec3
+	static GLuint TextureID = glGetUniformLocation(shader, "myTextureSampler"); //sampler2d
+	static GLuint MLightColorID = glGetUniformLocation(shader, "mainLightColor"); //vec3
+	static GLuint MLightPowerID = glGetUniformLocation(shader, "mainLightPower"); //float
+	static GLuint EmissiveID = glGetUniformLocation(shader, "emissiveness"); //vec3
+	static GLuint OpacityID = glGetUniformLocation(shader, "opacity"); //float
+	static GLuint SpecularID = glGetUniformLocation(shader, "specularity"); //vec3
+	static GLuint TintID = glGetUniformLocation(shader, "tint"); //vec3
 
 	glm::vec3 position = Object.position;
 	position.x = position.x;
@@ -79,9 +80,12 @@ void GameObject3d::Draw(GLuint shader, const glm::mat4 * view, const glm::mat4 *
 
 	glm::mat4 MVP = (*projection) * (*view) * translation * Object.rotation * scale;
 	glm::mat4 OnlyModel = translation * Object.rotation * scale;
+	glm::mat3 InvTranModel = glm::mat3(glm::transpose(glm::inverse(OnlyModel)));
+	
 	glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &(MVP[0][0]));
 	glUniformMatrix4fv(OnlyModelID, 1, GL_FALSE, &OnlyModel[0][0]);
 	glUniformMatrix4fv(OnlyViewID, 1, GL_FALSE, &((*view)[0][0]));
+	glUniformMatrix3fv(InvTranModelID, 1, GL_FALSE, &InvTranModel[0][0]);
 
 
 	glUniform3f(camPosID, camPos.x, camPos.y, camPos.z);
@@ -89,7 +93,6 @@ void GameObject3d::Draw(GLuint shader, const glm::mat4 * view, const glm::mat4 *
 	glUniform1f(OpacityID, Object.material.opacity);
 	glUniform3f(TintID, Object.material.tint.x, Object.material.tint.y, Object.material.tint.y);
 	glUniform3f(SpecularID, Object.material.specular.x, Object.material.specular.y, Object.material.specular.z);
-
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, Texture);
 	glUniform1i(TextureID, 0);

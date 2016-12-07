@@ -15,6 +15,7 @@ out vec3 lookingDirection_cameraspace;
 uniform mat4 MVP;
 uniform mat4 onlyView;
 uniform mat4 onlyModel;
+uniform mat3 inverseTransposeModel;
 
 void main(){
 
@@ -38,25 +39,7 @@ void main(){
 	// but the effect was weird
 	// I'm not even sure this way is correct:
 
-	vec4 test1 = onlyModel * vec4(1,0,0,1);
-	vec4 test2 = onlyModel * vec4(-1,0,0,1);
-	float scaleX = length(test1.xyz-test2.xyz) * 0.5;
-
-	test1 = onlyModel * vec4(0,1,0,1);
-	test2 = onlyModel * vec4(0,-1,0,1);
-	float scaleY = length(test1.xyz - test2.xyz) * 0.5;
-	
-	test1 = onlyModel * vec4(0,0,1,1);
-	test2 = onlyModel * vec4(0,0,-1,1);
-	float scaleZ = length(test1.xyz - test2.xyz) * 0.5;
-
-	mat4 scale = mat4(
-		vec4(scaleX, 0, 0, 0),
-		vec4(0, scaleY, 0, 0),
-		vec4(0, 0, scaleZ, 0),
-		vec4(0, 0, 0, 1));
-
-	normal_cameraspace = (onlyView * onlyModel * inverse(scale) * vec4(vertexNormal_modelspace,0)).xyz;
+	normal_cameraspace = (mat3(onlyView) * inverseTransposeModel * vertexNormal_modelspace);
 
 	 
 

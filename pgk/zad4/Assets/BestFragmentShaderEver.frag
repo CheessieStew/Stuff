@@ -34,7 +34,7 @@ vec4 PointIllumination(vec4 albedoColor, int i)
 
 	vec3 normal = normalize(normal_cameraspace);
 	vec3 lightDir = normalize(lightDirection_cameraspace);
-	float diffuse = clamp(dot(normal,lightDir), 0, 1);
+	float diffuse = clamp(dot(normal,lightDir), 0, 1) * 0.6;
 
 	vec3 looking = normalize(lookingDirection_cameraspace);
 	vec3 reflection = reflect(-lightDir,normal);
@@ -97,9 +97,13 @@ void main(){
 	color.a = max(emissiveColor.a, max(ambientColor.a, globalIlluminationColor.a));
 	for (int i = 0; i < pointLightsAmmount; i++)
 	{
-		vec4 pointIlluminationColor = PointIllumination(albedoColor, i);
-		color.rgb += pointIlluminationColor.rgb;
-		color.a = max(color.a, pointIlluminationColor.a);
+		float distance = length(pointLightPositions[i] - vertexPosition_worldspace);
+		if (distance < pointLightIntensities[i])
+		{
+			vec4 pointIlluminationColor = PointIllumination(albedoColor, i);
+			color.rgb += pointIlluminationColor.rgb;
+			color.a = max(color.a, pointIlluminationColor.a);
+		}
 	}
 
 

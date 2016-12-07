@@ -25,7 +25,6 @@ bool CompareBubbles(const Bubble& first, const Bubble& second);
 glm::vec3 cameraPosition;
 
 int main(int argc, char * argv[]) {
-
 #pragma region parseArgs
 
 #pragma endregion
@@ -50,7 +49,7 @@ int main(int argc, char * argv[]) {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	// Open a window and create its OpenGL context
-	window = glfwCreateWindow(WINDOWWIDTH, WINDOWHEIGHT, "Tutorial 02 - Red triangle", NULL, NULL);
+	window = glfwCreateWindow(WINDOWWIDTH, WINDOWHEIGHT, "Glou Glou", NULL, NULL);
 	if (window == NULL) {
 		fprintf(stderr, "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials.\n");
 		getchar();
@@ -117,7 +116,7 @@ int main(int argc, char * argv[]) {
 	GLuint BestShaderEver(LoadShaders("Assets/BestVertexShaderEver.vert", "Assets/BestFragmentShaderEver.frag"));
 
 	//it's the relative position of the bulb to origin in model space
-	vec3 playerLightRelative = vec3(0.062, 0.48, 1.49);
+	vec3 playerLightRelative = vec3(0.062, 0.32, 1.49);
 
 	Aquarium aquarium = Aquarium(16,24,90);
 	aquarium.firstPersonCamera = false;
@@ -194,18 +193,7 @@ int main(int argc, char * argv[]) {
 				aquarium.playerTargetYRot -= camspeed * sin(0.001 * float(WINDOWHEIGHT / 2 - ypos));
 				aquarium.playerTargetYRot = clamp(aquarium.playerTargetYRot, -0.48f * (float)M_PI, 0.48f * (float)M_PI);
 			}
-			float rotX = aquarium.playerXRot;
-			float rotY = aquarium.playerYRot;
-
-			cameraPosition = aquarium.playerBody.position;
-			//cameraPosition = vec3(aquarium.xSize/2, aquarium.ySize, 0);
-			vec3 pointToLookAt = vec3(0, 0, 1);
-			pointToLookAt = vec3(aquarium.playerBody.rotation * vec4(pointToLookAt, 1));
-			//printf("point to look at %f %f %f\n", pointToLookAt.x, pointToLookAt.y, pointToLookAt.z);
-			view = glm::lookAt(
-				cameraPosition,
-				cameraPosition + pointToLookAt,
-				vec3(0, 1, 0));
+		
 			//view = glm::lookAt(
 			//	cameraPosition,
 			//	aquarium.playerBody.position,
@@ -223,6 +211,23 @@ int main(int argc, char * argv[]) {
 		if (!pause)
 			aquarium.Update(deltaTime, rotatedThrust);
 
+		// FirstPersonCameraSetupPart2
+		if (firstPersonCamera)
+		{
+			float rotX = aquarium.playerXRot;
+			float rotY = aquarium.playerYRot;
+
+			cameraPosition = aquarium.playerBody.position;
+			//cameraPosition = vec3(aquarium.xSize/2, aquarium.ySize, 0);
+			vec3 pointToLookAt = vec3(0, 0, 1);
+			pointToLookAt = vec3(aquarium.playerBody.rotation * vec4(pointToLookAt, 1));
+			//printf("point to look at %f %f %f\n", pointToLookAt.x, pointToLookAt.y, pointToLookAt.z);
+			view = glm::lookAt(
+				cameraPosition,
+				cameraPosition + pointToLookAt,
+				vec3(0, 1, 0));
+		}
+
 #pragma region draw
 		vec3 mistColor = vec3(0.01, 0.05, 0.07) * (8.0f/aquarium.level);
 		//mistColor = (mistColor * 3.0f + vec3(0.6, 0.05, 0.02) * (float)aquarium.wounds)/(3.0f+aquarium.wounds);
@@ -233,13 +238,13 @@ int main(int argc, char * argv[]) {
 		}
 		float mistThickness = 0.03 + 0.02 * (aquarium.level > 4 ? 4 : aquarium.level) + 0.04 * aquarium.wounds;
 
-		pointLights[0] = Light(playerBulb3d.Object, playerLightRelative, 20);
+		pointLights[0] = Light(playerBulb3d.Object, playerLightRelative, 15);
 		int lightsnumber = 1;
 		for (list<Bubble>::iterator i = aquarium.bubbles.begin(); i != aquarium.bubbles.end(); i++)
 		{
 			if (i->light)
 			{
-				pointLights[lightsnumber] = Light((*i), glm::vec3(0, 0, 0), 20);
+				pointLights[lightsnumber] = Light((*i), glm::vec3(0, 0, 0), 13);
 				lightsnumber++;
 			}
 		}
@@ -264,6 +269,8 @@ int main(int argc, char * argv[]) {
 		//indicator.material.emissive = vec3(0.7, 0.7, 0.7);
 		//GameObject3d indicator3d = GameObject3d(indicator, BestShaderEver, DefaultTexture, BubbleModel);
 		//indicator3d.Draw(BestShaderEver, &view, &projection, cameraPosition);
+		if (pause)
+			printf("I have %d bubbles\n",aquarium.bubbles.size());
 		for (list<Bubble>::iterator i = aquarium.bubbles.begin(); i != aquarium.bubbles.end(); i++)
 		{
 			//printf("size %f \n", (*i).scale.z);

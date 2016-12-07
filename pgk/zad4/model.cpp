@@ -5,7 +5,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "model.hpp"
 #define PLAYERRADIUS 1.0f
-#define MAXPOINTLIGHTS 21
+#define MAXPOINTLIGHTS 5
 using namespace std;
 
 GameObject::GameObject(glm::vec3 pos = glm::vec3(0,0,0))
@@ -39,28 +39,36 @@ Aquarium::Aquarium(float x, float y, float z):
 	playerDrag = .8;
 	playerRotateSpeed = 3.4;
 
-	Restart();
+	playerBody = GameObject();
+	playerEyes = GameObject();
+	playerHorns = GameObject();
+	playerBulb = GameObject();
 
+	Restart();
+	playerBody.material.tint = glm::vec3(0.45, 0.525, 0.47);
+	playerBody.material.specular = glm::vec3(0.1, 0.1, 0.1);
+	playerHorns.material.tint = glm::vec3(1, 1, 0.8);
+	playerHorns.material.specular = glm::vec3(0.7, 0.7, 0.7);
+	playerEyes.material.tint = glm::vec3(0, 0, 0);
+	playerEyes.material.specular = glm::vec3(0.8, 0.8, 0.8);
+	playerBulb.material.emissive = glm::vec3(0.6, 0.5, 0.9) * 0.6f;
+	playerBulb.material.opacity = 0.6;
 }
 
 void Aquarium::Restart()
 {
 	bubbles.clear();
 
-	playerBody = GameObject(glm::vec3(xSize / 2, ySize / 2, 3));
-	playerBody.material.tint = glm::vec3(0.45, 0.525, 0.47);
-	playerBody.material.specular = glm::vec3(0.1, 0.1, 0.1);
+	playerBody.position = (glm::vec3(xSize / 2, ySize / 2, 3));
 
-	playerHorns = GameObject(glm::vec3(xSize / 2, ySize / 2, 3));
-	playerHorns.material.tint = glm::vec3(1, 1, 0.8);
-	playerHorns.material.specular = glm::vec3(0.7, 0.7, 0.7);
 
-	playerEyes = GameObject(glm::vec3(xSize / 2, ySize / 2, 3));
-	playerEyes.material.tint = glm::vec3(0, 0, 0);
-	playerEyes.material.specular = glm::vec3(0.8, 0.8, 0.8);
+	playerHorns.position = (glm::vec3(xSize / 2, ySize / 2, 3));
 
-	playerBulb = GameObject(glm::vec3(xSize / 2, ySize / 2, 3));
-	playerBulb.material.emissive = glm::vec3(2, 2, 2.7);
+
+	playerEyes.position = (glm::vec3(xSize / 2, ySize / 2, 3));
+
+
+	playerBulb.position = (glm::vec3(xSize / 2, ySize / 2, 3));
 
 	playerXRot = 0;
 	playerYRot = 0;
@@ -72,7 +80,7 @@ void Aquarium::Restart()
 	wounds = 0;
 	points = 0;
 	level = 1;
-	timeBetweenBubbles = 0.5;
+	timeBetweenBubbles = 0.3;
 	baseBubbleVelocity = 1.5;
 	finish = zSize;
 	for (int i = 0; i < 1000; i++)
@@ -331,7 +339,6 @@ void Aquarium::SpawnBubble()
 	newBubble.light = false;
 	if (currentBubbleLights < maxBubbleLights && rand() % 4 == 0)
 	{
-		printf("new bubble! I had %d lights out of %d, now +1!\n", currentBubbleLights, maxBubbleLights);
 		currentBubbleLights++;
 		newBubble.light = true;
 		newBubble.material.emissive *= 20;
