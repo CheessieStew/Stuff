@@ -1,5 +1,7 @@
 #include "graphics.hpp"
 
+int Model3d::ModelsAmm = 0;
+int Model3d::CurrentlyLoadedModel = -1;
 
 Light::Light(GameObject &emitter, glm::vec3 offset, float power)
 {
@@ -16,7 +18,9 @@ Light::Light()
 }
 
 Model3d::Model3d(const char* path)
-{	
+{
+	modelID = ModelsAmm;
+	ModelsAmm++;
 	bool res = loadOBJ(path, vertices, uvs, normals);
 	if (!res)
 		throw "loadOBJ did not succeed";
@@ -91,43 +95,49 @@ void GameObject3d::Draw(GLuint shader, const glm::mat4 * view, const glm::mat4 *
 	glUniform1i(TextureID, 0);
 
 	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, M3d.vertexBuffer);
-	glVertexAttribPointer(
-		0,        
-		3,        
-		GL_FLOAT, 
-		GL_FALSE, 
-		0,        
-		(void*)0  
-		);
-
-	// 2nd attribute buffer : UVs
 	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, M3d.uvBuffer);
-	glVertexAttribPointer(
-		1,       
-		2,       
-		GL_FLOAT,
-		GL_FALSE,
-		0,       
-		(void*)0 
-		);
-
 	glEnableVertexAttribArray(2);
-	glBindBuffer(GL_ARRAY_BUFFER, M3d.normalBuffer);
-	glVertexAttribPointer(
-		2,       
-		3,       
-		GL_FLOAT,
-		GL_FALSE,
-		0,       
-		(void*)0 
-		);
 
+	if (M3d.CurrentlyLoadedModel != M3d.modelID)
+	{
+		M3d.CurrentlyLoadedModel = M3d.modelID;
+		glBindBuffer(GL_ARRAY_BUFFER, M3d.vertexBuffer);
+		glVertexAttribPointer(
+			0,
+			3,
+			GL_FLOAT,
+			GL_FALSE,
+			0,
+			(void*)0
+			);
+
+		// 2nd attribute buffer : UVs
+		glBindBuffer(GL_ARRAY_BUFFER, M3d.uvBuffer);
+		glVertexAttribPointer(
+			1,
+			2,
+			GL_FLOAT,
+			GL_FALSE,
+			0,
+			(void*)0
+			);
+
+		glBindBuffer(GL_ARRAY_BUFFER, M3d.normalBuffer);
+		glVertexAttribPointer(
+			2,
+			3,
+			GL_FLOAT,
+			GL_FALSE,
+			0,
+			(void*)0
+			);
+	}
 	// Draw the triangle !
 	glDrawArrays(GL_TRIANGLES, 0, M3d.Size());
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
+
 }
 
 void EnvironmentSetup(GLuint shader, Light* lights, int lightsAmm, glm::vec3 mistColor, float mistThickness)

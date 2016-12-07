@@ -161,7 +161,7 @@ int main(int argc, char * argv[]) {
 			glfwSetCursorPos(window, WINDOWWIDTH / 2, WINDOWHEIGHT / 2);
 
 			rotX += camspeed * sin(0.001 * float(WINDOWWIDTH / 2 - xpos));
-			rotY += camspeed * sin(0.001 * float(WINDOWHEIGHT / 2 - ypos));
+			rotY -= camspeed * sin(0.001 * float(WINDOWHEIGHT / 2 - ypos));
 			if (rotY > 0.45 * M_PI)
 				rotY = 0.45 * M_PI;
 			if (rotY < -0.45 * M_PI)

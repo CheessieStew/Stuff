@@ -28,6 +28,9 @@ class Model3d
 	std::vector<glm::vec2> uvs;
 	std::vector<glm::vec3> normals;
 public:
+	static int ModelsAmm;
+	int modelID;
+	static int CurrentlyLoadedModel;
 	GLuint vertexBuffer;
 	GLuint uvBuffer;
 	GLuint normalBuffer;
