@@ -1,7 +1,0 @@
-﻿  Building Custom Rule D:/Documents/GitHub/Stuff/pgk/external/glfw-3.1.2/examples/CMakeLists.txt
-  CMake does not need to re-run because D:\Documents\GitHub\Stuff\pgk\build\external\glfw-3.1.2\examples\CMakeFiles\generate.stamp is up-to-date.
-  particles.c
-  tinycthread.c
-  getopt.c
-  particles.vcxproj -> D:\Documents\GitHub\Stuff\pgk\build\external\glfw-3.1.2\examples\Debug\particles.exe
-  particles.vcxproj -> D:/Documents/GitHub/Stuff/pgk/build/external/glfw-3.1.2/examples/Debug/particles.pdb (Full PDB)

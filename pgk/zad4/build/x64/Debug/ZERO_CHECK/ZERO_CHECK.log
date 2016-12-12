@@ -1,0 +1,11 @@
+﻿  Checking Build System
+  CMake is re-running because D:/Documents/GitHub/Stuff/pgk/zad4/build/CMakeFiles/generate.stamp is out-of-date.
+    the file 'D:/Documents/GitHub/Stuff/pgk/zad4/CMakeLists.txt'
+    is newer than 'D:/Documents/GitHub/Stuff/pgk/zad4/build/CMakeFiles/generate.stamp.depend'
+    result='-1'
+  -- Could NOT find Doxygen (missing:  DOXYGEN_EXECUTABLE) 
+  -- Using Win32 for window creation
+  -- Using WGL for context creation
+  -- Configuring done
+  -- Generating done
+  -- Build files have been written to: D:/Documents/GitHub/Stuff/pgk/zad4/build

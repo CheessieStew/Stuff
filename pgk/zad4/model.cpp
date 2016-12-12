@@ -5,7 +5,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "model.hpp"
 #define PLAYERRADIUS 1.0f
-#define MAXPOINTLIGHTS 5
+#define MAXPOINTLIGHTS 13
 using namespace std;
 
 GameObject::GameObject(glm::vec3 pos = glm::vec3(0,0,0))
@@ -57,18 +57,19 @@ Aquarium::Aquarium(float x, float y, float z):
 
 void Aquarium::Restart()
 {
+	printf("\n\nLevel 1. Swim to the other side!\n");
 	bubbles.clear();
 
-	playerBody.position = (glm::vec3(xSize / 2, ySize / 2, 3));
+	playerBody.position = (glm::vec3(xSize / 2, ySize / 2, 1.5));
 
 
-	playerHorns.position = (glm::vec3(xSize / 2, ySize / 2, 3));
+	playerHorns.position = (glm::vec3(xSize / 2, ySize / 2, 1.5));
 
 
-	playerEyes.position = (glm::vec3(xSize / 2, ySize / 2, 3));
+	playerEyes.position = (glm::vec3(xSize / 2, ySize / 2, 1.5));
 
 
-	playerBulb.position = (glm::vec3(xSize / 2, ySize / 2, 3));
+	playerBulb.position = (glm::vec3(xSize / 2, ySize / 2, 1.5));
 
 	playerXRot = 0;
 	playerYRot = 0;
@@ -89,10 +90,10 @@ void Aquarium::Restart()
 
 void Aquarium::TryNextLevel()
 {
-	if (abs(finish - playerBody.position.z) < PLAYERRADIUS * 2)
+	if (abs(finish - playerBody.position.z) < PLAYERRADIUS * 4)
 	{
 		points += level * 10;
-		printf("Good job, now swim back!\n");
+		printf("Good job, now swim back! You've beaten level %d.\n",level);
 		printf("You have %d points.\n", points);
 		finish = zSize - finish;
 		level++;
@@ -141,7 +142,7 @@ void Aquarium::UpdatePlayer(double deltaTime, glm::vec3 thrust)
 		if (glm::length(horizontalVelocity) > 0.1)
 		{
 			horizontalVelocity = glm::normalize(horizontalVelocity);
-			playerTargetXRot = -atan2(horizontalVelocity.z, horizontalVelocity.x) + M_PI / 2;
+			playerTargetYRot = -atan2(horizontalVelocity.z, horizontalVelocity.x) + M_PI / 2;
 		}
 
 		glm::vec3 verticalVelocity = playerBody.velocity;
@@ -151,47 +152,22 @@ void Aquarium::UpdatePlayer(double deltaTime, glm::vec3 thrust)
 			if (verticalVelocity.z < 0)
 				verticalVelocity.z *= -1;
 			verticalVelocity = glm::normalize(verticalVelocity);
-			playerTargetYRot = -atan2(verticalVelocity.y, verticalVelocity.z);
+			playerTargetXRot = -atan2(verticalVelocity.y, verticalVelocity.z);
 		}
 	}
 
-	//playerTargetXRot is always (0,2pi)
-	float angleDiff = playerTargetXRot - playerXRot;
+	float angleDiff = playerTargetYRot - playerYRot;
 	if (angleDiff > 2 * M_PI)
 		angleDiff -= 2 * M_PI;
 	if (angleDiff <= M_PI)
-		playerXRot += angleDiff * deltaTime * playerRotateSpeed;
+		playerYRot += angleDiff * deltaTime * playerRotateSpeed;
 	else
-		playerXRot += (angleDiff - 2 * M_PI) * deltaTime * playerRotateSpeed;
-	playerYRot += (playerTargetYRot - playerYRot) * deltaTime * playerRotateSpeed;
+		playerYRot += (angleDiff - 2 * M_PI) * deltaTime * playerRotateSpeed;
 
+	playerXRot += (playerTargetXRot - playerXRot) * deltaTime * playerRotateSpeed;
 
-	playerBody.rotation = glm::rotate(glm::mat4(1.0), playerXRot, glm::vec3(0, 1, 0));
-	playerBody.rotation *= glm::rotate(glm::mat4(1.0), playerYRot, glm::vec3(1, 0, 0));
-
-
-	//
-	//glm::vec3 horizontalVelocity = glm::vec3(playerBody.velocity.x, 0, playerBody.velocity.z);
-	//glm::vec3 mov3 = glm::normalize(horizontalVelocity);
-	//glm::vec4 playerMovement = (glm::vec4(mov3.x, mov3.y, mov3.z, 1));
-	//glm::vec4 playerForward = playerBody.rotation * glm::vec4(0, 0, 1, 1);
-	//glm::vec3 fwd3 = glm::normalize(glm::vec3(playerForward.x, 0, playerForward.z));
-	//
-	//if (glm::length(horizontalVelocity) != 0 && glm::dot(mov3, fwd3) < 0.999999)
-	//{
-	//	float angle = -acos(glm::dot(mov3, fwd3));
-	//	glm::vec3 axis = glm::cross(mov3, fwd3);
-	//
-	//	// let's say we want to rotate by up to playerRotateSpeed per second
-	//	// and we also don't want to rotate further than needed
-	//	float sgn = angle / abs(angle);
-	//	float possibleAngle = playerRotateSpeed * deltaTime;
-	//	if (possibleAngle > abs(angle))
-	//		possibleAngle = angle;
-	//	else
-	//		possibleAngle *= sgn;
-	//	playerBody.rotation *= glm::rotate(glm::mat4(1.0), possibleAngle, axis);
-	//}
+	playerBody.rotation = glm::rotate(glm::mat4(1.0), playerYRot, glm::vec3(0, 1, 0));
+	playerBody.rotation *= glm::rotate(glm::mat4(1.0), playerXRot, glm::vec3(1, 0, 0));
 
 	
 	if (!PlayerTouchesBox(newPlayerPosition))
@@ -206,40 +182,6 @@ void Aquarium::UpdatePlayer(double deltaTime, glm::vec3 thrust)
 	playerBulb.rotation = playerBody.rotation;
 }
 
-bool Aquarium::PlayerTouchesBox(glm::vec3 newPlayerPosition)
-{
-	if (abs(newPlayerPosition.x - xSize) < PLAYERRADIUS)
-	{
-		playerBody.velocity.x = -1;
-		return true;
-	}
-	if (abs(newPlayerPosition.x) < PLAYERRADIUS)
-	{
-		playerBody.velocity.x = 1;
-		return true;
-	}
-	if (abs(newPlayerPosition.y - ySize) < PLAYERRADIUS)
-	{
-		playerBody.velocity.y = -1;
-		return true;
-	}
-	if (abs(newPlayerPosition.y) < PLAYERRADIUS)
-	{
-		playerBody.velocity.y = 1;
-		return true;
-	}
-	if (abs(newPlayerPosition.z - zSize) < PLAYERRADIUS)
-	{
-		playerBody.velocity.z = -1;
-		return true;
-	}
-	if (abs(newPlayerPosition.z) < PLAYERRADIUS)
-	{
-		playerBody.velocity.z = 1;
-		return true;
-	}
-	return false;
-}
 
 void Aquarium::Update(double deltaTime, glm::vec3 thrust)
 {
@@ -297,16 +239,6 @@ void Aquarium::Update(double deltaTime, glm::vec3 thrust)
 	}
 }
 
-bool Aquarium::ShouldKill(Bubble & b)
-{
-	return abs(b.position.y - ySize) <= b.scale.z;
-}
-
-bool Aquarium::PlayerCollission(Bubble & b)
-{
-	return glm::length(b.position - playerBody.position) <= PLAYERRADIUS + b.scale.x;
-}
-
 void Aquarium::SpawnBubble()
 {
 	static glm::vec3 colors[]
@@ -347,8 +279,56 @@ void Aquarium::SpawnBubble()
 	bubbles.push_back(newBubble);
 }
 
+
+#pragma region boringFunctions
+bool Aquarium::PlayerTouchesBox(glm::vec3 newPlayerPosition)
+{
+	if (abs(newPlayerPosition.x - xSize) < PLAYERRADIUS)
+	{
+		playerBody.velocity.x = -1;
+		return true;
+	}
+	if (abs(newPlayerPosition.x) < PLAYERRADIUS)
+	{
+		playerBody.velocity.x = 1;
+		return true;
+	}
+	if (abs(newPlayerPosition.y - ySize) < PLAYERRADIUS)
+	{
+		playerBody.velocity.y = -1;
+		return true;
+	}
+	if (abs(newPlayerPosition.y) < PLAYERRADIUS)
+	{
+		playerBody.velocity.y = 1;
+		return true;
+	}
+	if (abs(newPlayerPosition.z - zSize) < PLAYERRADIUS)
+	{
+		playerBody.velocity.z = -1;
+		return true;
+	}
+	if (abs(newPlayerPosition.z) < PLAYERRADIUS)
+	{
+		playerBody.velocity.z = 1;
+		return true;
+	}
+	return false;
+}
+
+bool Aquarium::ShouldKill(Bubble & b)
+{
+	return abs(b.position.y - ySize) <= b.scale.z;
+}
+
+bool Aquarium::PlayerCollission(Bubble & b)
+{
+	return glm::length(b.position - playerBody.position) <= PLAYERRADIUS + b.scale.x;
+}
+
 Bubble::Bubble(glm::vec3 pos, float s)
 	:GameObject(pos)
 {
 	scale = glm::vec3(s, s, s);
 }
+#pragma endregion

@@ -1,0 +1,5 @@
+﻿  Building Custom Rule D:/Documents/GitHub/Stuff/pgk/external/glfw-3.1.2/examples/CMakeLists.txt
+  CMake does not need to re-run because D:\Documents\GitHub\Stuff\pgk\zad4\external\build\glfw-3.1.2\examples\CMakeFiles\generate.stamp is up-to-date.
+  heightmap.c
+  glad.c
+  heightmap.vcxproj -> D:\Documents\GitHub\Stuff\pgk\zad4\external\build\glfw-3.1.2\examples\Release\heightmap.exe

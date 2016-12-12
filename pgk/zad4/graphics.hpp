@@ -5,9 +5,8 @@
 
 #include <stdlib.h>
 #include <vector>
-#include <common/objloader.hpp>
-#include <common/texture.hpp>
-#include <common/shader.hpp>
+#include <../common/objloader.hpp>
+#include <../common/texture.hpp>
 #include "model.hpp"
 
 
@@ -49,4 +48,4 @@ public:
 	void Draw(GLuint shader, const glm::mat4 * view, const glm::mat4 * projection, glm::vec3 camPos);
 };
 
-void EnvironmentSetup(GLuint shader, Light* lights, int lightsAmm, glm::vec3 mistColor, float mistThickness);
+void EnvironmentSetup(GLuint shader, float mainLightIntensity, Light* lights, int lightsAmm, glm::vec3 mistColor, float mistThickness);

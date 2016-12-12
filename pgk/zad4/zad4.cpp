@@ -7,8 +7,7 @@
 #include "model.hpp"
 #include "graphics.hpp"
 using namespace glm;
-#include <common/shader.hpp>
-
+#include <../common/shader.hpp>
 #define WINDOWWIDTH 1280
 #define WINDOWHEIGHT 1024
 
@@ -137,6 +136,8 @@ int main(int argc, char * argv[]) {
 	glfwSetScrollCallback(window, ScrollCallback);
 	glfwSetKeyCallback(window, KeyCallback);
 
+	printf("\n  WASD, ctrl, space - movement\n  mouse - camera movement\n  tab - change camera mode \n  f1 - pause\n  esc - quit\n");
+
 	//main loop
 	do {
 		double newTimer = glfwGetTime();
@@ -170,10 +171,6 @@ int main(int argc, char * argv[]) {
 			CamRelative = rotate(mat4(1.0), rotY, vec3(1, 0, 0)) * CamRelative;
 			CamRelative = rotate(mat4(1.0), rotX, vec3(0, 1, 0)) * CamRelative;
 			cameraPosition = aquarium.playerBody.position + vec3(CamRelative.x, CamRelative.y, CamRelative.z);
-			view = glm::lookAt(
-				cameraPosition,
-				aquarium.playerBody.position,
-				vec3(0, 1, 0));
 		}
 		else // first person camera is a two-stage job
 			// we tell the model where we want to look
@@ -189,9 +186,9 @@ int main(int argc, char * argv[]) {
 			glfwSetCursorPos(window, WINDOWWIDTH / 2, WINDOWHEIGHT / 2);
 			if (!pause)
 			{
-				aquarium.playerTargetXRot += camspeed * sin(0.001 * float(WINDOWWIDTH / 2 - xpos));
-				aquarium.playerTargetYRot -= camspeed * sin(0.001 * float(WINDOWHEIGHT / 2 - ypos));
-				aquarium.playerTargetYRot = clamp(aquarium.playerTargetYRot, -0.48f * (float)M_PI, 0.48f * (float)M_PI);
+				aquarium.playerTargetYRot += camspeed * sin(0.001 * float(WINDOWWIDTH / 2 - xpos));
+				aquarium.playerTargetXRot -= camspeed * sin(0.001 * float(WINDOWHEIGHT / 2 - ypos));
+				aquarium.playerTargetXRot = clamp(aquarium.playerTargetXRot, -0.48f * (float)M_PI, 0.48f * (float)M_PI);
 			}
 		
 			//view = glm::lookAt(
@@ -211,7 +208,7 @@ int main(int argc, char * argv[]) {
 		if (!pause)
 			aquarium.Update(deltaTime, rotatedThrust);
 
-		// FirstPersonCameraSetupPart2
+		// camera setup part 2
 		if (firstPersonCamera)
 		{
 			float rotX = aquarium.playerXRot;
@@ -227,6 +224,13 @@ int main(int argc, char * argv[]) {
 				cameraPosition + pointToLookAt,
 				vec3(0, 1, 0));
 		}
+		else
+		{
+			view = glm::lookAt(
+				cameraPosition,
+				aquarium.playerBody.position,
+				vec3(0, 1, 0));
+		}
 
 #pragma region draw
 		vec3 mistColor = vec3(0.01, 0.05, 0.07) * (8.0f/aquarium.level);
@@ -236,7 +240,11 @@ int main(int argc, char * argv[]) {
 			mistColor = vec3(0.5 + 0.15 * aquarium.wounds, 0.4 - 0.1 * aquarium.wounds, 0.6 - 0.2 * aquarium.wounds)
 				* length(mistColor);
 		}
-		float mistThickness = 0.03 + 0.02 * (aquarium.level > 4 ? 4 : aquarium.level) + 0.04 * aquarium.wounds;
+		float mistThickness = 0.03 + 0.015 * (aquarium.level > 4 ? 4 : aquarium.level) + 0.03 * aquarium.wounds;
+
+		float mainLightIntensity = 1.6 - 0.2 * aquarium.level;
+		if (mainLightIntensity < 0.2)
+			mainLightIntensity = 0.2;
 
 		pointLights[0] = Light(playerBulb3d.Object, playerLightRelative, 15);
 		int lightsnumber = 1;
@@ -249,34 +257,23 @@ int main(int argc, char * argv[]) {
 			}
 		}
 		glUseProgram(BestShaderEver);
-		EnvironmentSetup(BestShaderEver, pointLights, lightsnumber, mistColor, mistThickness);
+		EnvironmentSetup(BestShaderEver, mainLightIntensity, pointLights, lightsnumber, mistColor, mistThickness);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		aquarium3d.Draw(BestShaderEver, &view, &projection, cameraPosition);
-		//printf("box... ");
 		player3d.Draw(BestShaderEver, &view, &projection, cameraPosition);
-		//printf("player... ");
 		playerEyes3d.Draw(BestShaderEver, &view, &projection, cameraPosition);
-		//printf("eyes... ");
 		playerBulb3d.Draw(BestShaderEver, &view, &projection, cameraPosition);
-		//printf("bulb... ");
 		playerHorns3d.Draw(BestShaderEver, &view, &projection, cameraPosition);
-		//printf("horns... ");
-		//printf(" have %d lights\n", lightsnumber);
 		aquarium.bubbles.sort(CompareBubbles);
 
-		//Bubble indicator = Bubble(player3d.Object.position + playerLightRelative, 0.2);
-		//indicator.material.emissive = vec3(0.7, 0.7, 0.7);
-		//GameObject3d indicator3d = GameObject3d(indicator, BestShaderEver, DefaultTexture, BubbleModel);
-		//indicator3d.Draw(BestShaderEver, &view, &projection, cameraPosition);
-		if (pause)
-			printf("I have %d bubbles\n",aquarium.bubbles.size());
 		for (list<Bubble>::iterator i = aquarium.bubbles.begin(); i != aquarium.bubbles.end(); i++)
 		{
 			//printf("size %f \n", (*i).scale.z);
 			GameObject3d bubble3d = GameObject3d((*i), BubbleTexture, BubbleModel);
 			bubble3d.Draw(BestShaderEver, &view, &projection, cameraPosition);
 		}
+
 #pragma endregion
 		glfwSwapBuffers(window);
 		glfwPollEvents();

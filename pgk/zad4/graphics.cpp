@@ -143,7 +143,7 @@ void GameObject3d::Draw(GLuint shader, const glm::mat4 * view, const glm::mat4 *
 
 }
 
-void EnvironmentSetup(GLuint shader, Light* lights, int lightsAmm, glm::vec3 mistColor, float mistThickness)
+void EnvironmentSetup(GLuint shader, float mainLightIntensity, Light* lights, int lightsAmm, glm::vec3 mistColor, float mistThickness)
 {
 	GLuint LightPositionsID = glGetUniformLocation(shader, "pointLightPositions"); //vec3[21]
 	GLuint LightColorsID = glGetUniformLocation(shader, "pointLightColors"); //vec3[21]
@@ -151,6 +151,7 @@ void EnvironmentSetup(GLuint shader, Light* lights, int lightsAmm, glm::vec3 mis
 	GLuint LightsAmmountID = glGetUniformLocation(shader, "pointLightsAmmount"); //int
 	GLuint MistColorID = glGetUniformLocation(shader, "mistColor"); //vec3
 	GLuint MistThicknessID = glGetUniformLocation(shader, "mistThickness"); //float
+	GLuint MainLightIntensityID = glGetUniformLocation(shader, "mainLightIntensity"); //float
 
 	static float auxarr[21 * 3];
 	for (int i = 0; i < lightsAmm; i++)
@@ -180,6 +181,8 @@ void EnvironmentSetup(GLuint shader, Light* lights, int lightsAmm, glm::vec3 mis
 	glUniform3f(MistColorID, mistColor.r, mistColor.g, mistColor.b);
 
 	glUniform1f(MistThicknessID, mistThickness);
+
+	glUniform1f(MainLightIntensityID, mainLightIntensity);
 
 	glClearColor(mistColor.r, mistColor.g, mistColor.b, 1.0f);
 }

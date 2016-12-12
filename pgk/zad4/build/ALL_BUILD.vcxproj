@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{1918A653-F101-3EB7-8118-C1B71995AA81}</ProjectGUID>
+    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+    <PropertyGroup>
+      <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Documents\GitHub\Stuff\pgk\zad4\..\external\AntTweakBar-1.16\include;D:\Documents\GitHub\Stuff\pgk\zad4\..\external\glfw-3.1.2\include\GLFW;D:\Documents\GitHub\Stuff\pgk\zad4\..\external\glm-0.9.7.1;D:\Documents\GitHub\Stuff\pgk\zad4\..\external\glew-1.13.0\include;D:\Documents\GitHub\Stuff\pgk\zad4\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Documents\GitHub\Stuff\pgk\zad4\..\external\AntTweakBar-1.16\include;D:\Documents\GitHub\Stuff\pgk\zad4\..\external\glfw-3.1.2\include\GLFW;D:\Documents\GitHub\Stuff\pgk\zad4\..\external\glm-0.9.7.1;D:\Documents\GitHub\Stuff\pgk\zad4\..\external\glew-1.13.0\include;D:\Documents\GitHub\Stuff\pgk\zad4\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Documents\GitHub\Stuff\pgk\zad4\..\external\AntTweakBar-1.16\include;D:\Documents\GitHub\Stuff\pgk\zad4\..\external\glfw-3.1.2\include\GLFW;D:\Documents\GitHub\Stuff\pgk\zad4\..\external\glm-0.9.7.1;D:\Documents\GitHub\Stuff\pgk\zad4\..\external\glew-1.13.0\include;D:\Documents\GitHub\Stuff\pgk\zad4\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Documents\GitHub\Stuff\pgk\zad4\..\external\AntTweakBar-1.16\include;D:\Documents\GitHub\Stuff\pgk\zad4\..\external\glfw-3.1.2\include\GLFW;D:\Documents\GitHub\Stuff\pgk\zad4\..\external\glm-0.9.7.1;D:\Documents\GitHub\Stuff\pgk\zad4\..\external\glew-1.13.0\include;D:\Documents\GitHub\Stuff\pgk\zad4\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Documents\GitHub\Stuff\pgk\zad4\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/Documents/GitHub/Stuff/pgk/zad4/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/Documents/GitHub/Stuff/pgk/zad4 -BD:/Documents/GitHub/Stuff/pgk/zad4/build --check-stamp-file D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/Documents/GitHub/Stuff/pgk/zad4/CMakeLists.txt;D:\Documents\GitHub\Stuff\pgk\zad4\CMakeLists.txt;D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\3.7.0-rc1\CMakeSystem.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInitialize.cmake;D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\3.7.0-rc1\CMakeCCompiler.cmake;D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\3.7.0-rc1\CMakeCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\3.7.0-rc1\CMakeRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindOpenGL.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;D:\Documents\GitHub\Stuff\pgk\zad4\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/Documents/GitHub/Stuff/pgk/zad4/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/Documents/GitHub/Stuff/pgk/zad4 -BD:/Documents/GitHub/Stuff/pgk/zad4/build --check-stamp-file D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/Documents/GitHub/Stuff/pgk/zad4/CMakeLists.txt;D:\Documents\GitHub\Stuff\pgk\zad4\CMakeLists.txt;D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\3.7.0-rc1\CMakeSystem.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInitialize.cmake;D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\3.7.0-rc1\CMakeCCompiler.cmake;D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\3.7.0-rc1\CMakeCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\3.7.0-rc1\CMakeRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindOpenGL.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;D:\Documents\GitHub\Stuff\pgk\zad4\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/Documents/GitHub/Stuff/pgk/zad4/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/Documents/GitHub/Stuff/pgk/zad4 -BD:/Documents/GitHub/Stuff/pgk/zad4/build --check-stamp-file D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:/Documents/GitHub/Stuff/pgk/zad4/CMakeLists.txt;D:\Documents\GitHub\Stuff\pgk\zad4\CMakeLists.txt;D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\3.7.0-rc1\CMakeSystem.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInitialize.cmake;D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\3.7.0-rc1\CMakeCCompiler.cmake;D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\3.7.0-rc1\CMakeCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\3.7.0-rc1\CMakeRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindOpenGL.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;D:\Documents\GitHub\Stuff\pgk\zad4\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/Documents/GitHub/Stuff/pgk/zad4/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -HD:/Documents/GitHub/Stuff/pgk/zad4 -BD:/Documents/GitHub/Stuff/pgk/zad4/build --check-stamp-file D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:/Documents/GitHub/Stuff/pgk/zad4/CMakeLists.txt;D:\Documents\GitHub\Stuff\pgk\zad4\CMakeLists.txt;D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\3.7.0-rc1\CMakeSystem.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInitialize.cmake;D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\3.7.0-rc1\CMakeCCompiler.cmake;D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\3.7.0-rc1\CMakeCXXCompiler.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\3.7.0-rc1\CMakeRCCompiler.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindOpenGL.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-3.7\Modules\CMakeParseArguments.cmake;D:\Documents\GitHub\Stuff\pgk\zad4\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Documents\GitHub\Stuff\pgk\zad4\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/build/ZERO_CHECK.vcxproj">
+      <Project>59CB91D3-903D-3A0B-A482-8C3CB10A02AA</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/GLEW_1130.vcxproj">
+      <Project>6C737807-AFAD-3AE4-846F-A59488A8FF19</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/build/GlouGlou.vcxproj">
+      <Project>3D4AC311-92D1-3F33-BF29-EEB170B49A39</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/examples/boing.vcxproj">
+      <Project>D3445711-54BB-3D2D-B903-0FFD32509753</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/tests/clipboard.vcxproj">
+      <Project>C51BAC61-9A44-3998-B5C9-DB5A1E533855</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/tests/cursor.vcxproj">
+      <Project>EC60C7C1-14E9-342C-A4A6-62C023963194</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/tests/empty.vcxproj">
+      <Project>F21ADEC4-3061-397B-93EB-77CC9CDEDDB0</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/tests/events.vcxproj">
+      <Project>5EC9B06E-AF67-341F-886F-27BD63DEDFC9</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/tests/gamma.vcxproj">
+      <Project>76FAAC2F-6132-3B3D-AFD8-219E55180BB9</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/examples/gears.vcxproj">
+      <Project>E7EF7E99-9576-3F44-AE8C-922D6B31EF30</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/src/glfw.vcxproj">
+      <Project>3193BA9B-1C0B-34B6-964D-1F9F7553CBC2</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/tests/glfwinfo.vcxproj">
+      <Project>4C1F55E4-49CB-3172-AE82-BCB47B6907E9</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/examples/heightmap.vcxproj">
+      <Project>D9E59184-407D-3FA5-9B05-3D3BCDA9A1CD</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/tests/iconify.vcxproj">
+      <Project>4BD259DE-4B60-3DA2-AC9F-B4C061AD4F47</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/tests/joysticks.vcxproj">
+      <Project>5D046B12-B498-3369-BC60-9D3B5A232893</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/tests/monitors.vcxproj">
+      <Project>096FA095-BF50-3A8A-AD9D-F2273DFBE3EE</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/tests/msaa.vcxproj">
+      <Project>96F39458-2BEA-361B-A180-F8D8715B751D</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/examples/particles.vcxproj">
+      <Project>D6B3D14F-F9A9-3DFE-ADA2-12959B4F7856</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/tests/reopen.vcxproj">
+      <Project>59A3B4B0-729E-3040-B6FF-19CEDE943F96</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/tests/sharing.vcxproj">
+      <Project>854033F1-547A-34CE-8E8F-21E9B098EBDA</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/examples/simple.vcxproj">
+      <Project>02F607AB-F094-317D-AA71-A90C606D2A04</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/examples/splitview.vcxproj">
+      <Project>BE5ADE03-6C31-3B12-BE07-0E96AE54F7AC</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/tests/tearing.vcxproj">
+      <Project>6EB5B06B-9DC2-3CF7-B6D8-F31C0D2148E9</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/tests/threads.vcxproj">
+      <Project>32C483A5-7994-3F7F-A6CD-4A80719DD321</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/tests/title.vcxproj">
+      <Project>17BDDB43-046C-3998-8EEC-A30AD3AE4A56</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/examples/wave.vcxproj">
+      <Project>1E9BDA62-B02E-3462-83E9-73F5DC4C66D8</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/Documents/GitHub/Stuff/pgk/zad4/external/build/glfw-3.1.2/tests/windows.vcxproj">
+      <Project>2C1A9AD6-031E-3093-8598-8378557F57B8</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

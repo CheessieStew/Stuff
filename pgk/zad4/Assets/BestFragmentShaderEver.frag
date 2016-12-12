@@ -15,7 +15,7 @@ uniform vec3 cameraPosition_worldSpace;
 uniform mat4 onlyView;
 uniform mat4 onlyModel;
 uniform vec3 mainLightColor = vec3(1,1,1);
-uniform float mainLightIntensity = 1.2f;
+uniform float mainLightIntensity = 1.6f;
 uniform vec3 emissiveness = vec3(0.1,0.1,0.1);
 uniform float opacity = 0.1;
 uniform vec3 specularity = vec3(0.7, 0.7, 0.7);
@@ -43,7 +43,7 @@ vec4 PointIllumination(vec4 albedoColor, int i)
 	float distance = length(pointLightPositions[i] - vertexPosition_worldspace);
 
 	vec4 diffuseColor = vec4(diffuse / (distance * distance) * pointLightIntensities[i] * pointLightColors[i] * albedoColor.rgb * tint, 1);
-	diffuseColor.a = opacity * albedoColor.a * length(diffuseColor.rgb)/1.732;
+	diffuseColor.a = opacity * albedoColor.a;
 
 	vec4 specularColor = vec4(pow(specular,5) / (distance * distance) * pointLightIntensities[i] * pointLightColors[i] * specularity, 1);
 	specularColor.a = length(specularColor.rgb)/1.732;
@@ -70,7 +70,7 @@ vec4 GlobalIllumination(vec4 albedoColor)
 	float specular = clamp(dot(looking,reflection), 0, 1);
 
 	vec4 diffuseColor = vec4(diffuse * mainLightIntensity * mainLightColor * albedoColor.rgb * tint, 1);
-	diffuseColor.a = opacity * albedoColor.a * length(diffuseColor.rgb)/1.732;
+	diffuseColor.a = opacity * albedoColor.a;
 
 	vec4 specularColor = vec4(pow(specular,5) * mainLightIntensity * mainLightColor * specularity, 1);
 	specularColor.a = length(specularColor.rgb)/1.732;
