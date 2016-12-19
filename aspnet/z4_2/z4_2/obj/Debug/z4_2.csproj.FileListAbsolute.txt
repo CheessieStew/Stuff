@@ -31,3 +31,4 @@ D:\Documents\GitHub\Stuff\aspnet\z4_2\z4_2\bin\Microsoft.CodeDom.Providers.DotNe
 D:\Documents\GitHub\Stuff\aspnet\z4_2\z4_2\obj\Debug\z4_2.csprojResolveAssemblyReference.cache
 D:\Documents\GitHub\Stuff\aspnet\z4_2\z4_2\obj\Debug\z4_2.dll
 D:\Documents\GitHub\Stuff\aspnet\z4_2\z4_2\obj\Debug\z4_2.pdb
+D:\Documents\GitHub\Stuff\aspnet\z4_2\z4_2\bin\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
