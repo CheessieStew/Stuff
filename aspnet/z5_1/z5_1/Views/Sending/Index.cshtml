@@ -1,0 +1,13 @@
+﻿@model z5_1.Models.SendingFile
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@using (Html.BeginForm("Send", "Sending", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.TextBoxFor(m => m.File, new { type = "file", name = "File" })<br /><br />
+
+    <input type="submit" value="Submit" class="btn btn-default" />
+}

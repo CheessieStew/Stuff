@@ -1,0 +1,53 @@
+﻿@model z5_1.Models.RandomModel
+@{
+    ViewBag.Title = "Index";
+    //ViewBag.Ints1 = Model.Ints1.Select(i => new SelectListItem { Text = $"smth{i}", Value = $"{i}" });
+}
+
+
+@using (Html.BeginForm("Index", "Examples"))
+{ 
+    @Html.CheckBox("Bool1");
+    <br />
+    @Html.CheckBoxFor(m => m.Bool2);
+    <br />
+    @Html.DropDownList("Ints1");
+    <br />
+    @Html.DropDownListFor(m => m.Ints2, new SelectList(Model.Ints2.Select(i => $"smth{i}")));
+    <br />
+    @Html.Password("Pwd1");
+    <br />
+    @Html.PasswordFor(m => m.Pwd2);
+    <br />
+    @Html.TextBox("Text1");
+    <br />
+    @Html.TextBoxFor(m => m.Text2);
+    <br />
+    @Html.TextArea("BigText1");
+    <br />
+    @Html.TextAreaFor(m => m.BigText2);
+    <br />
+    @Html.Raw(Model.Html);
+    <br />
+    @Html.RadioButton("Option1", "smth1");
+    <b>smth1</b>
+    <br />
+    @Html.RadioButton("Option1", "smth2");
+    <b>smth2</b>
+    <br />
+    @Html.RadioButtonFor(m => m.Option2, "smth1");
+    <b>smth1</b>
+    <br />
+    @Html.RadioButtonFor(m => m.Option2, "smth2");
+    <b>smth2</b>
+    <br />
+    <br />
+    <b>---</b>
+    @Model.Html
+    <b>---</b>
+    @Html.Raw(Model.Html)
+    <b>---</b>
+    <br />
+    <input type="submit" value="Submit" class="btn btn-default" />
+}
+

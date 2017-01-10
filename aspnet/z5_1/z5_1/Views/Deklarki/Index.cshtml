@@ -1,0 +1,51 @@
+﻿
+@model z5_1.Models.Deklarka
+@{
+    ViewBag.Title = "Index";
+}
+
+    @using (Html.BeginForm("Print", "Deklarki"))
+    {
+        <br />
+        <table>
+            <tr>
+                <td>
+                    @Html.Label("Imię i nazwisko: ")
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.Name)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("Przedmiot: ")
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.Class)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("Data: ")
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.Date, new { @type = "date" })
+                </td>
+            </tr>
+
+            @for (int i = 0; i < 10; i++)
+            {
+            <tr>
+                <td>
+                    @Html.Label($"Punkty za zad {i+1}: ")
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.Points[i], new { @type = "number" })
+                </td>
+            </tr>
+            }
+            
+        </table>
+        <input type="submit" value="Print" class="btn btn-default" />
+    }
+
