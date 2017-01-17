@@ -1,0 +1,28 @@
+# CMake generation dependency list for this directory.
+D:/Documents/GitHub/Stuff/pgk/external/glfw-3.1.2/CMakeLists.txt
+C:/Program Files/CMake/share/cmake-3.7/Modules/FindOpenGL.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/FindPackageMessage.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CMakeParseArguments.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/FindThreads.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CheckLibraryExists.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CheckSymbolExists.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CheckIncludeFile.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CheckIncludeFile.c.in
+C:/Program Files/CMake/share/cmake-3.7/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/FindPackageMessage.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CMakeParseArguments.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/FindDoxygen.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/FindPackageMessage.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CMakeParseArguments.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CMakePackageConfigHelpers.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CMakeParseArguments.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/WriteBasicConfigVersionFile.cmake
+C:/Program Files/CMake/share/cmake-3.7/Modules/CMakeParseArguments.cmake
+D:/Documents/GitHub/Stuff/pgk/external/glfw-3.1.2/src/glfw3Config.cmake.in
+C:/Program Files/CMake/share/cmake-3.7/Modules/BasicConfigVersion-SameMajorVersion.cmake.in
+D:/Documents/GitHub/Stuff/pgk/external/glfw-3.1.2/docs/Doxyfile.in
+D:/Documents/GitHub/Stuff/pgk/external/glfw-3.1.2/src/glfw_config.h.in
+D:/Documents/GitHub/Stuff/pgk/external/glfw-3.1.2/src/glfw3.pc.in
+D:/Documents/GitHub/Stuff/pgk/external/glfw-3.1.2/cmake_uninstall.cmake.in

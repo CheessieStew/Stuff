@@ -1,0 +1,5 @@
+char* strrchrNoNull(const char* str, const char c)
+{
+	const char* res = strrchr(str,c);
+	return res != nullptr ? res : str;
+}

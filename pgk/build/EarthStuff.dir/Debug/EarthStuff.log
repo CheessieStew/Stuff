@@ -1,0 +1,32 @@
+﻿  zad5.cpp
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(106): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(108): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(110): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(112): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(148): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(205): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(206): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(219): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(230): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(241): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(242): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(244): warning C4305: '=': truncation from 'double' to 'float'
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(246): warning C4305: '=': truncation from 'double' to 'float'
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(273): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(274): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(276): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(277): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(283): warning C4305: '=': truncation from 'double' to 'float'
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(287): warning C4305: '=': truncation from 'double' to 'float'
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(289): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(317): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(327): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(328): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(329): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(330): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(368): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(370): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(133): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'unsigned __int64'
+  D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(133): note: consider using '%zd' in the format string
+  EarthStuff.vcxproj -> D:\Documents\GitHub\Stuff\pgk\build\Debug\EarthStuff.exe
+  EarthStuff.vcxproj -> D:/Documents/GitHub/Stuff/pgk/build/Debug/EarthStuff.pdb (Full PDB)

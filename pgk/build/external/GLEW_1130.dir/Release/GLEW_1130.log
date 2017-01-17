@@ -1,0 +1,4 @@
+﻿  Building Custom Rule D:/Documents/GitHub/Stuff/pgk/external/CMakeLists.txt
+  CMake does not need to re-run because D:\Documents\GitHub\Stuff\pgk\build\external\CMakeFiles\generate.stamp is up-to-date.
+  glew.c
+  GLEW_1130.vcxproj -> D:\Documents\GitHub\Stuff\pgk\build\external\Release\GLEW_1130.lib

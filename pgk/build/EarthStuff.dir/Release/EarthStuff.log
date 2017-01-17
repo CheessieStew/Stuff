@@ -1,0 +1,37 @@
+﻿  grid.cpp
+  terrain.cpp
+  zad5.cpp
+D:\Documents\GitHub\Stuff\pgk\zad5\terrain.cpp(31): warning C4474: 'fprintf' : too many arguments passed for format string
+  D:\Documents\GitHub\Stuff\pgk\zad5\terrain.cpp(31): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
+D:\Documents\GitHub\Stuff\pgk\zad5\terrain.cpp(33): warning C4474: 'fprintf' : too many arguments passed for format string
+  D:\Documents\GitHub\Stuff\pgk\zad5\terrain.cpp(33): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(106): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(108): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(110): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(112): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(148): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(206): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(208): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(233): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(244): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(255): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(256): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(258): warning C4305: '=': truncation from 'double' to 'float'
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(260): warning C4305: '=': truncation from 'double' to 'float'
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(287): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(288): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(290): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(291): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(297): warning C4305: '=': truncation from 'double' to 'float'
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(301): warning C4305: '=': truncation from 'double' to 'float'
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(303): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(331): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(341): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(342): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(343): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(344): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(382): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(384): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(133): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'unsigned __int64'
+  D:\Documents\GitHub\Stuff\pgk\zad5\zad5.cpp(133): note: consider using '%zd' in the format string
+  EarthStuff.vcxproj -> D:\Documents\GitHub\Stuff\pgk\build\Release\EarthStuff.exe

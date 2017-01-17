@@ -15,6 +15,11 @@ if( CMAKE_BINARY_DIR MATCHES " " )
 	message( "Your Build Directory contains spaces. If you experience problems when compiling, this can be the cause." )
 endif()
 
+# On Visual 2005 and above, this module can set the debug working directory
+cmake_policy(SET CMP0026 OLD)
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/external/rpavlik-cmake-modules-fe2273")
+include(CreateLaunchers)
+include(MSVCMultipleProcessCompile) # /MP
 
 
 # Compile external dependencies
