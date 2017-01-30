@@ -1,0 +1,6 @@
+D:\Documents\GitHub\Stuff\aspnet\z6_1_client\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
+D:\Documents\GitHub\Stuff\aspnet\z6_1_client\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
+D:\Documents\GitHub\Stuff\aspnet\z6_1_client\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
+D:\Documents\GitHub\Stuff\aspnet\z6_1_client\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
+D:\Documents\GitHub\Stuff\aspnet\z6_1_client\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
+D:\Documents\GitHub\Stuff\aspnet\z6_1_client\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
