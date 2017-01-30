@@ -1,0 +1,87 @@
+﻿
+@model z5_1.Models.Deklarka
+@{
+    ViewBag.Title = "Index";
+}
+
+    <div id="result">
+
+        <table>
+            <tr>
+                <td width="80"> Przedmiot: </td>
+                <td width="60"> @Model.Class </td>
+                <td width="120"> Imię i nazwisko: </td>
+                <td width="120"> @Model.Name</td>
+            </tr>
+
+        </table>
+        <table>
+            <tr>
+                <td width="60"> Zadanie: </td>
+                @{
+                    for (int i = 0; i < Model.Points.Length; i++)
+                    {
+                        <td width="15">@(i + 1)</td>
+                    }
+                }
+                <td width="40">Data: </td>
+                <td width="80"> @Model.Date</td>
+            </tr>
+            <tr>
+                <td width="60"> Punkty: </td>
+                @{
+                    for (int i = 0; i < Model.Points.Length; i++)
+                    {
+                        <td width="20">@Model.Points[i]</td>
+                    }
+                }
+                <td width="40"> Suma: </td>
+                <td width="60"> @Model.Points.Sum() </td>
+            </tr>
+        </table></div>
+
+    @using (Ajax.BeginForm(new AjaxOptions { UpdateTargetId="result"}))
+    {
+        <br />
+        <table>
+            <tr>
+                <td>
+                    @Html.Label("Imię i nazwisko: ")
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.Name)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("Przedmiot: ")
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.Class)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.Label("Data: ")
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.Date, new { @type = "date" })
+                </td>
+            </tr>
+
+            @for (int i = 0; i < Model.Points.Length; i++)
+            {
+            <tr>
+                <td>
+                    @Html.Label($"Punkty za zad {i+1}: ")
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.Points[i], new { @type = "number" })
+                </td>
+            </tr>
+            }
+            
+        </table>
+        <input type="submit" value="Print" class="btn btn-default" />
+    }
+
