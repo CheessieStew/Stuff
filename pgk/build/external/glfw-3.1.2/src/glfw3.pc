@@ -1,4 +1,4 @@
-prefix=C:/Program Files/PGK_zad_5
+prefix=C:/Program Files/PGK_zad_6
 exec_prefix=${prefix}
 includedir=${prefix}/include
 libdir=${exec_prefix}/lib

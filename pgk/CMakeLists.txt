@@ -1,6 +1,6 @@
 
 cmake_minimum_required (VERSION 2.6)
-project (PGK_zad_5)
+project (PGK_zad_6)
 
 find_package(OpenGL REQUIRED)
 
@@ -49,25 +49,29 @@ add_definitions(
 	-D_CRT_SECURE_NO_WARNINGS
 )
 
-add_executable(EarthStuff
-	zad5/zad5.cpp
+add_executable(StuffViewer
+	zad6/zad6.cpp
 	common/shader.cpp
 	common/shader.hpp
-	zad5/grid.cpp
-	zad5/grid.hpp
-	zad5/terrain.cpp
-	zad5/terrain.hpp
-	zad5/Assets/FragmentShader.frag
-	zad5/Assets/BallVertexShader.vert
-	zad5/Assets/FlatVertexShader.vert
+	common/objloader.cpp
+	common/objloader.hpp
+	common/texture.cpp
+	common/texture.hpp
+	zad6/model.cpp
+	zad6/model.hpp
+	zad6/graphics.cpp
+	zad6/graphics.hpp
+	zad6/Assets/BestFragmentShaderEver.frag
+	zad6/Assets/BestFragmentShaderEverNoise.frag
+	zad6/Assets/BestVertexShaderEver.vert
 )
-target_link_libraries(EarthStuff
+target_link_libraries(StuffViewer
 	${ALL_LIBS}
 )
 # Xcode and Visual working directories
-set_target_properties(EarthStuff PROPERTIES XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/zad5/")
-create_target_launcher(EarthStuff WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/zad5/")
-create_default_target_launcher(EarthStuff WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/zad5/")
+set_target_properties(StuffViewer PROPERTIES XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/zad6/")
+create_target_launcher(StuffViewer WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/zad6/")
+create_default_target_launcher(StuffViewer WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/zad6/")
 
 
 
@@ -86,8 +90,8 @@ SOURCE_GROUP(shaders REGULAR_EXPRESSION ".*/.*shader$" )
 if (NOT ${CMAKE_GENERATOR} MATCHES "Xcode" )
 
 add_custom_command(
-   TARGET EarthStuff POST_BUILD
-   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/EarthStuff${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_SOURCE_DIR}/zad5/"
+   TARGET StuffViewer POST_BUILD
+   COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/StuffViewer${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_CURRENT_SOURCE_DIR}/zad6/"
 )
 
 

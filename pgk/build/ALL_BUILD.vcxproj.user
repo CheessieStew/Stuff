@@ -3,30 +3,30 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LocalDebuggerEnvironment></LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommand>D:\Documents\GitHub\Stuff\pgk\build\Debug\EarthStuff.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommand>D:\Documents\GitHub\Stuff\pgk\build\Debug\StuffViewer.exe</LocalDebuggerCommand>
     <LocalDebuggerCommandArguments></LocalDebuggerCommandArguments>
-    <LocalDebuggerWorkingDirectory>D:/Documents/GitHub/Stuff/pgk/zad5/</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerWorkingDirectory>D:/Documents/GitHub/Stuff/pgk/zad6/</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LocalDebuggerEnvironment></LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommand>D:\Documents\GitHub\Stuff\pgk\build\Release\EarthStuff.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommand>D:\Documents\GitHub\Stuff\pgk\build\Release\StuffViewer.exe</LocalDebuggerCommand>
     <LocalDebuggerCommandArguments></LocalDebuggerCommandArguments>
-    <LocalDebuggerWorkingDirectory>D:/Documents/GitHub/Stuff/pgk/zad5/</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerWorkingDirectory>D:/Documents/GitHub/Stuff/pgk/zad6/</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <LocalDebuggerEnvironment></LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommand>D:\Documents\GitHub\Stuff\pgk\build\MinSizeRel\EarthStuff.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommand>D:\Documents\GitHub\Stuff\pgk\build\MinSizeRel\StuffViewer.exe</LocalDebuggerCommand>
     <LocalDebuggerCommandArguments></LocalDebuggerCommandArguments>
-    <LocalDebuggerWorkingDirectory>D:/Documents/GitHub/Stuff/pgk/zad5/</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerWorkingDirectory>D:/Documents/GitHub/Stuff/pgk/zad6/</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <LocalDebuggerEnvironment></LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommand>D:\Documents\GitHub\Stuff\pgk\build\RelWithDebInfo\EarthStuff.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommand>D:\Documents\GitHub\Stuff\pgk\build\RelWithDebInfo\StuffViewer.exe</LocalDebuggerCommand>
     <LocalDebuggerCommandArguments></LocalDebuggerCommandArguments>
-    <LocalDebuggerWorkingDirectory>D:/Documents/GitHub/Stuff/pgk/zad5/</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerWorkingDirectory>D:/Documents/GitHub/Stuff/pgk/zad6/</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
 
 </Project>
