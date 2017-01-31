@@ -93,7 +93,7 @@ int main(int argc, char * argv[]) {
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
 
-	glm::mat4 projection = glm::perspective(45.0f, ((float)WINDOWWIDTH) / WINDOWHEIGHT, 0.1f, 100.0f);
+	glm::mat4 projection = glm::perspective(45.0f, ((float)WINDOWWIDTH) / WINDOWHEIGHT, 0.1f, 200.0f);
 
 
 	double timer = glfwGetTime();
@@ -133,7 +133,7 @@ int main(int argc, char * argv[]) {
 	GameObject3d aquarium3d = GameObject3d(aquarium.box, DefaultTexture, AquariumModel);
 
 	GameObject skyBox = GameObject(vec3(aquarium.xSize / 2, aquarium.ySize / 2, aquarium.zSize / 2));
-	skyBox.scale *= 55;
+	skyBox.scale *= aquarium.zSize * 0.8f;
 	GameObject3d skyBox3d = GameObject3d(skyBox, -1, SkyBoxModel);
 	float camspeed = 2;
 	float rotX = 0;

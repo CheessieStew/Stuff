@@ -5,7 +5,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "model.hpp"
 #define PLAYERRADIUS 1.0f
-#define MAXPOINTLIGHTS 13
+#define MAXPOINTLIGHTS 7
 using namespace std;
 
 GameObject::GameObject(glm::vec3 pos = glm::vec3(0,0,0))
@@ -45,8 +45,8 @@ Aquarium::Aquarium(float x, float y, float z):
 	playerBulb = GameObject();
 
 	Restart();
-	playerBody.material.tint = glm::vec3(0.45, 0.525, 0.47);
-	playerBody.material.specular = glm::vec3(0.1, 0.15, 0.11);
+	playerBody.material.tint = glm::vec3(1, 1, 1);
+	playerBody.material.specular = glm::vec3(0.2, 0.15, 0.11);
 	playerHorns.material.tint = glm::vec3(1, 1, 0.8);
 	playerHorns.material.specular = glm::vec3(0.7, 0.7, 0.7);
 	playerEyes.material.tint = glm::vec3(0, 0, 0);

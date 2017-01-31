@@ -113,25 +113,46 @@ float Perlin(float freq)
 	float x = (vertexPosition_worldspace.x) * freq + time * 1.8;
 	float y = (vertexPosition_worldspace.y) * freq + time * 0.6;
 	float z = (vertexPosition_worldspace.z) * freq + time * 1.2;
+
+	float s = 0;
+
 	int x0 = int(floor(x));
 	int y0 = int(floor(y));
 	int z0 = int(floor(z));
-	float s = 0;
-	for (int i = x0; i <= x0+1; i++)
-	{
-		for (int j = y0; j <= y0+1; j++)
-		{
-			for (int k = z0; k <= z0+1; k++)
-			{
-				float u = x - i;
-				float v = y - j;
-				float w = z - k;
-				float dotp = dot(vec3(u,v,w), RandomVector(i,j,k));
-				s += Smooth(u) * Smooth(v) * Smooth(w) * dotp;
-			}
-		}
-	}
-	return s * 0.5 + 0.5;
+	int x1 = x0+1;
+	int y1 = y0+1;
+	int z1 = z0+1;
+
+	float u0 = x - x0;
+	float smoothU0 = Smooth(u0);
+	float v0 = y - y0;
+	float smoothV0 = Smooth(v0);
+	float w0 = z - z0;
+	float smoothW0 = Smooth(w0);
+	float u1 = x - x1;
+	float smoothU1 = Smooth(u1);
+	float v1 = y - y1;
+	float smoothV1 = Smooth(v1);
+	float w1 = z - z1;
+	float smoothW1 = Smooth(w1);
+
+
+	float partialV0W0 = smoothU0 * dot(vec3(u0,v0,w0), RandomVector(x0,y0,z0));
+	partialV0W0 += smoothU1 * dot(vec3(u1,v0,w0), RandomVector(x1,y0,z0));
+
+	float partialV1W0 = smoothU0 * dot(vec3(u0,v1,w0), RandomVector(x0,y1,z0));
+	partialV1W0 += smoothU1 * dot(vec3(u1,v1,w0), RandomVector(x1,y1,z0));
+
+	float partialV0W1 = smoothU0 * dot(vec3(u0,v0,w1), RandomVector(x0,y0,z1));
+	partialV0W1 += smoothU1 * dot(vec3(u1,v0,w1), RandomVector(x1,y0,z1));
+
+	float partialV1W1 = smoothU0 * dot(vec3(u0,v1,w1), RandomVector(x0,y1,z1));
+	partialV1W1 += smoothU1 * dot(vec3(u1,v1,w1), RandomVector(x1,y1,z1));
+
+	float partialW0 = smoothV0 * partialV0W0 + smoothV1 * partialV1W0;
+	float partialW1 = smoothV0 * partialV0W1 + smoothV1 * partialV1W1;
+
+	return (partialW0 * smoothW0 + partialW1 * smoothW1) * 0.5 + 0.5;
 }
 
 void main(){
@@ -140,8 +161,8 @@ void main(){
 	vec4 albedoColor;
 	if (noiseInstead)
 	{
-		albedoColor = vec4(8,8,8,1);
-		albedoColor = vec4(8,8,8,1) * Perlin(.3);
+		albedoColor = vec4(mistColor * 3, 0.5);
+		albedoColor *= (0.25 +  0.5 * Perlin(.1) + 0.25 * Perlin(.2));
 	}
 	else 
 		albedoColor = texture(albedoTexture, UV );
@@ -149,29 +170,33 @@ void main(){
 	vec4 ambientColor = vec4(0.1 * albedoColor.rgb * tint, opacity * albedoColor.a);
 	vec4 emissiveColor = vec4(3 * emissiveness * albedoColor.rgb, length(emissiveness));
 
-	vec4 globalIlluminationColor = GlobalIllumination(albedoColor);
+	vec4 globalIlluminationColor;
+	if (noiseInstead)
+		globalIlluminationColor = albedoColor;
+	else globalIlluminationColor = GlobalIllumination(albedoColor);
 
 	color.rgb = ambientColor.rgb + 
 			    globalIlluminationColor.rgb +
 				emissiveColor.rgb;
 	color.a = max(emissiveColor.a, max(ambientColor.a, globalIlluminationColor.a));
-	for (int i = 0; i < pointLightsAmmount; i++)
-	{
-		float distance = length(pointLightPositions[i] - vertexPosition_worldspace);
-		if (distance < pointLightIntensities[i] + 0.6)
+	if (!noiseInstead)
+		for (int i = 0; i < pointLightsAmmount; i++)
 		{
-			vec4 pointIlluminationColor = PointIllumination(albedoColor, i);
-			color.rgb += pointIlluminationColor.rgb;
-			color.a = max(color.a, pointIlluminationColor.a);
+			float distance = length(pointLightPositions[i] - vertexPosition_worldspace);
+			if (distance < pointLightIntensities[i] + 0.6)
+			{
+				vec4 pointIlluminationColor = PointIllumination(albedoColor, i);
+				color.rgb += pointIlluminationColor.rgb;
+				color.a = max(color.a, pointIlluminationColor.a);
+			}
 		}
-	}
 
 
 
 
 	float distanceToCam = length(vertexPosition_worldspace - cameraPosition_worldSpace);
 	float mistWeight = exp(-distanceToCam * mistThickness);
-	if (mistWeight > 1)
+	if (mistWeight > 1 || noiseInstead)
 		mistWeight = 1;
 	color.rgb = color.rgb * (mistWeight) + mistColor * (1-mistWeight);
 }
