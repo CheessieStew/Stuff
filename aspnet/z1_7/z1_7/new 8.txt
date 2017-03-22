@@ -1,0 +1,98 @@
+Zasady rządzące światem:
+
+Świat jest kwadratem o rozmiarach 600x600, współrzędne x oraz y od -300 do 300. Żyją w nim różnego rodzaju Byty.
+
+Wszystkie elementy świata (Byty) posiadają jeden z typów:
+    - Drzewo 
+    - Drewno
+    - Jezioro
+    - Jedzenie
+    - Wieśniak
+    - Tygrys
+    - Wioska
+
+Każdy przynależy również do jakiejś frakcji:
+	- Czerwoni
+	- Niebiescy
+	- Mięsożercy
+	- Neutralni
+
+W świecie zawsze znajdują się dwie wioski należące do różnych frakcji (czerwonej lub niebieskiej). Gra kończy się zwycięstwem jednej frakcji, gdy wioska drugiej zostanie zniszczona.
+
+ZASOBY (drewno, jedzenie)
+Ich przeznaczeniem jest być przez Wieśniaków podnoszonym, upuszczanym, umieszczanym w magazynie wioski oraz jedzonym. Drewno nie posiada jednak żadnych wartości odżywczych (ludzie nie trawią celulozy).
+
+WIOSKA
+Tworzy nowych Wieśniaków i kolekcjonuje w magazynach przynoszone przez nich drewno (którego odpowiednia ilość skutkuje zwiększeniem jej poziomu) oraz jedzenie.
+Poziom wioski wpływa na pojemność magazynów, jakość narzędzi oraz limit populacji.
+Każdy nowy wieśniak może (w zależności od ustawień) mieć losowe cechy i nowy mózg, lub powstawać wskutek skrzyżowania pozostawionego przez innych Wieśniaków materiału genetycznego.
+Narodziny przez krzyżowanie wymagają dostępności materiału genetycznego przynajmniej dwóch Wieśniaków różnej płci. Materiał genetyczny jest jednorazowy. W przypadku wielu możliwych rodziców w pierwszej kolejności wykorzystywany jest najstarszy materiał genetyczny. 
+Populacja startowa jest zawsze losowa.
+
+ŹRÓDŁA ZASOBÓW (drzewo, jezioro)
+Ich przeznaczeniem jest być przez Wieśniaków zbieranym, co skutkuje pojawieniem się drewna/jedzenia.
+
+BYTY ŻYWE (tygrys, Wieśniak)
+Opis Bytu żywego zawiera 
+
+Byty żywe (w tym Wieśniacy) posiadają dwie istotne cechy: życie oraz energię, wyrażane w liczbach naturalnych. Spadek którejkolwiek z nich do zera oznacza zgon.
+Życie spada wskutek zostania zaatakowanym przez inny byt żywy, energia przez wykonanie czynności.
+Tygrysy nie męczą się, nie jedzą, nie zbierają, oraz nie utrzymują ekwipunku, a jedynie poruszają się, ryczą i atakują.
+
+Byty żywe posiadają trzy zmysły:
+	- Wzrok, który udostępnia opisy wszystkich widocznych Bytów
+	- Słuch, który udostepnia treść wypowiedzi w określonym zasięgu
+	- "Czucie", które udostępnia szczegółówy opis tego konkretnego Bytu
+
+Byty żywe potrafią wykonywać akcje:
+	- poruszanie się
+		- Chód: kosztuje 1 energii
+		- Skradanie się: kosztuje 1 energii i jest dwa razy wolniejsze, ale utrudnia wykrycie przez inne Byty
+		- Bieg: kosztuje 2 energii i jest dwa razy szybsze
+	- rozmowa (wszystkie byty w zasięgu słuchu otrzymują mówiony komunikat)
+		- Mówienie: kosztuje 2 energii
+		- Krzyk: kosztuje 4 energii i jest słyszalne na czterokrotnie większym dystansie
+	- interakcja z innymi bytami
+		- Atak: kosztuje 3 energii, zmniejsza zdrowie bytu będącego celem 
+		- Zebranie: kosztuje 3 lub 7 energii (zależnie, czy mamy dobre narzędzie), cel upuszcza na ziemię jakieś zasoby
+		- Podniesienie: umieszcza przedmiot w ekwipunku, jeśli ten jest zasobem
+		- Upuszczenie: usuwa przedmiot z ekwipunku
+		- Zjedzenie: zwiększa życie i energię, jeśli byt jest zasobem, w oparciu o jego wartość energetyczną. 
+	- czekanie
+	
+	Poruszanie się jest tym wolniejsze, im więcej przedmiotów w ekwipunku. Poza tym - nie ma limitu na liczbę przedmiotów w ekwipunku.
+	Dodatkowo, poza skradaniem się Byt traktujemy jako skradający się przy każdej z tych akcji: mówienie, upuszczanie, podnoszenie, jedzenie
+	Zaatakowanie drzewa niszczy je nie zostawiając żadnego drewna.
+	Zaatakowanie jeziora nie ma efektu.
+	Zaatakowanie zasobu niszczy go bezpowrotnie.
+	Zebranie Bytu, który nie jest źródłem zasobu (jeziorem lub drzewem) nie ma efektu.
+	Próba zjedzenia Bytu, który nie jest zasobem nie ma efektu.
+	Podniesienie Bytu, który nie jest zasobem nie ma efektu.
+	
+Dodatkowo Wieśniacy mogą nawiązać następujące interakcje z wioską:
+	- Umieszczenie zasobu w magazynie
+	- Wyjęcie zasobu z magazynu
+	- Wybór narzędzia
+	- Umieszczenie swojego materiału genetycznego w banku, by mogło urodzić się dziecko dziedziczące jego cechy
+	
+	Przy żadnej z nich nie traktujemy Wieśniaka jako skradającego się. Jeśli celem takiej interakcji nie jest wioska - nie ma ona efektu.
+	Wioska przyjmie do magazynu zasoby od wrogiego Wieśniaka, ale nie pozwoli mu nic wyjąć. Nie przyjmie też jego materiału genetycznego i nie wyda nowych narzędzi.
+Każda czynność zabiera pewien czas, który może zależeć od indywidualnych cech Bytu. 
+Każdy Wieśniak posiada trzy cechy, które wpływają na jego możliwości:
+	- Siła
+		- Zwiększa obrażenia zadawane w walce
+		- Zwiększa maksymalną energię
+		- Zmniejsza czas potrzebny na ścięcie drzewa
+	- Zręczność
+		- Zwiększa skuteczność skradania się
+		- Zwieksza szybkość poruszania się
+		- Zmniejsza czas między atakami
+		- Zmniejsza czas potrzebny na złowienie ryby
+	- Inteligencja
+		- Zmniejsza czas mówienia
+		- Zwiększa zasięg wzroku
+	
+Każdy wieśniak może nosić na raz jedno narzędzie wybrane w wiosce. Jakość narzędzia (określająca korzyści, jakie przynosi) zależy od poziomu Wioski. Są to:
+	- Miecz, który zwiększa zadawane obrażenia
+	- Siekiera, która w mniejszym stopniu zwiększa zadawane obrażenia oraz pozwala bardziej efektywnie ścinać drzewa
+	- Wędka, która pozwala bardziej efektywnie łowić ryby

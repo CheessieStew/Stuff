@@ -132,8 +132,8 @@ int main(int argc, char * argv[]) {
 	GameObject3d playerBulb3d = GameObject3d(aquarium.playerBulb, DefaultTexture, BulbModel);
 	GameObject3d aquarium3d = GameObject3d(aquarium.box, DefaultTexture, AquariumModel);
 
-	GameObject skyBox = GameObject(vec3(aquarium.xSize / 2, aquarium.ySize / 2, aquarium.zSize / 2));
-	skyBox.scale *= aquarium.zSize * 0.8f;
+	GameObject skyBox = GameObject(aquarium.box.position);
+	skyBox.scale*= aquarium.box.scale.z * 1.4f;
 	GameObject3d skyBox3d = GameObject3d(skyBox, -1, SkyBoxModel);
 	float camspeed = 2;
 	float rotX = 0;
@@ -205,6 +205,8 @@ int main(int argc, char * argv[]) {
 			//	aquarium.playerBody.position,
 			//	vec3(0, 1, 0));
 		}
+
+		
 #pragma endregion
 
 		vec3 rotatedThrust;
@@ -232,6 +234,15 @@ int main(int argc, char * argv[]) {
 				cameraPosition,
 				cameraPosition + pointToLookAt,
 				vec3(0, 1, 0));
+
+			float angle = -timer;
+			vec3 pos = vec3(-sin(timer), -cos(timer), 1);
+			view = translate(mat4(1.0), -pos);
+			view = rotate(mat4(1.0), angle, vec3(0, 0, 1)) * view;
+
+			view = rotate(mat4(1.0), -135.0f, vec3(1, 0, 0)) * view;
+			view = rotate(mat4(1.0), angle, vec3(0, 0, 1)) * view;
+
 		}
 		else
 		{
@@ -239,6 +250,7 @@ int main(int argc, char * argv[]) {
 				cameraPosition,
 				aquarium.playerBody.position,
 				vec3(0, 1, 0));
+
 		}
 
 #pragma region draw
@@ -268,6 +280,7 @@ int main(int argc, char * argv[]) {
 		glUseProgram(BestShaderEver);
 		EnvironmentSetup(BestShaderEver, timer, mainLightIntensity, pointLights, lightsnumber, mistColor, mistThickness);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		aquarium.playerBody.position = pos;
 
 		skyBox3d.Draw(BestShaderEver, &view, &projection, cameraPosition);
 		aquarium3d.Draw(BestShaderEver, &view, &projection, cameraPosition);

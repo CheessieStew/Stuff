@@ -1,0 +1,4 @@
+﻿  Building Custom Rule D:/Documents/GitHub/Stuff/pgk/external/glfw-3.1.2/examples/CMakeLists.txt
+  CMake does not need to re-run because D:\Documents\GitHub\Stuff\pgk\zad5\external\build\glfw-3.1.2\examples\CMakeFiles\generate.stamp is up-to-date.
+  gears.vcxproj -> D:\Documents\GitHub\Stuff\pgk\zad5\external\build\glfw-3.1.2\examples\Debug\gears.exe
+  gears.vcxproj -> D:/Documents/GitHub/Stuff/pgk/zad5/external/build/glfw-3.1.2/examples/Debug/gears.pdb (Full PDB)

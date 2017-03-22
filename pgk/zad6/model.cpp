@@ -46,12 +46,12 @@ Aquarium::Aquarium(float x, float y, float z):
 
 	Restart();
 	playerBody.material.tint = glm::vec3(1, 1, 1);
-	playerBody.material.specular = glm::vec3(0.2, 0.15, 0.11);
+	playerBody.material.specular = glm::vec3(0.05, 0.02, 0.01);
 	playerHorns.material.tint = glm::vec3(1, 1, 0.8);
-	playerHorns.material.specular = glm::vec3(0.7, 0.7, 0.7);
+	playerHorns.material.specular = glm::vec3(0.3, 0.3, 0.3);
 	playerEyes.material.tint = glm::vec3(0, 0, 0);
 	playerEyes.material.specular = glm::vec3(0.8, 0.8, 0.8);
-	playerBulb.material.emissive = glm::vec3(0.6, 0.5, 0.9) * 0.6f;
+	playerBulb.material.emissive = glm::vec3(0.6, 0.5, 0.9) * 2.6f;
 	playerBulb.material.opacity = 0.6;
 }
 

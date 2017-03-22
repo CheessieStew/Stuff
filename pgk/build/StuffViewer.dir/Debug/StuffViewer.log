@@ -1,0 +1,17 @@
+﻿  zad6.cpp
+D:\Documents\GitHub\Stuff\pgk\zad6\zad6.cpp(81): warning C4305: 'argument': truncation from 'double' to 'GLclampf'
+D:\Documents\GitHub\Stuff\pgk\zad6\zad6.cpp(101): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad6\zad6.cpp(155): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad6\zad6.cpp(164): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad6\zad6.cpp(173): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad6\zad6.cpp(174): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad6\zad6.cpp(176): warning C4305: '=': truncation from 'double' to 'float'
+D:\Documents\GitHub\Stuff\pgk\zad6\zad6.cpp(178): warning C4305: '=': truncation from 'double' to 'float'
+D:\Documents\GitHub\Stuff\pgk\zad6\zad6.cpp(199): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad6\zad6.cpp(200): warning C4244: '-=': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad6\zad6.cpp(262): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad6\zad6.cpp(264): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Documents\GitHub\Stuff\pgk\zad6\zad6.cpp(266): warning C4305: '=': truncation from 'double' to 'float'
+D:\Documents\GitHub\Stuff\pgk\zad6\zad6.cpp(279): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  StuffViewer.vcxproj -> D:\Documents\GitHub\Stuff\pgk\build\Debug\StuffViewer.exe
+  StuffViewer.vcxproj -> D:/Documents/GitHub/Stuff/pgk/build/Debug/StuffViewer.pdb (Full PDB)
