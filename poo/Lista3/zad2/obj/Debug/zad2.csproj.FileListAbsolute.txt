@@ -1,0 +1,4 @@
+D:\Documents\GitHub\Stuff\poo\Lista3\zad2\bin\Debug\zad2.exe
+D:\Documents\GitHub\Stuff\poo\Lista3\zad2\bin\Debug\zad2.pdb
+D:\Documents\GitHub\Stuff\poo\Lista3\zad2\obj\Debug\zad2.exe
+D:\Documents\GitHub\Stuff\poo\Lista3\zad2\obj\Debug\zad2.pdb
