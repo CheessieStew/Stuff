@@ -17,7 +17,7 @@ static class Enumerable
 interface IContentGenerator<T>
 {
     T TryGenerate(Random random);
-    bool FillParameters(Random random);
+    bool FillParameters(Random random, VariableStorage storage);
     void ResetParameters();
 }
 
@@ -35,11 +35,11 @@ class Faction : IStorable
 {
     IContentGenerator<NPC> NPCGenerator;
 
-    public NPC GenerateNPC(Random rand)
+    public NPC GenerateNPC(Random rand, VariableStorage storage)
     {
         if (NPCGenerator != null)
         {
-            NPCGenerator.FillParameters(rand);
+            NPCGenerator.FillParameters(rand, storage);
             return NPCGenerator.TryGenerate(rand);
         }
         return null;
@@ -55,11 +55,11 @@ class Event
 }
 
 
-static class VariableStorage
+class VariableStorage
 {
     //this class holds all the variables relevant to the current gamestate
 
-    public class VariableLocation
+    public struct VariableLocation
     {
         string Space, Key;
         public VariableLocation(string space, string key)
@@ -74,16 +74,27 @@ static class VariableStorage
 
     }
 
+    public static void Get (VariableLocation location, IStorable storable)
+    {
+
+    }
+
+    // loads the Storage's state
+    public static VariableStorage FromJSon()
+    {
+        return new VariableStorage();
+    }
 }
 
 //Controller of a subsystem
 class World
 {
-    IContentGenerator<Faction>[] NationGenerators;
-    IContentGenerator<Faction>[] OrganizationGenerators;
-    IContentGenerator<Event>[] EventGenerators;
-    List<Faction> Nations;
-    List<Faction> Organizations;
+    IContentGenerator<Faction>[] nationGenerators;
+    IContentGenerator<Faction>[] organizationGenerators;
+    IContentGenerator<Event>[] eventGenerators;
+    List<Faction> nations;
+    List<Faction> organizations;
+    VariableStorage storage;
 
     Random rand = new Random();
 
@@ -95,21 +106,24 @@ class World
         }
     }
 
-    public void CreateNewWorld()
+    public void Populate()
     {
         for (int i = 0; i < 10; i++)
         {
 
-            var gen = NationGenerators.RandomElement(rand);
-            gen.FillParameters(rand);
+            var gen = nationGenerators.RandomElement(rand);
+            gen.FillParameters(rand, storage);
             VariableStorage.Add(new VariableStorage.VariableLocation("Nations", $"Nation{i}"), gen.TryGenerate(rand));
         }
         for (int i = 0; i < 20; i++)
         {
-
-            var gen = OrganizationGenerators.RandomElement(rand);
-            gen.FillParameters(rand);
+            var gen = organizationGenerators.RandomElement(rand);
+            gen.FillParameters(rand, storage);
             VariableStorage.Add(new VariableStorage.VariableLocation("Organizations", $"Nation{i}"), gen.TryGenerate(rand));
+        }
+        for (int i = 0; i < 40; i++)
+        {
+
         }
     }
 
@@ -117,7 +131,7 @@ class World
     public DailyReport AdvanceDay()
     {
         DailyReport res = new DailyReport();
-        foreach (IContentGenerator<Event> gen in EventGenerators)
+        foreach (IContentGenerator<Event> gen in eventGenerators)
         {
             gen.ResetParameters();
             while (gen.FillParameters(rand))
@@ -131,7 +145,7 @@ class World
 
     public NPC CreateNPC()
     {
-        return Nations.RandomElement(rand).GenerateNPC(rand);
+        return nations.RandomElement(rand).GenerateNPC(rand, storage);
     }
 
 }
