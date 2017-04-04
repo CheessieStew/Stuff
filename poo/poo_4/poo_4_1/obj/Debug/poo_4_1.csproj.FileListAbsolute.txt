@@ -1,0 +1,7 @@
+D:\Documents\GitHub\Stuff\poo\poo_4\poo_4_1\bin\Debug\poo_4_1.exe
+D:\Documents\GitHub\Stuff\poo\poo_4\poo_4_1\bin\Debug\poo_4_1.pdb
+D:\Documents\GitHub\Stuff\poo\poo_4\poo_4_1\bin\Debug\nunit.framework.dll
+D:\Documents\GitHub\Stuff\poo\poo_4\poo_4_1\bin\Debug\nunit.framework.xml
+D:\Documents\GitHub\Stuff\poo\poo_4\poo_4_1\obj\Debug\poo_4_1.csprojResolveAssemblyReference.cache
+D:\Documents\GitHub\Stuff\poo\poo_4\poo_4_1\obj\Debug\poo_4_1.exe
+D:\Documents\GitHub\Stuff\poo\poo_4\poo_4_1\obj\Debug\poo_4_1.pdb
