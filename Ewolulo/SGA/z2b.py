@@ -70,10 +70,14 @@ def localsearcher(evaluator,samplesize,intensity):
 
 
 if __name__ == '__main__':
-    files = ['Nug12',
-             'Nug14',
-             'Tai50a',
-             'Nug30']
+    files = [
+             'tai50a',
+             'tai60a',
+             'tai80a',
+             'nug15',
+             'nug16',
+             'nug20',
+             'nug30']
 
     for file in files:
         smth = workers_qap("localsadist", file)
@@ -82,7 +86,7 @@ if __name__ == '__main__':
         sga.simple_genetic_algorithm(smth[1], 10,
                                      sga.super_terminator(None, None, datetime.datetime.now()
                                                           + datetime.timedelta(0,
-                                                                               smth[3] * smth[3] * smth[3] * 0.015)),
+                                                                               smth[3] * smth[3] * smth[3] * 0.018)),
                                      smth[0], 1000, smth[2], sga.roulette_selector(900),
                                      sga.pmx_for_perms, sga.permutation_mutator(0, smth[3], 0.9),
                                      sga.sum_replacer, localsearcher(smth[2], 50, 4000))

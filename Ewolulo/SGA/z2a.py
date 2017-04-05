@@ -35,14 +35,19 @@ def workers_qap(filename):
         sga.graph_and_save(filename)(gen, bests, meds, worsts, dude, scoreofbest)
 
     def evaluator(dude):
-        try:
-            total = 0
-            for i in range(dim):
-                for j in range(dim):
-                    total -= flows[i][j]*dists[dude[i]][dude[j]]
-        except IndexError:
-            print("dude is {0}, {1} btw".format(dude, type(dude)))
-            raise IndexError
+        total = 0
+        for i in range(dim):
+            for j in range(dim):
+                try:
+                    s = np.shape(flows)
+                    meh = flows[i][j]
+                    meh *= dists[dude[i]][dude[j]]
+                    total -= meh
+                except IndexError:
+                    print("dude is {0}, {1} btw".format(dude, type(dude)))
+                    a = dude[i]
+                    b = dude[j]
+                    raise IndexError
         return total
 
     return sga.random_permutation_generator(0, dim), dumper, evaluator, dim
@@ -50,10 +55,8 @@ def workers_qap(filename):
 
 if __name__ == '__main__':
     files = [
-             'Nug14',
-             'Nug12',
-             'Tai50a',
-             'Nug30']
+             'tai50a',
+             'nug30']
 
     for file in files:
         smth = workers_qap(file)
