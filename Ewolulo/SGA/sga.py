@@ -14,11 +14,10 @@ def random_population(generator, count):
 # (specimen OR specimen, target) -> (specimen,target)
 def evaluate_population(population, evaluator):
     def eval_caller(s):
-        if s is tuple:
+        if isinstance(s, tuple):
             return s if len(s) == 2 else (s[0], evaluator(s[0]))
         return s, evaluator(s)
-    simple = list(map(eval_caller, population))
-    return simple
+    return list(map(eval_caller, population))
 
 
 # (specimen, target) -> (specimen, fitness)
@@ -100,7 +99,8 @@ def sum_replacer(children, parents, count):
 
 def simple_genetic_algorithm(dumper, dump_freq, terminator,
                              generator, count, evaluator,
-                             selector, crosser, mutator, replacer):
+                             selector, crosser, mutator, replacer,
+                             localsearcher = None):
     population = random_population(generator, count)
     population = evaluate_population(population, evaluator)
     cur_population = calculate_fitness(population)
@@ -131,8 +131,13 @@ def simple_genetic_algorithm(dumper, dump_freq, terminator,
         cur_population = list(crossover(cur_population, crosser))
 
         mutate(cur_population, mutator)
-        cur_population = evaluate_population(cur_population, evaluator)
 
+        cur_population = evaluate_population(cur_population, evaluator)
+        # print('pop before local: {0}'.format(cur_population))
+
+        if localsearcher is not None:
+            cur_population += evaluate_population(localsearcher(population), evaluator)
+        # print('pop after local: {0}'.format(cur_population))
         population = replace(cur_population, population, replacer, count, generator, evaluator)
 
         cur_population = calculate_fitness(population)
@@ -266,7 +271,6 @@ def test():
 
 
 
-    print([2,5] is tuple)
     print()
 
 
