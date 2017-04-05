@@ -150,7 +150,9 @@ def random_permutation_generator(low, high):
 
     def generator():
         shuffle(simple)
-        return simple.copy()
+        res = []
+        for val in simple:
+            res.append(val)
     return generator
 
 

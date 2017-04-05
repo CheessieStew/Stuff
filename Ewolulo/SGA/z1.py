@@ -9,6 +9,7 @@ def distance(c1, c2):
     b = c1[1] - c2[1]
     return math.sqrt(a*a + b*b)
 
+
 def workers_tsp(filename):
     cities = tspparser.produce_final("tsp/{0}.tsp".format(filename))
     size = len(cities)
