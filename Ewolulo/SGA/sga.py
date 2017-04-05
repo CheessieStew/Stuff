@@ -153,6 +153,7 @@ def random_permutation_generator(low, high):
         res = []
         for val in simple:
             res.append(val)
+        return res
     return generator
 
 

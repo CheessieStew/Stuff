@@ -21,6 +21,7 @@ def workers_tsp(filename):
 
     def evaluator(dude):
         total = 0
+        print("evaluating {0}".format(dude))
         for i in range(len(cities)-1):
             total -= distance(cities[dude[i]], cities[dude[i+1]])
         return total
