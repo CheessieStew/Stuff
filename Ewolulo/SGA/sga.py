@@ -217,6 +217,7 @@ def graph_and_save(folderName):
         os.makedirs(folderName)
     def graph_dump(gen, bests, meds, worsts, bestdude, scoreofbest):
         plt.figure(1)
+        plt.subplot(111)
         plt.title("best score: {score}".format(score=scoreofbest))
         plt.plot(range(0, len(bests)), bests)
         plt.plot(range(0, len(bests)), meds)

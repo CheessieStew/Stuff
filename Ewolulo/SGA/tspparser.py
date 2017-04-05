@@ -111,6 +111,7 @@ Just to plot the results
 
 def plot_cities(cities_tups, lines=False, filename=None):
     plt.figure(2)
+    plt.subplot(111)
     plt.clf()
     plt.scatter(*zip(*cities_tups))
     if not lines:
