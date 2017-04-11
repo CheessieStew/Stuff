@@ -97,10 +97,10 @@ def sum_replacer(children, parents, count):
     return list(it.islice(evald, count))
 
 
-def simple_genetic_algorithm(dumper, dump_freq, terminator,
+def simple_genetic_algorithm(dumper, terminator,
                              generator, count, evaluator,
                              selector, crosser, mutator, replacer,
-                             localsearcher = None):
+                             local_searcher = None):
     population = random_population(generator, count)
     population = evaluate_population(population, evaluator)
     cur_population = calculate_fitness(population)
@@ -126,7 +126,7 @@ def simple_genetic_algorithm(dumper, dump_freq, terminator,
         else:
             super_best_absolute = super_best_absolute
         if generation % dump_freq == 0:
-            dumper(generation, bests, meds, worsts, super_best, super_best_absolute)
+            dumper(generation, )
         cur_population = list(select_parents(cur_population, selector))
         cur_population = list(crossover(cur_population, crosser))
 

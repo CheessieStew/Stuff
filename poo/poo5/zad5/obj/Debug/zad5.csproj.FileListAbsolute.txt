@@ -1,0 +1,5 @@
+D:\Documents\GitHub\Stuff\poo\poo5\zad5\obj\Debug\zad5.csprojResolveAssemblyReference.cache
+D:\Documents\GitHub\Stuff\poo\poo5\zad5\bin\Debug\zad5.exe
+D:\Documents\GitHub\Stuff\poo\poo5\zad5\bin\Debug\zad5.pdb
+D:\Documents\GitHub\Stuff\poo\poo5\zad5\obj\Debug\zad5.exe
+D:\Documents\GitHub\Stuff\poo\poo5\zad5\obj\Debug\zad5.pdb

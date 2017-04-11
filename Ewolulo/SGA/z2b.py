@@ -32,6 +32,7 @@ def workers_qap(dumptarget, filename):
 
     def dumper(gen, bests, meds, worsts, bestdude, scoreofbest):
         dude = list(bestdude)
+        print('dumpin')
         sga.graph_and_save("{0}/{1}".format(dumptarget, filename))(gen, bests, meds, worsts, dude, scoreofbest)
 
     def evaluator(dude):
@@ -71,8 +72,6 @@ def localsearcher(evaluator,samplesize,intensity):
 
 if __name__ == '__main__':
     files = [
-             'tai50a',
-             'tai60a',
              'tai80a',
              'nug15',
              'nug16',
