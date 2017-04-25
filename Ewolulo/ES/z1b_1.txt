@@ -1,0 +1,4 @@
+starting griewank_30_1
+starting griewank_30_1_sum
+starting ackley_30_1
+starting ackley_30_1_sum

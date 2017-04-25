@@ -1,0 +1,5 @@
+D:\Documents\GitHub\Stuff\poo\poo_6\z2\bin\Debug\z2.exe
+D:\Documents\GitHub\Stuff\poo\poo_6\z2\bin\Debug\z2.pdb
+D:\Documents\GitHub\Stuff\poo\poo_6\z2\obj\Debug\z2.exe
+D:\Documents\GitHub\Stuff\poo\poo_6\z2\obj\Debug\z2.pdb
+D:\Documents\GitHub\Stuff\poo\poo_6\z2\obj\Debug\z2.csprojResolveAssemblyReference.cache

@@ -1,9 +1,12 @@
 import datetime
 import math
 import matplotlib
+import sys
 matplotlib.use('Agg')
 import sga
 import numpy as np
+import functools as ft
+import matplotlib.pyplot as plt
 
 
 def distance(c1, c2):
@@ -28,11 +31,31 @@ def read_qap(path):
 
 
 def workers_qap(filename):
-    (dim, dists, flows) = read_qap("qap/{0}.dat".format(filename))
 
-    def dumper(gen, bests, meds, worsts, bestdude, scoreofbest):
-        dude = list(bestdude)
-        sga.graph_and_save(filename)(gen, bests, meds, worsts, dude, scoreofbest)
+    (dim, dists, flows) = read_qap("qap/{0}.dat".format(filename))
+    workers_qap.bests = []
+    workers_qap.meds = []
+    workers_qap.worsts = []
+    workers_qap.bestSoFar = None
+    workers_qap.stds = []
+    def dumper(gen, population):
+        best = max(population, key=lambda pair: pair[1])
+        med = ft.reduce(lambda acc, pair: acc + pair[1], population, 0) / len(population)
+        worst = min(population, key=lambda pair: pair[1])
+        std = np.std(list(map(lambda p: p[1], population)))
+        workers_qap.bests.append(best[1])
+        workers_qap.meds.append(med)
+        workers_qap.worsts.append(worst[1])
+        workers_qap.stds.append(std)
+        if workers_qap.bestSoFar is None \
+                or workers_qap.bestSoFar[1] < best[1]:
+            print("new best!")
+            workers_qap.bestSoFar = best
+        print("gen {0}".format(gen))
+        if gen % 10 == 0:
+            sga.graph_and_save("z2a/{0}".format(filename))(gen, workers_qap.bests, workers_qap.meds, workers_qap.worsts,
+                                                       workers_qap.stds, workers_qap.bestSoFar[1])
+            print("dumped")
 
     def evaluator(dude):
         total = 0
@@ -55,19 +78,19 @@ def workers_qap(filename):
 
 if __name__ == '__main__':
     files = [
-             'tai50a',
-             'tai60a',
-             'tai80a',
-             'nug15',
-             'nug16',
-             'nug20',
              'nug30']
+
+    a = [0,1,2]
+    b = list(a)
+    a[1] = 7
+    print(a)
+    print(b)
 
     for file in files:
         smth = workers_qap(file)
-        print(smth)
+        print("\n\nSTARTED: {0}\n\n".format(file))
 
-        sga.simple_genetic_algorithm(smth[1], 10,
+        sga.simple_genetic_algorithm(smth[1],
                                      sga.super_terminator(None, None, datetime.datetime.now()
                                                           + datetime.timedelta(0,
                                                                                smth[3] * smth[3] * smth[3] * 0.018)),

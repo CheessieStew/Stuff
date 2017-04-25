@@ -1,0 +1,5 @@
+D:\Documents\GitHub\Stuff\poo\poo_6\z1\bin\Debug\z1.exe
+D:\Documents\GitHub\Stuff\poo\poo_6\z1\bin\Debug\z1.pdb
+D:\Documents\GitHub\Stuff\poo\poo_6\z1\obj\Debug\z1.csprojResolveAssemblyReference.cache
+D:\Documents\GitHub\Stuff\poo\poo_6\z1\obj\Debug\z1.exe
+D:\Documents\GitHub\Stuff\poo\poo_6\z1\obj\Debug\z1.pdb

@@ -16,7 +16,9 @@ def evaluate_population(population, evaluator):
     def eval_caller(s):
         if isinstance(s, tuple):
             return s if len(s) == 2 else (s[0], evaluator(s[0]))
-        return s, evaluator(s)
+        if isinstance(s, list):
+            return s, evaluator(s)
+        raise Exception("what the hell man, got a {0}".format(type(s)))
     return list(map(eval_caller, population))
 
 
@@ -35,35 +37,57 @@ def calculate_fitness(population):
 def roulette_selector(survivor_count):
     def partial_sums(population):
         current = 0
-        for pair in population:
+        for pair in sorted(population, key=lambda p:p[1]):
             current += pair[1]
             yield (pair[0], current)
 
-    def bin_search(sums, throw):
-        t = len(sums)
+    def parent(sums, index):
+        if (index == len(sums)):
+            raise Exception("WATTT WHY")
+        end = len(sums) - 2
+        i = index
+        while i < end and sums[i][0] is None:
+            i += 1
+
+        if sums[i][0] is not None:
+            res = sums[i][0]
+            sums[i] = (None, sums[i][1])
+            return res
+        i = index
+        while i > 1 and sums[i][0] is None:
+            i -= 1
+        if sums[i][0] is not None:
+            res = sums[i][0]
+            sums[i] = (None, sums[i][1])
+            return res
+        raise RuntimeError('damnit dude why')
+
+    def bin_search(sums, lo, hi, throw):
+        t = hi-lo + 1
         if t == 1:
-            return (sums[0])[0], (sums[0])[1]
+            return parent(sums, lo)
         else:
             if t == 2:
-                if (sums[0])[1] < throw:
-                    return (sums[1])[0]
+                if (sums[lo])[1] < throw:
+                    return parent(sums, hi)
                 else:
-                    return (sums[0])[0]
-        if (sums[t//2])[1] > throw:
-            return bin_search(sums[0:t//2+1], throw)
+                    return parent(sums, lo)
+        if (sums[lo + t//2])[1] > throw:
+            return bin_search(sums, lo, lo+t//2, throw)
         else:
-            return bin_search(sums[t//2:t+1], throw)
+            return bin_search(sums, lo+t//2, hi, throw)
 
     def inner(population):
         sums = list(partial_sums(population))
         throws = np.random.uniform(0.0, 1.0, survivor_count)
-        return list(map(lambda t: bin_search(sums, t), throws))
+        return list(map(lambda t: bin_search(sums, 0, len(sums)-1, t), throws))
     return inner
 
 
 # (specimen, fitness) -> (specimen)
 def select_parents(cur_population, selector):
-    return selector(cur_population)
+    res = selector(cur_population)
+    return res
 
 
 # (specimen) -> (specimen)
@@ -81,7 +105,12 @@ def crossover(population, crosser):
 # (specimen) -> specimen)
 def mutate(population, mutator):
     for member in population:
-        mutator(member)
+        mut = mutator(member)
+        if member != mut:
+            yield member
+            yield mut
+        else:
+            yield member
 
 
 # (specimen, target)x2 -> (specimen, target)
@@ -92,9 +121,14 @@ def replace(children, parents, replacer, count, generator, evaluator):
 
 
 def sum_replacer(children, parents, count):
+
     total = list(children) + list(parents)
-    evald = sorted(total, key=lambda s: s[1], reverse=True)
-    return list(it.islice(evald, count))
+    a = list(sorted(calculate_fitness(total), key=lambda p: p[1]))
+    freepass = -(int)(count * 0.80)
+
+    new = list(roulette_selector(count)(a[0:freepass])) + list(map(lambda p: p[0], a[freepass:]))
+
+    return new
 
 
 def simple_genetic_algorithm(dumper, terminator,
@@ -112,36 +146,19 @@ def simple_genetic_algorithm(dumper, terminator,
     super_best = None
     while not terminator(generation, super_best_absolute):
         generation += 1
-        best = max(population, key=lambda pair: pair[1])
-        med = ft.reduce(lambda acc, pair: acc + pair[1], population, 0) / len(population)
-        worst = min(population, key=lambda pair: pair[1])
-        bests.append(best[1])
-        meds.append(med)
-        worsts.append(worst[1])
+        dumper(generation, population)
 
-        if super_best_absolute is None \
-                or super_best_absolute < best[1]:
-            super_best = best[0]
-            super_best_absolute = best[1]
-        else:
-            super_best_absolute = super_best_absolute
-        if generation % dump_freq == 0:
-            dumper(generation, )
         cur_population = list(select_parents(cur_population, selector))
         cur_population = list(crossover(cur_population, crosser))
 
-        mutate(cur_population, mutator)
-
+        cur_population = mutate(cur_population, mutator)
         cur_population = evaluate_population(cur_population, evaluator)
-        # print('pop before local: {0}'.format(cur_population))
+        if local_searcher is not None:
+            cur_population += evaluate_population(local_searcher(population), evaluator)
 
-        if localsearcher is not None:
-            cur_population += evaluate_population(localsearcher(population), evaluator)
-        # print('pop after local: {0}'.format(cur_population))
         population = replace(cur_population, population, replacer, count, generator, evaluator)
-
+        population = evaluate_population(population, evaluator)
         cur_population = calculate_fitness(population)
-
 
 def any_in(iterable, func):
     for smth in iterable:
@@ -163,20 +180,26 @@ def random_permutation_generator(low, high):
 
 
 def multiply_seq_by_trans(seq, trans, low):
-    tmp = seq[trans[0]-low]
-    seq[trans[0] - low] = seq[trans[1]-low]
-    seq[trans[1] - low] = tmp
-
+    try:
+        tmp = seq[trans[0]-low]
+        seq[trans[0] - low] = seq[trans[1]-low]
+        seq[trans[1] - low] = tmp
+    except(IndexError):
+        print(seq)
+        print(len(seq))
+        print(trans)
+        raise IndexError
 
 def permutation_mutator(low, high, chance):
     def mutator(perm):
         if np.random.uniform() > chance:
-            return None
+            return perm
+        cp = list(perm)
         trans = np.random.random_integers(low, high-1, 2)
         while trans[1] == trans[0]:
             trans[1] = np.random.random_integers(low, high-1)
-        multiply_seq_by_trans(perm, trans, low)
-        return None
+        multiply_seq_by_trans(cp, trans, low)
+        return cp
     return mutator
 
 
@@ -217,21 +240,27 @@ def pmx_for_perms(p1, p2):
         print(cuts[0],cuts[1])
     return c1, c2
 
+
 def graph_and_save(folderName):
     if not os.path.exists(folderName):
         os.makedirs(folderName)
-    def graph_dump(gen, bests, meds, worsts, bestdude, scoreofbest):
-        plt.figure(1)
-        plt.subplot(111)
-        plt.title("best score: {score}".format(score=scoreofbest))
+
+    def graph_dump(gen, bests, meds, worsts, stds, scoreofbest):
+        fig = plt.figure(figsize=(10, 10))
+        plt.subplot(211)
+        plt.title("best score: {score}\n Bests, averages and worsts:".format(score=scoreofbest))
         plt.plot(range(0, len(bests)), bests)
         plt.plot(range(0, len(bests)), meds)
         plt.plot(range(0, len(bests)), worsts)
+        plt.subplot(212)
+        plt.title("Standard deviations:")
+        plt.plot(range(0, len(bests)), stds)
         plt.savefig('{0}/graph'.format(folderName))
+        plt.close(fig)
     return graph_dump
 
 
-def super_terminator(minscore,maxgens,maxtime):
+def super_terminator(minscore, maxgens, maxtime):
     def terminator(gen, score):
         s = score >= minscore if score is not None and minscore is not None else False
         g = gen >= maxgens if maxgens is not None else False
@@ -262,22 +291,21 @@ def test():
     def random_negator(chance):
         def mutator(bits):
             if np.random.uniform() < chance:
-                i = np.random.random_integers(0,len(bits)-1)
-                bits[i] = 1 - bits[i]
+                cp = list(bits)
+                i = np.random.random_integers(0, len(bits)-1)
+                cp[i] = 1 - cp[i]
+                return cp
+            return bits
         return mutator
 
     def generator():
         return list(map(binary_random, [0.5] * 20))
 
 
-
-    print()
-
-
     simple_genetic_algorithm(graph_and_save("asdf"), 5,
                              super_terminator(None,None,datetime.datetime.now()
                                               + datetime.timedelta(0, 5)),
-                             generator, 100, one_max, roulette_selector(70),
+                             generator, 500, one_max, roulette_selector(400),
                              simple_crosser, random_negator(0.1), sum_replacer)
     print('lol')
 
